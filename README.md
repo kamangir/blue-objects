@@ -55,4 +55,4 @@ from [`blue_geo/watch/workflow/map.py`](https://github.com/kamangir/blue-geo/blo
 
 ---
 
-[![PyPI version](https://img.shields.io/pypi/v/blue_objects.svg)](https://pypi.org/project/blue_objects/)
+[![pylint](https://github.com/kamangir/blue-objects/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/blue-objects/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/blue-objects/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/blue-objects/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/blue-objects/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/blue-objects/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/blue-objects.svg)](https://pypi.org/project/blue-objects/)
