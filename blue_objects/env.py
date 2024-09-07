@@ -10,7 +10,7 @@ BLUE_OBJECTS_SECRET = os.getenv(
     "",
 )
 
-BLUE_OBJECTS_CONFIG = os.getenv(
-    "BLUE_OBJECTS_CONFIG",
+ABCLI_PUBLIC_PREFIX = os.getenv(
+    "ABCLI_PUBLIC_PREFIX",
     "",
 )
