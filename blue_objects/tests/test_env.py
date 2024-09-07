@@ -8,4 +8,4 @@ def test_abcli_env():
 
 def test_blue_objects_env():
     assert env.BLUE_OBJECTS_SECRET
-    assert env.BLUE_OBJECTS_CONFIG
+    assert env.ABCLI_PUBLIC_PREFIX
