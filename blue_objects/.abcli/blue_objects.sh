@@ -4,7 +4,13 @@ function blue_objects() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ $task == "help" ]; then
-        blue_objects version
+        abcli_clone "$@"
+        abcli_download "$@"
+        abcli_gif "$@"
+        abcli_object "$@"
+        abcli_publish "$@"
+        abcli_select "$@"
+        abcli_upload "$@"
         return
     fi
 
