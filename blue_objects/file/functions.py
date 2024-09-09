@@ -90,7 +90,7 @@ def auxiliary(
         + f".{extension}",
     )
 
-    assert os.makedirs(path(filename))
+    assert os.makedirs(path(filename), exist_ok=True)
 
     return filename
 
@@ -106,7 +106,7 @@ def copy(
             logger.info(f"✅ {destination}")
         return True
 
-    if not os.makedirs(path(destination)):
+    if not os.makedirs(path(destination), exist_ok=True):
         return False
 
     try:
@@ -235,7 +235,7 @@ def move(
     source: str,
     destination: str,
 ) -> bool:
-    if not os.makedirs(path(destination)):
+    if not os.makedirs(path(destination), exist_ok=True):
         return False
 
     try:

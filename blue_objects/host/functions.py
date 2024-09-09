@@ -2,9 +2,10 @@ import os
 from typing import Union, Tuple, List
 
 from blueness import module
+from blue_options.logger import crash_report
 
 from blue_objects import NAME, file
-from blue_options.logger import logger, crash_report
+from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
 
@@ -14,11 +15,13 @@ def shell(
     clean_after: bool = False,
     return_output: bool = False,
     work_dir: str = ".",
+    log: bool = False,
 ) -> Union[
     bool,
     Tuple[bool, List[str]],
 ]:
-    logger.info(f"{NAME}.shell({command})")
+    if log:
+        logger.info(f"{NAME}.shell({command})")
 
     success = True
     output = []

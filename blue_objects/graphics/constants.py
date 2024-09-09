@@ -32,7 +32,7 @@ try:
             screen_height = int(screen.split()[9][:-1])
     elif is_mac():
         success, output = shell(
-            "system_profiler SPDisplaysDataType |grep Resolution",
+            "system_profiler SPDisplaysDataType | grep Resolution",
             clean_after=True,
             return_output=True,
         )
