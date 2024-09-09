@@ -37,7 +37,7 @@ function abcli_upload() {
 
         aws s3 cp \
             $object_path/$filename \
-            $abcli_s3_object_prefix/$object_name/
+            $ABCLI_S3_OBJECT_PREFIX/$object_name/
 
         return
     fi
@@ -47,7 +47,7 @@ function abcli_upload() {
 
         aws s3 sync \
             $object_path/ \
-            $abcli_s3_object_prefix/$object_name/
+            $ABCLI_S3_OBJECT_PREFIX/$object_name/
 
         abcli_tag set $object_name open
     fi
@@ -63,7 +63,7 @@ function abcli_upload() {
 
         aws s3 cp \
             $object_name.tar.gz \
-            $abcli_s3_object_prefix/
+            $ABCLI_S3_OBJECT_PREFIX/
 
         abcli_tag set $object_name solid
 

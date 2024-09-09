@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-export abcli_s3_object_prefix=s3://$ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX
+export ABCLI_S3_OBJECT_PREFIX=s3://$ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX
 
 function abcli_clarify_object() {
     local object_name=$1
@@ -46,7 +46,7 @@ function abcli_object() {
         abcli_download - $object_name
 
         rm -v ../$object_name.tar.gz
-        aws s3 rm "$abcli_s3_object_prefix/$object_name.tar.gz"
+        aws s3 rm "$ABCLI_S3_OBJECT_PREFIX/$object_name.tar.gz"
 
         abcli_tag set $object_name ~solid
 

@@ -3,9 +3,24 @@ import os
 from blue_options import string
 
 from blue_objects import file, path
-from blue_objects.env import ABCLI_OBJECT_ROOT, abcli_object_name
+from blue_objects.env import (
+    ABCLI_OBJECT_ROOT,
+    abcli_object_name,
+    ABCLI_S3_OBJECT_PREFIX,
+)
 from blue_objects.storage import instance as storage
+from blue_objects.host import shell
 from blue_objects.logger import logger
+
+
+def download(object_name: str) -> bool:
+    return shell(
+        "aws s3 sync {}/{}/ {}".format(
+            ABCLI_S3_OBJECT_PREFIX,
+            object_name,
+            object_path(object_name, create=True),
+        )
+    )
 
 
 def list_of_files(

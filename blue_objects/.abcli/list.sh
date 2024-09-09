@@ -21,7 +21,7 @@ function abcli_list() {
 
     if [ "$on_cloud" == 1 ]; then
         abcli_eval - \
-            aws s3 ls $abcli_s3_object_prefix/$object_name/
+            aws s3 ls $ABCLI_S3_OBJECT_PREFIX/$object_name/
     elif [ "$on_local" == 1 ]; then
         abcli_eval - \
             ls -1lh $ABCLI_OBJECT_ROOT/$object_name

@@ -36,7 +36,7 @@ function abcli_publish() {
 
         abcli_upload ~open,solid $object_name
         aws s3 cp \
-            $abcli_s3_object_prefix/$object_name.tar.gz \
+            $ABCLI_S3_OBJECT_PREFIX/$object_name.tar.gz \
             s3://$abcli_aws_s3_public_bucket_name/$public_object_name.tar.gz
         abcli_object open $object_name
 

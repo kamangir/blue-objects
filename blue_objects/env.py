@@ -39,6 +39,11 @@ abcli_object_name = os.getenv(
     "",
 )
 
+ABCLI_S3_OBJECT_PREFIX = os.getenv(
+    "ABCLI_S3_OBJECT_PREFIX",
+    f"s3://{ABCLI_AWS_S3_BUCKET_NAME}/{ABCLI_AWS_S3_PREFIX}",
+)
+
 
 ABCLI_OBJECT_ROOT = os.getenv(
     "ABCLI_OBJECT_ROOT",
@@ -64,5 +69,10 @@ ABCLI_PUBLIC_PREFIX = os.getenv(
 
 BLUE_OBJECTS_SECRET = os.getenv(
     "BLUE_OBJECTS_SECRET",
+    "",
+)
+
+VANWATCH_TEST_OBJECT = os.getenv(
+    "VANWATCH_TEST_OBJECT",
     "",
 )

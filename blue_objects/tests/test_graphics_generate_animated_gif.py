@@ -1,10 +1,8 @@
 import pytest
 import glob
 
-from blue_objects.graphics.gif import generate_animated_gif
 from blue_objects import objects
-
-from abcli.plugins.testing import download_object
+from blue_objects.graphics.gif import generate_animated_gif
 
 
 @pytest.mark.parametrize(
@@ -18,7 +16,7 @@ def test_graphics_generate_animated_gif(
     object_name: str,
     scale: int,
 ):
-    assert download_object(object_name)
+    assert objects.download(object_name)
 
     list_of_images = list(glob.glob(objects.path_of("*.png", object_name)))
     if object_name != "void":
