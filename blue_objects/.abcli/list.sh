@@ -24,7 +24,7 @@ function abcli_list() {
             aws s3 ls $abcli_s3_object_prefix/$object_name/
     elif [ "$on_local" == 1 ]; then
         abcli_eval - \
-            ls -1lh $abcli_object_root/$object_name
+            ls -1lh $ABCLI_OBJECT_ROOT/$object_name
     else
         abcli_eval - \
             ls -1 "$@"

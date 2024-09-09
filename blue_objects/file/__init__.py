@@ -10,6 +10,7 @@ from blue_objects.file.functions import (
     download,
     exists,
     extension,
+    list_of,
     move,
     name_and_extension,
     name,

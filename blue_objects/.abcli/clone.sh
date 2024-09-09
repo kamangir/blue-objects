@@ -34,8 +34,8 @@ function abcli_clone() {
     [[ "$do_download" == 1 ]] &&
         abcli_download - $object_1_name
 
-    local object_1_path=$abcli_object_root/$object_1_name
-    local object_2_path=$abcli_object_root/$object_2_name
+    local object_1_path=$ABCLI_OBJECT_ROOT/$object_1_name
+    local object_2_path=$ABCLI_OBJECT_ROOT/$object_2_name
 
     abcli_eval - \
         rsync -arv \

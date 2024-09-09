@@ -36,12 +36,10 @@ def finish_saving(
 ) -> bool:
     if not success:
         crash_report(f"{message}: failed.")
-        return success
-
-    if log:
+    elif log:
         logger.info(message)
 
-    return True
+    return success
 
 
 def save(

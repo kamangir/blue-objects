@@ -4,7 +4,7 @@ function test_abcli_metadata() {
     local returned_value
     for post_func in {1..3}; do
         local object_name=$(abcli_string_timestamp)
-        local object_path=$abcli_object_root/$object_name
+        local object_path=$ABCLI_OBJECT_ROOT/$object_name
         local filename=$object_path/metadata.yaml
 
         local key=$(abcli_string_random)

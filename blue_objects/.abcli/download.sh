@@ -15,7 +15,7 @@ function abcli_download() {
     local filename=$(abcli_option "$options" filename)
 
     local object_name=$(abcli_clarify_object $2 .)
-    local object_path=$abcli_object_root/$object_name
+    local object_path=$ABCLI_OBJECT_ROOT/$object_name
 
     if [ -f "../$object_name.tar.gz" ]; then
         abcli_log "✅ $object_name.tar.gz already exists - skipping download."
@@ -26,7 +26,7 @@ function abcli_download() {
         abcli_log "downloading $object_name/$filename ..."
         aws s3 cp "$abcli_s3_object_prefix/$object_name/$filename" "$object_path/$filename"
     else
-        local exists=$(aws s3 ls $abcli_aws_s3_bucket_name/$abcli_aws_s3_prefix/$object_name.tar.gz)
+        local exists=$(aws s3 ls $ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX/$object_name.tar.gz)
         if [ -z "$exists" ]; then
             abcli_log "downloading $object_name: open ..."
 
@@ -34,7 +34,7 @@ function abcli_download() {
         else
             abcli_log "downloading $object_name: solid ..."
 
-            pushd $abcli_object_root >/dev/null
+            pushd $ABCLI_OBJECT_ROOT >/dev/null
 
             aws s3 cp "$abcli_s3_object_prefix/$object_name.tar.gz" .
 

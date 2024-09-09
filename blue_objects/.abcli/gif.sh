@@ -23,7 +23,7 @@ function abcli_gif() {
     abcli_log "generating animated gif: $object_name ..."
 
     abcli_eval dryrun=$do_dryrun \
-        python3 -m abcli.plugins.graphics \
+        python3 -m blue_objects.graphics \
         generate_animated_gif \
         --object_name $object_name \
         "${@:3}"

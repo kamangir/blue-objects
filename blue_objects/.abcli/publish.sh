@@ -44,7 +44,7 @@ function abcli_publish() {
         return
     fi
 
-    local object_path=$abcli_object_root/$object_name
+    local object_path=$ABCLI_OBJECT_ROOT/$object_name
 
     if [[ -z "$prefix$suffix" ]]; then
         abcli_log "publishing $object_name -> $public_object_name"

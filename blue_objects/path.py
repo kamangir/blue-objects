@@ -1,5 +1,5 @@
 import os
-from typing import Any, Union
+from typing import Any, Union, List
 import pathlib
 import shutil
 
@@ -103,7 +103,9 @@ def current() -> str:
     return os.getcwd()
 
 
-def delete(path: str) -> bool:
+def delete(
+    path: str,
+) -> bool:
     try:
         # https://docs.python.org/3/library/shutil.html#shutil.rmtree
         shutil.rmtree(path)
@@ -115,6 +117,32 @@ def delete(path: str) -> bool:
 
 def exists(path: str) -> bool:
     return os.path.exists(path) and os.path.isdir(path)
+
+
+def list_of(
+    path: str,
+    recursive: bool = False,
+) -> List[str]:
+    if not exists(path):
+        return []
+
+    # http://stackabuse.com/python-list-files-in-a-directory/
+    output = []
+    try:
+        for entry in os.scandir(path):
+            if entry.is_file():
+                continue
+
+            path_name = os.path.join(path, entry.name)
+
+            output.append(path_name)
+
+            if recursive:
+                output += list_of(path_name, recursive=recursive)
+    except:
+        crash_report(f"-{NAME}: list_of({path}): failed.")
+
+    return output
 
 
 def move(

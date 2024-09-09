@@ -1,4 +1,6 @@
 import urllib3
+from functools import reduce
+import fnmatch
 from typing import Any, List, Union
 import os
 import shutil
@@ -184,6 +186,49 @@ def extension(
         return "py" + filename.__name__.lower()
 
     return "py" + filename.__class__.__name__.lower()
+
+
+def list_of(
+    template: str,
+    recursive: bool = False,
+) -> List[str]:
+    from blue_objects import path as path_module
+
+    if isinstance(template, list):
+        return reduce(
+            lambda x, y: x + y,
+            [list_of(template_, recursive) for template_ in template],
+            [],
+        )
+
+    if recursive:
+        return reduce(
+            lambda x, y: x + y,
+            [
+                list_of(
+                    os.path.join(pathname, name_and_extension(template)),
+                    recursive,
+                )
+                for pathname in path_module.list_of(path(template))
+            ],
+            list_of(template),
+        )
+
+    # https://stackoverflow.com/a/40566802
+    template_path = path(template)
+    if template_path == "":
+        template_path = path_module.current()
+
+    try:
+        return [
+            os.path.join(template_path, filename)
+            for filename in fnmatch.filter(
+                os.listdir(template_path),
+                name_and_extension(template),
+            )
+        ]
+    except:
+        return []
 
 
 def move(
