@@ -1,0 +1,166 @@
+import os
+from typing import Any, Union
+import pathlib
+import shutil
+
+from blueness import module
+from blue_options import string
+from blue_options.logger import crash_report
+
+from blue_objects import NAME
+from blue_objects.logger import logger
+from blue_objects.env import ABCLI_OBJECT_PATH
+
+
+NAME = module.name(__file__, NAME)
+
+
+def absolute(
+    path: str,
+    reference: Union[None, str] = None,
+):
+    if reference is None:
+        reference = current()
+    assert isinstance(reference, str)
+
+    path = path.replace("/", os.sep)
+    reference = reference.replace("/", os.sep)
+
+    return (
+        reference
+        if not path
+        else (
+            path
+            if path[0] != "."
+            else str(pathlib.Path(os.path.join(reference, path)).resolve())
+        )
+    )
+
+
+def auxiliary(
+    nickname: str,
+    add_timestamp: bool = True,
+):
+    path = os.path.join(
+        ABCLI_OBJECT_PATH,
+        "auxiliary",
+        "-".join(
+            [nickname]
+            + (
+                [
+                    string.pretty_date(
+                        as_filename=True,
+                        squeeze=True,
+                        unique=True,
+                    )
+                ]
+                if add_timestamp
+                else []
+            )
+        ),
+    )
+
+    assert create(path)
+
+    return path
+
+
+def copy(
+    source: str,
+    destination: str,
+) -> bool:
+    if not create(parent(destination)):
+        return False
+
+    try:
+        shutil.copytree(source, destination)
+        return True
+    except:
+        crash_report(f"{NAME}: copy({source},{destination}): failed.")
+        return False
+
+
+def create(
+    path: str,
+    log: bool = False,
+) -> bool:
+    if not path or exists(path):
+        return True
+
+    try:
+        os.makedirs(path)
+    except:
+        crash_report(f"{NAME}: create({path}): failed.")
+        return False
+
+    if log:
+        logger.info(f"{NAME}.create({path})")
+
+    return True
+
+
+def current() -> str:
+    return os.getcwd()
+
+
+def delete(path: str) -> bool:
+    try:
+        # https://docs.python.org/3/library/shutil.html#shutil.rmtree
+        shutil.rmtree(path)
+        return True
+    except:
+        crash_report(f"{NAME}: delete({path}): failed.")
+        return False
+
+
+def exists(path: str) -> bool:
+    return os.path.exists(path) and os.path.isdir(path)
+
+
+def move(
+    source: str,
+    destination: str,
+) -> bool:
+    if not create(parent(destination)):
+        return False
+
+    try:
+        shutil.move(source, destination)
+        return True
+    except:
+        crash_report(f"{NAME}: move({source},{destination}): failed.")
+        return False
+
+
+def name(path: str) -> str:
+    if not path:
+        return path
+
+    if path[-1] == os.sep:
+        path = path[:-1]
+
+    path_components = path.split(os.sep)
+    return "" if not path_components else path_components[-1]
+
+
+def parent(
+    path: str,
+    depth: int = 1,
+) -> str:
+    # Add os.sep at the end of path, if it already does not exist.
+    if path:
+        if path[-1] != os.sep:
+            path = path + os.sep
+
+    return os.sep.join(path.split(os.sep)[: -depth - 1]) + os.sep
+
+
+def relative(
+    path: str,
+    reference: Union[Any, str] = None,
+):
+    # https://stackoverflow.com/a/918174
+    return os.path.relpath(
+        path,
+        current() if reference is None else reference,
+    )

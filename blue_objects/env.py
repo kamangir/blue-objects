@@ -14,3 +14,8 @@ ABCLI_PUBLIC_PREFIX = os.getenv(
     "ABCLI_PUBLIC_PREFIX",
     "",
 )
+
+ABCLI_OBJECT_PATH = os.getenv(
+    "ABCLI_OBJECT_PATH",
+    "",
+)

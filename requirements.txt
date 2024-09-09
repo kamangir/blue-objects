@@ -1,14 +1,17 @@
 blueness
 abcli
 boto3
+dill
 geojson
 geopandas
 matplotlib
 numpy
 opencv-python
+pandas
 pymysql
 pyyaml
 pylint
 pytest
 python-dotenv[cli]
 tqdm
+urllib3
