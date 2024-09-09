@@ -4,8 +4,7 @@ import glob
 from blueness import module
 from blueness.argparse.generic import sys_exit
 
-from blue_objects import NAME
-from blue_objects.functions import path_of
+from blue_objects import NAME, objects
 from blue_objects.graphics.gif import generate_animated_gif
 from blue_objects.logger import logger
 
@@ -54,14 +53,14 @@ if args.task == "generate_animated_gif":
         list_of_images=sorted(
             list(
                 glob.glob(
-                    path_of(
+                    objects.path_of(
                         f"*{args.suffix}",
                         args.object_name,
                     )
                 )
             )
         ),
-        output_filename=path_of(
+        output_filename=objects.path_of(
             args.output_filename
             if args.output_filename
             else "{}{}.gif".format(
