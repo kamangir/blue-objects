@@ -1,9 +1,11 @@
 from typing import Tuple, Any, List
+import cv2
 from copy import deepcopy
 import json
 import numpy as np
 
 from blueness import module
+from blue_options import string
 from blue_options.logger import crash_report
 
 from blue_objects import NAME
@@ -111,9 +113,6 @@ def load_image(
     ignore_error=False,
     log=False,
 ) -> Tuple[bool, np.ndarray]:
-    import cv2
-    from abcli import string
-
     success = True
     image = np.empty((0,))
 
