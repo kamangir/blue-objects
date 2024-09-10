@@ -7,12 +7,12 @@ function test_blue_objects_help() {
     for module in \
         "abcli_clone" \
         "abcli_download" \
+        "abcli_host" \
         "abcli_gif" \
         "abcli_object" \
         "abcli_publish" \
         "abcli_select" \
         "abcli_upload" \
-        "abcli_clone" \
         "blue_objects"; do
         abcli_eval ,$options \
             $module help

@@ -61,8 +61,6 @@ args = parser.parse_args()
 
 success = False
 if args.task == "add_signature":
-    import numpy as np
-
     success, image = file.load_image(args.filename)
     if success:
         success = file.save_image(

@@ -13,6 +13,8 @@ alias @clone=abcli_clone
 alias @copy=abcli_copy
 alias @cp=abcli_cp
 
+alias @host=abcli_host
+
 alias @publish=abcli_publish
 
 alias @select=abcli_select
