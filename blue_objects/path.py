@@ -9,7 +9,7 @@ from blue_options.logger import crash_report
 
 from blue_objects import NAME
 from blue_objects.logger import logger
-from blue_objects.env import ABCLI_OBJECT_PATH
+from blue_objects.env import abcli_object_path
 
 
 NAME = module.name(__file__, NAME)
@@ -42,7 +42,7 @@ def auxiliary(
     add_timestamp: bool = True,
 ):
     path = os.path.join(
-        ABCLI_OBJECT_PATH,
+        abcli_object_path,
         "auxiliary",
         "-".join(
             [nickname]

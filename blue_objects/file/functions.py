@@ -10,7 +10,7 @@ from blue_options import string
 from blue_options.logger import crash_report
 
 from blue_objects import NAME
-from blue_objects.env import ABCLI_OBJECT_PATH
+from blue_objects.env import abcli_object_path
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -71,7 +71,7 @@ def auxiliary(
     add_timestamp: bool = True,
 ) -> str:
     filename = os.path.join(
-        ABCLI_OBJECT_PATH,
+        abcli_object_path,
         "auxiliary",
         "-".join(
             [nickname]
@@ -90,7 +90,7 @@ def auxiliary(
         + f".{extension}",
     )
 
-    assert os.makedirs(path(filename), exist_ok=True)
+    os.makedirs(path(filename), exist_ok=True)
 
     return filename
 

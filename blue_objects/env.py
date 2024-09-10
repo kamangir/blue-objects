@@ -24,8 +24,8 @@ ABCLI_AWS_S3_PREFIX = os.getenv(
 )
 
 
-ABCLI_OBJECT_PATH = os.getenv(
-    "ABCLI_OBJECT_PATH",
+abcli_object_path = os.getenv(
+    "abcli_object_path",
     "",
 )
 

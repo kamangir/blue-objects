@@ -6,6 +6,7 @@ from blueness.argparse.generic import sys_exit
 
 from blue_objects import NAME, objects
 from blue_objects.graphics.gif import generate_animated_gif
+from blue_objects.graphics import screen
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -16,7 +17,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="generate_animated_gif",
+    help="generate_animated_gif|get_screen_size",
 )
 parser.add_argument(
     "--object_name",
@@ -71,6 +72,9 @@ if args.task == "generate_animated_gif":
         frame_duration=args.frame_duration,
         scale=args.scale,
     )
+elif args.task == "get_screen_size":
+    success = True
+    print("x".join([str(value) for value in screen.get_size()]))
 else:
     success = None
 
