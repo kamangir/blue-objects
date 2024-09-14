@@ -2,7 +2,6 @@ import pytest
 
 from blueness import module
 
-
 from blue_objects import file, objects, NAME
 from blue_objects.env import VANWATCH_TEST_OBJECT
 from blue_objects.logger import logger
