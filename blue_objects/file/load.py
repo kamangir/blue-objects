@@ -1,6 +1,8 @@
 from typing import Tuple, Any, List
 import cv2
 from copy import deepcopy
+import geopandas
+import geojson
 import json
 import numpy as np
 
@@ -45,8 +47,6 @@ def load_geojson(
     data = {}
 
     try:
-        import geojson
-
         with open(filename, "r") as fh:
             data = geojson.load(fh)
 
@@ -96,10 +96,7 @@ def load_geodataframe(
     gdf = None
 
     try:
-        import geopandas
-
         gdf = geopandas.read_file(filename)
-
         success = True
     except:
         if not ignore_error:
