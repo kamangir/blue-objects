@@ -22,6 +22,7 @@ def build(
     path: str = "",
     cols: int = 3,
     ICON: str = "",
+    MODULE_NAME: str = "",
 ) -> bool:
     if path:
         if file.exists(path):
@@ -31,14 +32,17 @@ def build(
             filename = os.path.join(path, "README.md")
             template_filename = os.path.join(path, "template.md")
 
+    if not MODULE_NAME:
+        MODULE_NAME = REPO_NAME
+
     logger.info(
-        "{}.build: {} -{}-{}-@-{}-#{}-> {}".format(
+        "{}.build: {}-{}: {}[{}]: {} -> {}".format(
             MY_NAME,
-            template_filename,
             NAME,
             VERSION,
             REPO_NAME,
-            cols,
+            MODULE_NAME,
+            template_filename,
             filename,
         )
     )
@@ -53,7 +57,7 @@ def build(
                 f"[![pylint](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pylint.yml)",
                 f"[![pytest](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pytest.yml)",
                 f"[![bashtest](https://github.com/kamangir/{REPO_NAME}/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/{REPO_NAME}/actions/workflows/bashtest.yml)",
-                f"[![PyPI version](https://img.shields.io/pypi/v/{REPO_NAME}.svg)](https://pypi.org/project/{REPO_NAME}/)",
+                f"[![PyPI version](https://img.shields.io/pypi/v/{MODULE_NAME}.svg)](https://pypi.org/project/{MODULE_NAME}/)",
             ]
         ),
         "",
