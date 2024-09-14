@@ -38,6 +38,4 @@ jobs:
           echo "ABCLI_AWS_RDS_HOST: $ABCLI_AWS_RDS_HOST"
           echo "ABCLI_AWS_RDS_PASSWORD: $ABCLI_AWS_RDS_PASSWORD"
           echo "BLUE_OBJECTS_SECRET: $BLUE_OBJECTS_SECRET"
-          pytest
-
-
+          pytest --verbose
