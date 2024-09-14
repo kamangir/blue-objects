@@ -1,35 +1,41 @@
 import pytest
-from blue_objects import file, path, objects
+
+from blueness import module
+
+from blue_objects import file, path, objects, NAME
 from blue_objects.env import VANWATCH_TEST_OBJECT
+from blue_objects.logger import logger
+
+NAME = module.name(__file__, NAME)
 
 
-@pytest.mark.parametrize(
-    ["object_name"],
-    [
-        [VANWATCH_TEST_OBJECT],
-    ],
-)
-def test_objects_download(object_name):
+@pytest.fixture
+def test_object():
+    object_name = VANWATCH_TEST_OBJECT
+
     assert objects.download(object_name)
 
+    yield object_name
+
+    logger.info(f"deleting {NAME}.test_object ...")
+
+
+def test_objects_download(test_object):
+    assert test_object
+
 
 @pytest.mark.parametrize(
-    ["object_name", "cloud"],
-    [
-        [VANWATCH_TEST_OBJECT, True],
-        [VANWATCH_TEST_OBJECT, False],
-    ],
+    ["cloud"],
+    [[True], [False]],
 )
 def test_objects_list_of_files(
-    object_name: str,
+    test_object,
     cloud: bool,
 ):
-    assert objects.download(object_name)
-
     list_of_files = [
         file.name_and_extension(filename)
         for filename in objects.list_of_files(
-            object_name=object_name,
+            object_name=test_object,
             cloud=cloud,
         )
     ]
@@ -44,18 +50,10 @@ def test_object_object_path():
     assert path.exists(object_path)
 
 
-@pytest.mark.parametrize(
-    ["object_name"],
-    [
-        [VANWATCH_TEST_OBJECT],
-    ],
-)
-def test_objects_path_of(object_name):
-    assert objects.download(object_name)
-
+def test_objects_path_of(test_object):
     assert file.exists(
         objects.path_of(
-            object_name=object_name,
+            object_name=test_object,
             filename="vancouver.json",
         )
     )
