@@ -7,7 +7,13 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    packages=[NAME],
+    packages=[
+        NAME,
+        f"{NAME}.file",
+        f"{NAME}.graphics",
+        f"{NAME}.host",
+        f"{NAME}.storage",
+    ],
     include_package_data=True,
     package_data={
         NAME: [
@@ -17,5 +23,3 @@ setup(
         ],
     },
 )
-
-
