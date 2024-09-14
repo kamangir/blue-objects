@@ -1,4 +1,33 @@
-from blue_objects import path, objects
+import pytest
+from blue_objects import file, path, objects
+from blue_objects.env import VANWATCH_TEST_OBJECT
+
+
+@pytest.mark.parametrize(
+    ["object_name"],
+    [
+        [VANWATCH_TEST_OBJECT],
+    ],
+)
+def test_objects_download(object_name):
+    assert objects.download(object_name)
+
+    list_of_files = [
+        file.name_and_extension(filename)
+        for filename in objects.list_of_files(object_name=object_name)
+    ]
+
+    assert "vancouver.json" in list_of_files, objects.path_of(
+        object_name=object_name,
+        filename="vancouver.json",
+    )
+
+    assert file.exist(
+        objects.path_of(
+            object_name=object_name,
+            filename="vancouver.json",
+        )
+    )
 
 
 def test_object_path():
