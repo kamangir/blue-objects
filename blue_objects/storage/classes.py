@@ -206,6 +206,7 @@ class Storage:
         duration = time.time() - time_
 
         message = "{}.Storage.download_file: {}:{} -> {}/{}: {}.".format(
+            NAME,
             filename,
             string.pretty_bytes(file.size(filename)),
             bucket_name,
