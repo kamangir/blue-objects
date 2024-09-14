@@ -76,3 +76,6 @@ VANWATCH_TEST_OBJECT = os.getenv(
     "VANWATCH_TEST_OBJECT",
     "",
 )
+
+# https://www.randomtextgenerator.com/
+DUMMY_TEXT = "This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text."

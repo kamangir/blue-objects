@@ -1,1 +1,1 @@
-from .functions import *
+from blue_objects.host.functions import shell

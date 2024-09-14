@@ -12,7 +12,7 @@ from blue_objects.graphics.gif import generate_animated_gif
         ["2024-05-07-18-45-13-31678", 2],
     ],
 )
-def test_graphics_generate_animated_gif(
+def test_graphics_gif_generate_animated_gif(
     object_name: str,
     scale: int,
 ):

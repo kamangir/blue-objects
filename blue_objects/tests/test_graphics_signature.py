@@ -3,11 +3,7 @@ import numpy as np
 
 from blue_objects import file, objects
 from blue_objects.graphics.signature import add_signature
-from blue_objects.env import VANWATCH_TEST_OBJECT
-
-
-# https://www.randomtextgenerator.com/
-dummy_text = "This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text."
+from blue_objects.env import VANWATCH_TEST_OBJECT, DUMMY_TEXT
 
 
 @pytest.mark.parametrize(
@@ -16,7 +12,7 @@ dummy_text = "This is some dummy text. This is some dummy text. This is some dum
         [VANWATCH_TEST_OBJECT],
     ],
 )
-def test_add_signature(object_name):
+def test_graphics_signature_add_signature(object_name: str):
     assert objects.download(object_name)
 
     success, image = file.load_image(
@@ -29,8 +25,8 @@ def test_add_signature(object_name):
 
     output_image = add_signature(
         image,
-        header=[dummy_text],
-        footer=[dummy_text, dummy_text],
+        header=[DUMMY_TEXT],
+        footer=[DUMMY_TEXT, DUMMY_TEXT],
     )
 
     assert isinstance(output_image, np.ndarray)
