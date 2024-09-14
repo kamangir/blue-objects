@@ -11,46 +11,6 @@ from blue_objects.logger import logger
 NAME = module.name(__file__, NAME)
 
 
-def add_label(
-    image: np.ndarray,
-    x: int,
-    y: int,
-    label: str,
-    background: int = 0,
-    font_color: Tuple[int, int, int] = 3 * (127,),
-    font_face: int = cv2.FONT_HERSHEY_SIMPLEX,
-    font_scale: float = 0.5,
-    line_type: int = cv2.LINE_AA,
-    thickness: int = 1,
-) -> np.ndarray:
-    text_size = cv2.getTextSize(
-        text=label,
-        fontFace=font_face,
-        fontScale=font_scale,
-        thickness=thickness,
-    )
-    text_height = text_size[0][1] + text_size[1] + 2
-    text_width = text_size[0][0]
-
-    try:
-        image[y - text_height : y, x : x + text_width] = background
-    except:
-        pass
-
-    cv2.putText(
-        image,
-        text=label,
-        org=[x - 1, y - text_size[1]],
-        fontFace=font_face,
-        fontScale=font_scale,
-        lineType=line_type,
-        color=font_color,
-        thickness=thickness,
-    )
-
-    return image
-
-
 def render_text(
     text: List[str],
     box: bool = False,
