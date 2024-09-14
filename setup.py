@@ -13,6 +13,7 @@ setup(
         f"{NAME}.graphics",
         f"{NAME}.host",
         f"{NAME}.storage",
+        f"{NAME}.tests",
     ],
     include_package_data=True,
     package_data={
