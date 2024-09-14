@@ -14,6 +14,14 @@ from blue_objects.logger import logger
 
 
 def download(object_name: str) -> bool:
+    if not ABCLI_S3_OBJECT_PREFIX:
+        logger.error("ABCLI_S3_OBJECT_PREFIX is not set.")
+        return False
+
+    if not object_name:
+        logger.error("object_name not found.")
+        return False
+
     return shell(
         "aws s3 sync {}/{}/ {}".format(
             ABCLI_S3_OBJECT_PREFIX,
