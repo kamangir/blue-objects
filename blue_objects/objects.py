@@ -8,7 +8,6 @@ from blue_objects.env import (
     abcli_object_name,
     ABCLI_S3_OBJECT_PREFIX,
 )
-from blue_objects.storage import instance as storage
 from blue_objects.host import shell
 from blue_objects.logger import logger
 
@@ -36,20 +35,21 @@ def list_of_files(
     cloud: bool = False,
     **kwargs,
 ):
-    return (
-        storage.list_of_objects(
+    if cloud:
+        from blue_objects.storage import instance as storage
+
+        return storage.list_of_objects(
             object_name,
             **kwargs,
         )
-        if cloud
-        else file.list_of(
-            os.path.join(
-                ABCLI_OBJECT_ROOT,
-                object_name,
-                "*",
-            ),
-            **kwargs,
-        )
+
+    return file.list_of(
+        os.path.join(
+            ABCLI_OBJECT_ROOT,
+            object_name,
+            "*",
+        ),
+        **kwargs,
     )
 
 
