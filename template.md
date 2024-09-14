@@ -1,40 +1,57 @@
-# 🌀 blue-plugin
+# 🌀 blue-objects
 
-🌀 `blue-plugin` is a git template for an 🪄 [`awesome-bash-cli`](https://github.com/kamangir/awesome-bash-cli) (`abcli`) plugin, to build [things like these](https://github.com/kamangir?tab=repositories), that out-of-the-box support,
-
-- a git repo with actions.
-- [pytest](https://docs.pytest.org/).
-- [pylint](https://pypi.org/project/pylint/).
-- a python package.
-- [pypi](https://pypi.org/).
-- a bash interface.
-- bash testing.
-- [ssm](https://docs.aws.amazon.com/secretsmanager/).
+🌀 `blue-objects` is an abstraction for cloud objects that are accessible in Python and Bash. For example, the Sentinel-2 [datacube](https://github.com/kamangir/blue-geo/tree/main/blue_geo/datacube) `datacube-EarthSearch-sentinel_2_l1c-S2A_10UDC_20240731_0_L1C` and 🌐 [`@geo watch`  outputs](https://github.com/kamangir/blue-geo/tree/main/blue_geo/watch) are objects.
 
 ## installation
 
 ```bash
-pip install blue-plugin
+pip install blue-objects
 ```
 
-## creating a blue-plugin
-
-1️⃣ create a new repository from [this template](https://github.com/kamangir/blue-plugin),
-
-2️⃣ complete `<repo-name>` and `<plugin-name>` and run,
+## use in Bash
 
 ```bash
-@git clone <repo-name> cd
+@select
+@catalog query copernicus sentinel_2 - . \
+  --count 10 \
+  --datetime 2024-07-30/2024-08-09 \
+  --lat  51.83 \
+  --lon -122.78
 
-@plugins transform <repo-name>
+@select $(@catalog query read - . --count 1 --offset 3)
+@datacube ingest scope=metadata+quick .
 
-@init
-<plugin-name> help
+@publish tar .
 ```
 
-## features
+from [`blue_geo/catalog/copernicus`](https://github.com/kamangir/blue-geo/tree/main/blue_geo/catalog/copernicus).
 
---table--
+## use in Python
+
+```python
+def map_function(
+    datacube_id: str,
+    object_name: str,
+) -> bool:
+    success, target, list_of_files = load_watch(object_name)
+    if not success or not list_of_files:
+        return success
+    filename = list_of_files[0]
+
+    logger.info(
+        "{}.map: {} @ {} -> {}".format(
+            NAME,
+            target,
+            datacube_id,
+            object_name,
+        )
+    )
+
+    logger.info("🪄")
+
+```
+
+from [`blue_geo/watch/workflow/map.py`](https://github.com/kamangir/blue-geo/blob/main/blue_geo/watch/workflow/map.py).
 
 ---
 
