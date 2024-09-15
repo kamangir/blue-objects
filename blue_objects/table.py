@@ -3,7 +3,7 @@ import pymysql
 
 from blueness import module
 
-from blue_options import NAME
+from blue_objects import NAME
 from blue_objects.env import (
     ABCLI_AWS_RDS_DB,
     ABCLI_AWS_RDS_PORT,
