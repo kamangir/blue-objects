@@ -12,7 +12,7 @@ function test_blue_objects_help() {
         "abcli_gif" \
         "abcli_object" \
         "abcli_publish" \
-        "abcli_relation" \
+        "abcli_relations" \
         "abcli_select" \
         "abcli_storage" \
         "abcli_tags" \

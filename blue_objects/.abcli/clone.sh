@@ -46,13 +46,13 @@ function abcli_clone() {
         abcli_cache clone $object_1_name $object_2_name
 
     if [ "$clone_relations" == 1 ]; then
-        abcli_relation clone $object_1_name $object_2_name
-        abcli_relation set $object_1_name $object_2_name cloned
+        abcli_relations clone $object_1_name $object_2_name
+        abcli_relations set $object_1_name $object_2_name cloned
     fi
 
     if [ "$clone_tags" == 1 ]; then
-        abcli_tag clone $object_1_name $object_2_name
-        abcli_tag set $object_2_name clone
+        abcli_tags clone $object_1_name $object_2_name
+        abcli_tags set $object_2_name clone
     fi
 
     pushd $object_2_path >/dev/null

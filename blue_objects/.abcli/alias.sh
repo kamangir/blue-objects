@@ -6,8 +6,8 @@ alias @gif=abcli_gif
 
 alias @cache=abcli_cache
 alias @ref="abcli_cache read"
-alias @tag=abcli_tag
-alias @relation=abcli_relation
+alias @tags=abcli_tags
+alias @relations=abcli_relations
 
 alias @clone=abcli_clone
 alias @copy=abcli_copy

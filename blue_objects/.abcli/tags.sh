@@ -2,25 +2,25 @@
 
 export abcli_tag_search_args="[--count <count>]$ABCUL[--delim space]$ABCUL[--log 0]$ABCUL[--offset <offset>]"
 
-function abcli_tag() {
+function abcli_tags() {
     local task=$(abcli_unpack_keyword $1 help)
     local object=$(abcli_clarify_object $2 .)
 
     if [ "$task" == "help" ]; then
-        abcli_show_usage "@tag clone$ABCUL<object-1>$ABCUL<object-2>" \
+        abcli_show_usage "@tags clone$ABCUL<object-1>$ABCUL<object-2>" \
             "clone <object-1> tags -> <object-2>."
 
-        abcli_show_usage "@tag get$ABCUL<object-name>" \
+        abcli_show_usage "@tags get$ABCUL<object-name>" \
             "get <object-name> tags."
 
-        abcli_show_usage "@tag search$ABCUL<tag>$ABCUL$abcli_tag_search_args" \
+        abcli_show_usage "@tags search$ABCUL<tag>$ABCUL$abcli_tag_search_args" \
             "search for all objects that are tagged tag."
 
-        abcli_show_usage "@tag set$ABCUL<object-1,object-2>$ABCUL<tag-1,~tag-2>$ABCUL[validate]" \
+        abcli_show_usage "@tags set$ABCUL<object-1,object-2>$ABCUL<tag-1,~tag-2>$ABCUL[validate]" \
             "add <tag-1> and remove <tag-2> from <object-1> and <object-2> [and validate]."
 
-        abcli_show_usage "@tag set${ABCUL}disable|enable" \
-            "disable|enable '@tag set'."
+        abcli_show_usage "@tags set${ABCUL}disable|enable" \
+            "disable|enable '@tags set'."
         return
     fi
 
@@ -58,7 +58,7 @@ function abcli_tag() {
             export ABCLI_TAG_DISABLE=false
             return
         elif [ "$ABCLI_TAG_DISABLE" == true ]; then
-            abcli_log_warning "ignored '@tag set ${@:2}'."
+            abcli_log_warning "ignored '@tags set ${@:2}'."
             return
         fi
 
@@ -74,12 +74,12 @@ function abcli_tag() {
                 "${@:5}"
 
             [[ "$do_validate" == 1 ]] &&
-                abcli_log "$object: $(abcli_tag get $object --log 0)"
+                abcli_log "$object: $(abcli_tags get $object --log 0)"
         done
 
         return 0
     fi
 
-    abcli_log_error "@tag: $task: command not found."
+    abcli_log_error "@tags: $task: command not found."
     return 1
 }

@@ -1,23 +1,23 @@
 #! /usr/bin/env bash
 
-function abcli_relation() {
+function abcli_relations() {
     local task=$(abcli_unpack_keyword $1 help)
     local object_1=$(abcli_clarify_object $2 .)
 
     if [ "$task" == "help" ]; then
-        abcli_show_usage "@relation clone$ABCUL<object-1>$ABCUL<object-2>" \
-            "clone <object-1> relation -> <object-2>."
+        abcli_show_usage "@relations clone$ABCUL<object-1>$ABCUL<object-2>" \
+            "clone <object-1> relations -> <object-2>."
 
-        abcli_show_usage "@relation get$ABCUL<object-1>$ABCUL<object-2>" \
+        abcli_show_usage "@relations get$ABCUL<object-1>$ABCUL<object-2>" \
             "get relation between object_1 and object_2."
 
-        abcli_show_usage "@relation list" \
+        abcli_show_usage "@relations list" \
             "list possible relations."
 
-        abcli_show_usage "@relation search$ABCUL<object-name>$ABCUL[--relation <relation>]" \
+        abcli_show_usage "@relations search$ABCUL<object-name>$ABCUL[--relation <relation>]" \
             "search for all relations of/relation to <object-name>."
 
-        abcli_show_usage "@relation set$ABCUL<object-1>$ABCUL<object-2>$ABCUL<relation>$ABCUL[validate]" \
+        abcli_show_usage "@relations set$ABCUL<object-1>$ABCUL<object-2>$ABCUL<relation>$ABCUL[validate]" \
             "set <object-1> =relation=> <object-2>."
 
         return
@@ -72,11 +72,11 @@ function abcli_relation() {
             "${@:6}"
 
         [[ "$do_validate" == 1 ]] &&
-            abcli_log "relation: $object_1 -$(abcli_relation get $object_1 $object_2)-> $object_2"
+            abcli_log "relations: $object_1 -$(abcli_relations get $object_1 $object_2)-> $object_2"
 
         return 0
     fi
 
-    abcli_log_error "@relation: $task: command not found."
+    abcli_log_error "@relations: $task: command not found."
     return 1
 }

@@ -49,7 +49,7 @@ function abcli_upload() {
             $object_path/ \
             $ABCLI_S3_OBJECT_PREFIX/$object_name/
 
-        abcli_tag set $object_name open
+        abcli_tags set $object_name open
     fi
 
     if [ "$do_solid" == 1 ]; then
@@ -65,7 +65,7 @@ function abcli_upload() {
             $object_name.tar.gz \
             $ABCLI_S3_OBJECT_PREFIX/
 
-        abcli_tag set $object_name solid
+        abcli_tags set $object_name solid
 
         popd >/dev/null
     fi
