@@ -8,7 +8,7 @@ from blueness import module
 from blue_objects import NAME, file
 from blue_objects.logger import logger
 
-NAME = module.NAME(__file__, NAME)
+NAME = module.name(__file__, NAME)
 
 
 def post(
