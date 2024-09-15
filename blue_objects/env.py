@@ -67,11 +67,6 @@ ABCLI_PUBLIC_PREFIX = os.getenv(
     "",
 )
 
-BLUE_OBJECTS_SECRET = os.getenv(
-    "BLUE_OBJECTS_SECRET",
-    "",
-)
-
 VANWATCH_TEST_OBJECT = os.getenv(
     "VANWATCH_TEST_OBJECT",
     "",
@@ -79,3 +74,10 @@ VANWATCH_TEST_OBJECT = os.getenv(
 
 # https://www.randomtextgenerator.com/
 DUMMY_TEXT = "This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text. This is some dummy text."
+
+ABCLI_AWS_RDS_DB = os.getenv("ABCLI_AWS_RDS_DB", "")
+ABCLI_AWS_RDS_PORT = os.getenv("ABCLI_AWS_RDS_PORT", "")
+ABCLI_AWS_RDS_USER = os.getenv("ABCLI_AWS_RDS_USER", "")
+
+ABCLI_AWS_RDS_HOST = os.getenv("ABCLI_AWS_RDS_HOST", "")
+ABCLI_AWS_RDS_PASSWORD = os.getenv("ABCLI_AWS_RDS_PASSWORD", "")

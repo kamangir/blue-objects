@@ -27,7 +27,7 @@ function abcli_publish() {
     [[ "$do_download" == 1 ]] &&
         abcli_download - $object_name
 
-    abcli_tag set $object_name published
+    abcli_tags set $object_name published
 
     local public_object_name=$(abcli_option "$options" as $object_name)
 

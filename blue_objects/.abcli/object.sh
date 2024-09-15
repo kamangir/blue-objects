@@ -48,7 +48,7 @@ function abcli_object() {
         rm -v ../$object_name.tar.gz
         aws s3 rm "$ABCLI_S3_OBJECT_PREFIX/$object_name.tar.gz"
 
-        abcli_tag set $object_name ~solid
+        abcli_tags set $object_name ~solid
 
         abcli_upload - $object_name
 
