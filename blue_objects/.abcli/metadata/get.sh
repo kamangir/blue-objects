@@ -25,7 +25,7 @@ function abcli_metadata_get() {
     local key=$(abcli_option "$options" key)
     local default=$(abcli_option "$options" default)
 
-    python3 -m abcli.plugins.metadata get \
+    python3 -m blue_objects.metadata get \
         --default "$default" \
         --delim $(abcli_option "$options" delim ,) \
         --dict_keys $(abcli_option_int "$options" dict.keys 0) \

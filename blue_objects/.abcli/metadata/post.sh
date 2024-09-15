@@ -25,7 +25,7 @@ function abcli_metadata_post() {
     [[ "$source_type" == object ]] &&
         source=$(abcli_clarify_object $4 .)
 
-    python3 -m abcli.plugins.metadata post \
+    python3 -m blue_objects.metadata post \
         --filename $(abcli_option "$options" filename metadata.yaml) \
         --key "$key" \
         --value "$value" \
