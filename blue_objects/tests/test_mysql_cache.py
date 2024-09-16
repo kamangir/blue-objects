@@ -1,13 +1,14 @@
-from blue_objects.objects import unique_object
+from blue_objects import string
 
 from blue_objects.mysql.cache.functions import read, write
 
 
 def test_mysql_cache_write_read():
-    keyword = unique_object()
+    keyword = string.random()
+    value = string.random()
 
-    assert write(keyword, "this,that")
+    assert write(keyword, value)
 
-    keyword_as_read = read(keyword)
+    value_as_read = read(keyword)
 
-    assert keyword_as_read == keyword
+    assert value_as_read == value
