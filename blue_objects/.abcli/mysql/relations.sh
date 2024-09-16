@@ -73,7 +73,7 @@ function abcli_mysql_relations() {
             "${@:6}"
 
         [[ "$do_validate" == 1 ]] &&
-            abcli_log "@mysql: relations: $object_1 -$(abcli_mysql_relations get $object_1 $object_2)-> $object_2"
+            abcli_log "@mysql: relations: $object_1 -$(abcli_mysql_relations get $object_1 $object_2 --log 0)-> $object_2"
 
         return 0
     fi
