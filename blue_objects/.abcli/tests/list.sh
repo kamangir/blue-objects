@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function test_abcli_list() {
+function test_blue_objects_list() {
     abcli_select
 
     abcli_upload

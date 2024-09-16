@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function test_abcli_mysql_cache() {
+function test_blue_objects_mysql_cache() {
     local keyword="test-keyword-$(abcli_string_timestamp_short)"
     local value="test-value-$(abcli_string_timestamp_short)"
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function test_abcli_mysql_tags() {
+function test_blue_objects_mysql_tags() {
     local object_name="test-object-$(abcli_string_timestamp_short)"
     local tag="test-tag-$(abcli_string_timestamp_short)"
 

@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function test_abcli_mysql_relations() {
+function test_blue_objects_mysql_relations() {
     local relation=$(abcli mysql relations list --return_list 1 --count 1 --log 0)
     [[ -z "$relation" ]] && return 1
 
