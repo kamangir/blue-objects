@@ -11,6 +11,7 @@ function test_blue_objects_help() {
         "abcli_gif" \
         "abcli_host" \
         "abcli_metadata" \
+        "abcli_mysql" \
         "abcli_object" \
         "abcli_publish" \
         "abcli_relations" \

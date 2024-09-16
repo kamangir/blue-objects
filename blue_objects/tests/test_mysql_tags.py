@@ -1,9 +1,9 @@
 from blue_objects.objects import unique_object
 
-from blue_objects.tags.functions import get, set_
+from blue_objects.mysql.tags.functions import get, set_
 
 
-def test_tags_get_set():
+def test_mysql_tags_get_set():
     object_name = unique_object()
 
     assert set_(object_name, "this,that")

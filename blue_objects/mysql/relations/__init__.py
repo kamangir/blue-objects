@@ -1,4 +1,4 @@
-from blue_objects.relations.functions import (
+from blue_objects.mysql.relations.functions import (
     clone,
     create,
     get,

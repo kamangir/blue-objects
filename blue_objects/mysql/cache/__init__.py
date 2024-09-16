@@ -1,4 +1,4 @@
-from blue_objects.cache.functions import (
+from blue_objects.mysql.cache.functions import (
     create,
     clone,
     read,

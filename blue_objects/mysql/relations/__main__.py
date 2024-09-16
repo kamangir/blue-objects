@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from blue_objects import file, NAME
-from blue_objects.relations.functions import (
+from blue_objects.mysql.relations.functions import (
     clone,
     create,
     get,
