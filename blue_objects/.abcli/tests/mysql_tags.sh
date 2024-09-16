@@ -11,6 +11,6 @@ function test_blue_objects_mysql_tags() {
     [[ $? -ne 0 ]] && return 1
 
     abcli_assert \
-        $(abcli mysql tags get $object_name) \
+        $(abcli mysql tags get $object_name --log 0) \
         $tag
 }
