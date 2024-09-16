@@ -1,4 +1,4 @@
-from blue_objects import string
+from blue_options import string
 
 from blue_objects.mysql.cache.functions import read, write
 

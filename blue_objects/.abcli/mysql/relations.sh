@@ -11,8 +11,9 @@ function abcli_mysql_relations() {
         abcli_show_usage "@mysql relations get$ABCUL<object-1>$ABCUL<object-2>" \
             "get the mysql relation between object_1 and object_2."
 
-        abcli_show_usage "@mysql relations list" \
-            "list possible mysql  relations."
+        local args="[--count <count>]$ABCUL[--delim space]$ABCUL[--log 0]$ABCUL[--return_list 1]"
+        abcli_show_usage "@mysql relations list$ABCUL$args" \
+            "list possible mysql relations."
 
         abcli_show_usage "@mysql relations search$ABCUL<object-name>$ABCUL[--relation <relation>]" \
             "search for all mysql relations of/relation to <object-name>."
