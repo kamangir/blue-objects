@@ -15,6 +15,8 @@ alias @cp=abcli_cp
 
 alias @host=abcli_host
 
+alias @mlflow=abcli_mlflow
+
 alias @mysql=abcli_mysql
 
 alias @publish=abcli_publish
