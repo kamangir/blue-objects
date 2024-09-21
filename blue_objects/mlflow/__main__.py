@@ -16,8 +16,8 @@ from blue_objects.mlflow.functions import (
     search,
     set_tags,
     transition,
-    validate,
 )
+from blue_objects.mlflow.testing import validate
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
