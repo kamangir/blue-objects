@@ -4,7 +4,7 @@ import json
 
 from blue_options import string
 
-from blue_objects.table import Table
+from blue_objects.mysql.table import Table
 from blue_objects.logger import logger
 
 

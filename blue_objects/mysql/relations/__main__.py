@@ -4,13 +4,14 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from blue_objects import file, NAME
-from blue_objects.relations.functions import (
+from blue_objects.mysql.relations.functions import (
     clone,
     create,
     get,
     search,
     set_,
     inverse_of,
+    list_of,
 )
 from blue_objects.logger import logger
 
@@ -86,10 +87,36 @@ elif args.task == "get":
         print(relation)
     success = True
 elif args.task == "list":
-    for thing in sorted(
-        ["{} : {}".format(this, that) for this, that in inverse_of.items() if this]
-    ):
-        print(thing)
+    if args.return_list:
+        output = [relation for relation in list_of if relation]
+
+        if args.count != -1:
+            output = output[: args.count]
+
+        if args.log:
+            logger.info(f"{len(output):,} relations(s): {delim.join(output)}")
+        else:
+            print(delim.join(output))
+    else:
+        if args.log:
+            for thing in sorted(
+                [
+                    "{} : {}".format(this, that)
+                    for this, that in inverse_of.items()
+                    if this
+                ]
+            ):
+                logger.info(thing)
+        else:
+            print(
+                delim.join(
+                    [
+                        "{}:{}".format(this, that)
+                        for this, that in inverse_of.items()
+                        if this
+                    ]
+                )
+            )
     success = True
 elif args.task == "search":
     output = search(args.object_1, args.relation, args.count)

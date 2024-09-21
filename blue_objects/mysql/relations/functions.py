@@ -3,7 +3,7 @@ from typing import Union, Dict, List
 from functools import reduce
 
 from blue_objects import file
-from blue_objects.table import Table
+from blue_objects.mysql.table import Table
 from blue_objects.logger import logger
 
 

@@ -8,8 +8,14 @@ function test_blue_objects_help() {
         "abcli_cache" \
         "abcli_clone" \
         "abcli_download" \
-        "abcli_host" \
         "abcli_gif" \
+        "abcli_host" \
+        "abcli_metadata" \
+        "abcli_mlflow" \
+        "abcli_mysql" \
+        "abcli_mysql_cache" \
+        "abcli_mysql_relations" \
+        "abcli_mysql_tags" \
         "abcli_object" \
         "abcli_publish" \
         "abcli_relations" \

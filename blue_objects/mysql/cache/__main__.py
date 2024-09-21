@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from blue_objects import NAME
-from blue_objects.cache.functions import create, clone, read, write, search
+from blue_objects.mysql.cache.functions import create, clone, read, write, search
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
