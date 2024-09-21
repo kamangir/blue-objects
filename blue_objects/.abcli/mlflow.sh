@@ -43,6 +43,8 @@ function abcli_mlflow() {
 
         abcli_show_usage "@mlflow transition$ABCUL<model-name>$ABCUL<version-1>$ABCUL[Staging/Production/Archived]$ABCUL[<description>]" \
             "transition <model-name>."
+
+        abcli_mlflow_validate "$@"
         return
     fi
 
