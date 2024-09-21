@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 function abcli_mlflow_browse() {
-    local object_name=$(abcli_clarify_object $1 .)
+    local object_name=$1
 
     if [[ "$object_name" == "help" ]]; then
         abcli_show_usage "@mlflow browse$ABCUL[.|<object-name>|databricks|models]" \
@@ -16,8 +16,9 @@ function abcli_mlflow_browse() {
     elif [ "$object_name" == "models" ]; then
         url="$url/#/models"
     elif [ ! -z "$object_name" ]; then
-        local object_id=$(abcli_mlflow get_id $object_name)
+        object_name=$(abcli_clarify_object $object_name .)
 
+        local object_id=$(abcli_mlflow get_id $object_name)
         if [ -z "$object_id" ]; then
             abcli_log_error "@mlflow: browse: $object_name: experiment not found."
             return 1
