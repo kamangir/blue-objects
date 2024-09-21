@@ -13,6 +13,7 @@ setup(
         f"{NAME}.graphics",
         f"{NAME}.host",
         f"{NAME}.metadata",
+        f"{NAME}.mlflow",
         f"{NAME}.mysql",
         f"{NAME}.mysql.cache",
         f"{NAME}.mysql.relations",

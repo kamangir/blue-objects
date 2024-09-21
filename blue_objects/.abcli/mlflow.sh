@@ -58,7 +58,7 @@ function abcli_mlflow() {
             local object_id=$(abcli_mlflow get_id $object_name)
 
             if [ -z "$object_id" ]; then
-                abcli_error "@mlflow: browse: $object_name: experiment not found."
+                abcli_log_error "@mlflow: browse: $object_name: experiment not found."
                 return 1
             fi
 
