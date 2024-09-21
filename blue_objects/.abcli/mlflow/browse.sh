@@ -4,7 +4,7 @@ function abcli_mlflow_browse() {
     local object_name=$1
 
     if [[ "$object_name" == "help" ]]; then
-        abcli_show_usage "@mlflow browse$ABCUL[.|<object-name>|databricks|models]" \
+        abcli_show_usage "@mlflow browse$ABCUL[.|<object-name>|databricks|host|models]" \
             "browse mlflow."
         return
     fi
@@ -13,6 +13,8 @@ function abcli_mlflow_browse() {
 
     if [ "$object_name" == "databricks" ]; then
         url="https://accounts.cloud.databricks.com/"
+    elif [ "$object_name" == "host" ]; then
+        url=$DATABRICKS_HOST
     elif [ "$object_name" == "models" ]; then
         url="$url/#/models"
     elif [ ! -z "$object_name" ]; then

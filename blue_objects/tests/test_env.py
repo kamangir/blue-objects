@@ -17,3 +17,7 @@ def test_blue_objects_env():
 
     assert env.ABCLI_AWS_RDS_HOST
     assert env.ABCLI_AWS_RDS_PASSWORD
+
+    assert env.DATABRICKS_WORKSPACE
+    assert env.DATABRICKS_HOST
+    assert env.DATABRICKS_TOKEN
