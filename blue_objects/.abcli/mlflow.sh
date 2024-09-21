@@ -6,8 +6,7 @@ function abcli_mlflow() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
-        abcli_show_usage "@mlflow browse$ABCUL[.|<object-name>|databricks|models]" \
-            "browse mlflow."
+        abcli_mlflow_browse "$@"
 
         abcli_show_usage "@mlflow clone_tags$ABCUL[..|<object-1>]$ABCUL[.|<object-2>]" \
             "clone mlflow tags."
@@ -47,25 +46,9 @@ function abcli_mlflow() {
         return
     fi
 
-    if [ "$task" == "browse" ]; then
-        local object_name=$(abcli_clarify_object $2 .)
-
-        local url="https://tbd"
-
-        if [ "$object_name" == "models" ]; then
-            url="$url/#/models"
-        elif [ ! -z "$object_name" ]; then
-            local object_id=$(abcli_mlflow get_id $object_name)
-
-            if [ -z "$object_id" ]; then
-                abcli_log_error "@mlflow: browse: $object_name: experiment not found."
-                return 1
-            fi
-
-            url="$url/#/experiments/$object_id"
-        fi
-
-        abcli_browse $url
+    local function_name=abcli_mlflow_$task
+    if [[ $(type -t $function_name) == "function" ]]; then
+        $function_name "${@:2}"
         return
     fi
 
@@ -201,6 +184,8 @@ function abcli_mlflow() {
         return
     fi
 
-    abcli_log_error "-@mlflow: $task: command not found."
+    abcli_log_error "@mlflow: $task: command not found."
     return 1
 }
+
+abcli_source_path - caller,suffix=/mlflow
