@@ -17,9 +17,6 @@ function abcli_mlflow() {
         abcli_show_usage "@mlflow get_id$ABCUL[.|<object-name>]" \
             "get mlflow id for <object-name>."
 
-        abcli_show_usage "@mlflow list$ABCUL[--regex xyz$/^xyz]" \
-            "list mlflow."
-
         abcli_show_usage "@mlflow list_registered_models" \
             "list mlflow registered models."
 
@@ -35,8 +32,7 @@ function abcli_mlflow() {
         abcli_show_usage "@mlflow run start|end$ABCUL[.|<object-name>]" \
             "start|end mlflow run."
 
-        abcli_show_usage "@mlflow search <filter-string>" \
-            "search mlflow for <filter-string> - https://www.mlflow.org/docs/latest/search-syntax.html."
+        abcli_mlflow_search "$@"
 
         abcli_show_usage "@mlflow set_tags${ABCUL}a=b,c=12$ABCUL[.|<object-name>]" \
             "set tags in mlflow."
@@ -86,13 +82,6 @@ function abcli_mlflow() {
             --object_name $object_name \
             "${@:3}"
 
-        return
-    fi
-
-    if [ "$task" == "list" ]; then
-        python3 -m blue_objects.mlflow \
-            list \
-            "${@:2}"
         return
     fi
 
@@ -146,14 +135,6 @@ function abcli_mlflow() {
             --start_end "$2" \
             "${@:4}"
 
-        return
-    fi
-
-    if [ "$task" == "search" ]; then
-        python3 -m blue_objects.mlflow \
-            search \
-            --filter_string "$2" \
-            "${@:3}"
         return
     fi
 

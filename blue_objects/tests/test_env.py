@@ -21,3 +21,5 @@ def test_blue_objects_env():
     assert env.DATABRICKS_WORKSPACE
     assert env.DATABRICKS_HOST
     assert env.DATABRICKS_TOKEN
+
+    assert env.ABCLI_MLFLOW_USERNAME

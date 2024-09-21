@@ -11,7 +11,6 @@ from blue_objects.mlflow.functions import (
     get_id,
     get_tags,
     list_registered_models,
-    list_,
     log_artifacts,
     log_run,
     search,
@@ -29,7 +28,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags|delete|get_tags|get_id|list|list_registered_models|log_artifacts|log_run|search|set_tags|transition|validate",
+    help="clone_tags|delete|get_tags|get_id|list_registered_models|log_artifacts|log_run|search|set_tags|transition|validate",
 )
 parser.add_argument(
     "--count",
@@ -168,20 +167,6 @@ elif args.task == "get_tags":
 elif args.task == "get_id":
     success, id = get_id(args.experiment_name)
     print(id)
-elif args.task == "list":
-    success, list_of_experiments = list_(
-        count=args.count,
-        return_id=args.output == "id",
-        regex=args.regex,
-    )
-    if args.show_count:
-        logger.info(
-            "{:,} experiments(s): {}".format(
-                len(list_of_experiments), delim.join(list_of_experiments)
-            )
-        )
-    else:
-        print(delim.join(list_of_experiments))
 elif args.task == "list_registered_models":
     success, list_of_models = list_registered_models()
     if args.show_count:
@@ -195,7 +180,9 @@ elif args.task == "log_artifacts":
 elif args.task == "log_run":
     success = log_run(args.experiment_name, args.path)
 elif args.task == "search":
-    success, experiment_name_list = search(args.filter_string)
+    success = True
+    experiment_name_list = search(args.filter_string)
+
     if args.show_count:
         logger.info(
             "{:,} {}: {}".format(

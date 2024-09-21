@@ -9,6 +9,7 @@ from blue_options import string
 from blue_options.options import Options
 from blue_options.logger import crash_report
 
+from blue_objects.mlflow.objects import to_experiment_name
 from blue_objects.logger import logger
 
 
@@ -82,32 +83,6 @@ def get_id(
         return False, ""
 
 
-def list_(
-    count: int = -1,
-    return_id: bool = False,
-    regex: str = "",
-) -> Tuple[bool, List[str]]:
-    try:
-        client = MlflowClient()
-
-        output = [
-            exp.experiment_id if return_id else exp.name
-            for exp in client.list_experiments()
-        ]
-
-        if regex:
-            output = [thing for thing in output if re.search(regex, thing) is not None]
-
-        if count != -1:
-            output = output[:count]
-
-    except:
-        crash_report("mlflow.list()")
-        return False, []
-
-    return True, output
-
-
 def list_registered_models() -> Tuple[
     bool,
     List[str],
@@ -169,26 +144,16 @@ def log_run(
     return success
 
 
-# https://www.mlflow.org/docs/latest/search-runs.html
-def search(filter_string: str) -> Tuple[
-    bool,
-    List[str],
-]:
-    logger.info("🔍 {}".format(filter_string))
-
+# https://www.mlflow.org/docs/latest/search-experiments.html
+def search(filter_string: str) -> List[str]:
     client = MlflowClient()
 
-    all_experiments = [exp.experiment_id for exp in client.list_experiments()]
-
-    runs = client.search_runs(
-        experiment_ids=all_experiments,
-        filter_string=filter_string,
-        run_view_type=ViewType.ALL,
-    )
-
-    return True, [
-        client.get_experiment(exp_id).name
-        for exp_id in {run.info.experiment_id for run in runs}
+    return [
+        experiment.name
+        for experiment in client.search_experiments(
+            filter_string=filter_string,
+            view_type=ViewType.ALL,
+        )
     ]
 
 
@@ -279,9 +244,11 @@ def transition(
 
 
 def validate() -> bool:
-    experiment_name = string.pretty_date(
-        as_filename=True,
-        unique=True,
+    experiment_name = to_experiment_name(
+        string.pretty_date(
+            as_filename=True,
+            unique=True,
+        )
     )
 
     success, experiment_id = get_id(
