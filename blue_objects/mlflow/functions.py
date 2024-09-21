@@ -284,9 +284,16 @@ def validate() -> bool:
         unique=True,
     )
 
+    success, experiment_id = get_id(
+        experiment_name,
+        create=True,
+    )
+    if not success:
+        return success
+
     try:
         mlflow.start_run(
-            experiment_id=get_id(experiment_name, create=True)[1],
+            experiment_id=experiment_id,
             tags={"purpose": "validation"},
         )
         mlflow.end_run()

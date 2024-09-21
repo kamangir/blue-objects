@@ -29,7 +29,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags/delete/get_tags/get_id/list/list_registered_models/log_artifacts/log_run/search/set_tags/transition/validate",
+    help="clone_tags|delete|get_tags|get_id|list|list_registered_models|log_artifacts|log_run|search|set_tags|transition|validate",
 )
 parser.add_argument(
     "--count",
@@ -108,7 +108,7 @@ parser.add_argument(
     "--start_end",
     type=str,
     default="",
-    help="start/end",
+    help="start|end",
 )
 parser.add_argument(
     "--stage_name",
