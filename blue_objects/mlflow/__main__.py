@@ -11,7 +11,7 @@ from blue_objects.mlflow.functions import (
     get_id,
     get_tags,
     list_registered_models,
-    list,
+    list_,
     log_artifacts,
     log_run,
     search,
@@ -70,7 +70,7 @@ parser.add_argument(
     "--input",
     type=str,
     default="name",
-    help="id/name",
+    help="id|name",
 )
 parser.add_argument(
     "--item_name_plural",
@@ -86,7 +86,7 @@ parser.add_argument(
     "--output",
     type=str,
     default="name",
-    help="id/name",
+    help="id|name",
 )
 parser.add_argument(
     "--path",
@@ -102,7 +102,7 @@ parser.add_argument(
     "--show_count",
     type=int,
     default=1,
-    help="0/1",
+    help="0|1",
 )
 parser.add_argument(
     "--start_end",
@@ -156,7 +156,7 @@ elif args.task == "delete":
     success = reduce(
         lambda x, y: x and y,
         [
-            delete(experiment_name, input=args.input)
+            delete(experiment_name, is_id=args.input == "id")
             for experiment_name in args.experiment_name.split(",")
             if experiment_name
         ],
@@ -169,8 +169,10 @@ elif args.task == "get_id":
     success, id = get_id(args.experiment_name)
     print(id)
 elif args.task == "list":
-    success, list_of_experiments = list(
-        count=args.count, output=args.output, regex=args.regex
+    success, list_of_experiments = list_(
+        count=args.count,
+        return_id=args.output == "id",
+        regex=args.regex,
     )
     if args.show_count:
         logger.info(

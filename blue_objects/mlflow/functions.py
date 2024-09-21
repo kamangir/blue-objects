@@ -82,7 +82,7 @@ def get_id(
         return False, ""
 
 
-def list(
+def list_(
     count: int = -1,
     return_id: bool = False,
     regex: str = "",
@@ -188,7 +188,7 @@ def search(filter_string: str) -> Tuple[
 
     return True, [
         client.get_experiment(exp_id).name
-        for exp_id in list(set([run.info.experiment_id for run in runs]))
+        for exp_id in {run.info.experiment_id for run in runs}
     ]
 
 
@@ -281,7 +281,7 @@ def transition(
 def validate() -> bool:
     experiment_name = string.pretty_date(
         as_filename=True,
-        add_unique_postfix=True,
+        unique=True,
     )
 
     try:
