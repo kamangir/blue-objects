@@ -1,6 +1,7 @@
 from blue_objects.mlflow.functions import (
-    delete,
+    rm,
     get_id,
+    get_run_id,
     get_tags,
     list_registered_models,
     log_artifacts,

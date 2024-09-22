@@ -6,16 +6,23 @@ function abcli_mlflow() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
+        local args
+
         abcli_mlflow_browse "$@"
 
         abcli_show_usage "@mlflow clone_tags$ABCUL[..|<object-1>]$ABCUL[.|<object-2>]" \
             "clone mlflow tags."
 
-        abcli_show_usage "@mlflow get_tags$ABCUL[.|<object-name>]" \
-            "get mlflow tags for <object-name>."
-
         abcli_show_usage "@mlflow get_id$ABCUL[.|<object-name>]" \
             "get mlflow id for <object-name>."
+
+        args="[--count <1>]$ABCUL[--delim <space>]$ABCUL[--offset <0>]"
+        abcli_show_usage "@mlflow get_run_id$ABCUL[.|<object-name>]$ABCUL$args" \
+            "get mlflow run ids for <object-name>."
+
+        args="[--tag <tag>]"
+        abcli_show_usage "@mlflow get_tags$ABCUL[.|<object-name>]$ABCUL$args" \
+            "get mlflow tags|<tag> for <object-name>."
 
         abcli_show_usage "@mlflow list_registered_models" \
             "list mlflow registered models."
@@ -59,25 +66,13 @@ function abcli_mlflow() {
         return
     fi
 
-    if [ "$task" == "get_tags" ]; then
+    if [[ ",get_id,get_run_id,get_tags,rm," == *",$task,"* ]]; then
         local object_name=$(abcli_clarify_object $2 .)
 
         python3 -m blue_objects.mlflow \
-            get_tags \
+            $task \
             --object_name $object_name \
             "${@:3}"
-
-        return
-    fi
-
-    if [ "$task" == "get_id" ]; then
-        local object_name=$(abcli_clarify_object $2 .)
-
-        python3 -m blue_objects.mlflow \
-            get_id \
-            --object_name $object_name \
-            "${@:3}"
-
         return
     fi
 
@@ -85,17 +80,6 @@ function abcli_mlflow() {
         python3 -m blue_objects.mlflow \
             list_registered_models \
             "${@:2}"
-        return
-    fi
-
-    if [ "$task" == "rm" ]; then
-        local object_name=$(abcli_clarify_object $2 .)
-
-        python3 -m blue_objects.mlflow \
-            delete \
-            --object_name $object_name \
-            "${@:3}"
-
         return
     fi
 

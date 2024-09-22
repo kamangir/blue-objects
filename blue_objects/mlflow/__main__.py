@@ -7,8 +7,9 @@ from blueness import module
 
 from blue_objects import NAME
 from blue_objects.mlflow.functions import (
-    delete,
+    rm,
     get_id,
+    get_run_id,
     get_tags,
     list_registered_models,
     log_artifacts,
@@ -30,12 +31,17 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags|delete|get_tags|get_id|list_registered_models|log_artifacts|log_run|search|set_tags|start_end_run|transition|validate",
+    help="clone_tags|get_id|get_run_id|get_tags|list_registered_models|log_artifacts|log_run|rm|search|set_tags|start_end_run|transition|validate",
 )
 parser.add_argument(
     "--count",
     type=int,
     default=-1,
+)
+parser.add_argument(
+    "--offset",
+    type=int,
+    default=0,
 )
 parser.add_argument(
     "--default",
@@ -153,11 +159,11 @@ if args.task == "clone_tags":
     success, tags = get_tags(args.source_objects)
     if success:
         success = set_tags(args.destination_object, tags)
-elif args.task == "delete":
+elif args.task == "rm":
     success = reduce(
         lambda x, y: x and y,
         [
-            delete(
+            rm(
                 object_name,
                 is_id=args.input == "id",
             )
@@ -172,6 +178,14 @@ elif args.task == "get_tags":
 elif args.task == "get_id":
     success, id = get_id(args.object_name)
     print(id)
+elif args.task == "get_run_id":
+    success, list_of_id = get_run_id(
+        args.object_name,
+        args.count,
+        args.offset,
+    )
+
+    print(delim.join(list_of_id))
 elif args.task == "list_registered_models":
     success, list_of_models = list_registered_models()
     if args.log:

@@ -15,7 +15,7 @@ from blue_objects.mlflow.objects import to_experiment_name, to_object_name
 from blue_objects.logger import logger
 
 
-def delete(
+def rm(
     object_name: str,
     is_id: bool = False,
 ) -> bool:
@@ -37,7 +37,7 @@ def delete(
 
         client.delete_experiment(experiment_id)
     except:
-        crash_report("mlflow.delete({})".format(object_name))
+        crash_report("mlflow.rm({})".format(object_name))
         return False
 
     logger.info(
@@ -49,6 +49,32 @@ def delete(
     )
 
     return True
+
+
+def get_run_id(
+    object_name: str,
+    count: int = -1,
+    offset: int = 0,
+    create: bool = False,
+) -> Tuple[bool, List[str]]:
+    success, experiment_id = get_id(object_name, create=create)
+    if not success:
+        return False, []
+
+    try:
+        client = MlflowClient()
+
+        list_of_runs = client.search_runs(
+            experiment_ids=[experiment_id],
+            run_view_type=ViewType.ACTIVE_ONLY,
+            max_results=count + offset,
+        )
+
+        return True, [run._info.run_id for run in list_of_runs][offset:]
+
+    except:
+        crash_report(f"mlflow.get_run_id({object_name})")
+        return False, []
 
 
 def get_tags(
