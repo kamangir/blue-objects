@@ -7,16 +7,19 @@ from mlflow.entities import ViewType
 from blue_options.options import Options
 from blue_options.logger import crash_report
 
+from blue_objects.mlflow.objects import to_experiment_name, to_object_name
 from blue_objects.logger import logger
 
 
 def delete(
-    experiment_name: str,
+    object_name: str,
     is_id: bool = False,
 ) -> bool:
     if is_id:
-        experiment_id = experiment_name
+        experiment_id = object_name
     else:
+        experiment_name = to_experiment_name(object_name)
+
         success, experiment_id = get_id(experiment_name)
         if not success:
             return success
@@ -30,14 +33,14 @@ def delete(
 
         client.delete_experiment(experiment_id)
     except:
-        crash_report("mlflow.delete({})".format(experiment_name))
+        crash_report("mlflow.delete({})".format(object_name))
         return False
 
     logger.info(
         "🚮 {}".format(
             "#{}".format(experiment_id)
             if is_id
-            else "{} (#{})".format(experiment_name, experiment_id)
+            else "{} (#{})".format(object_name, experiment_id)
         )
     )
 
@@ -45,8 +48,10 @@ def delete(
 
 
 def get_tags(
-    experiment_name: str,
+    object_name: str,
 ) -> Tuple[bool, Dict[str, str]]:
+    experiment_name = to_experiment_name(object_name)
+
     try:
         client = MlflowClient()
         experiment = client.get_experiment_by_name(experiment_name)
@@ -56,14 +61,16 @@ def get_tags(
 
         return True, copy.deepcopy(experiment.tags)
     except:
-        crash_report("mlflow.get_tags({})".format(experiment_name))
+        crash_report("mlflow.get_tags({})".format(object_name))
         return False, {}
 
 
 def get_id(
-    experiment_name: str,
+    object_name: str,
     create: bool = False,
 ) -> Tuple[bool, str]:
+    experiment_name = to_experiment_name(object_name)
+
     try:
         experiment = mlflow.get_experiment_by_name(experiment_name)
         if experiment is None:
@@ -75,7 +82,7 @@ def get_id(
 
         return True, dict(experiment)["experiment_id"]
     except:
-        crash_report("mlflow.get_id({})".format(experiment_name))
+        crash_report("mlflow.get_id({})".format(object_name))
 
         return False, ""
 
@@ -94,51 +101,47 @@ def list_registered_models() -> Tuple[
 
 
 def log_artifacts(
-    experiment_name: str,
+    object_name: str,
     path: str,
     model_name: str = "",
 ) -> bool:
-    success = start_end_run(experiment_name, start=True)
+    if not start_end_run(object_name, start=True):
+        return False
 
-    if success:
-        try:
-            mlflow.log_artifacts(path)
+    try:
+        mlflow.log_artifacts(path)
 
-            logger.info("⬆️  {}".format(experiment_name))
+        logger.info("⬆️  {}".format(object_name))
 
-            # https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.register_model
-            # https://stackoverflow.com/a/71447758/17619982
-            if model_name:
-                mv = mlflow.register_model(
-                    "runs:/{}".format(mlflow.active_run().info.run_id),
-                    model_name,
-                    await_registration_for=0,
-                )
+        # https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.register_model
+        # https://stackoverflow.com/a/71447758/17619982
+        if model_name:
+            mv = mlflow.register_model(
+                "runs:/{}".format(mlflow.active_run().info.run_id),
+                model_name,
+                await_registration_for=0,
+            )
 
-                logger.info(
-                    "*️⃣  {} -> {}.{}".format(experiment_name, mv.name, mv.version)
-                )
+            logger.info("*️⃣  {} -> {}.{}".format(object_name, mv.name, mv.version))
 
-        except:
-            crash_report("mlflow.log_artifacts({},{})".format(experiment_name, path))
-            success = False
+    except:
+        crash_report("mlflow.log_artifacts({},{})".format(object_name, path))
+        return False
 
-    if success:
-        success = start_end_run(experiment_name, end=True)
-
-    return success
+    return start_end_run(object_name, end=True)
 
 
 def log_run(
-    experiment_name: str,
+    object_name: str,
     path: str,
 ) -> bool:
-    success = start_end_run(experiment_name, start=True)
-
-    if success:
-        success = start_end_run(experiment_name, end=True)
-
-    return success
+    return start_end_run(
+        object_name,
+        start=True,
+    ) and start_end_run(
+        object_name,
+        end=True,
+    )
 
 
 # https://www.mlflow.org/docs/latest/search-experiments.html
@@ -146,7 +149,7 @@ def search(filter_string: str) -> List[str]:
     client = MlflowClient()
 
     return [
-        experiment.name
+        to_object_name(experiment.name)
         for experiment in client.search_experiments(
             filter_string=filter_string,
             view_type=ViewType.ALL,
@@ -155,10 +158,12 @@ def search(filter_string: str) -> List[str]:
 
 
 def set_tags(
-    experiment_name: str,
+    object_name: str,
     tags: Dict[str, str],
     icon="#️⃣ ",
 ) -> bool:
+    experiment_name = to_experiment_name(object_name)
+
     try:
         tags = Options(tags)
 
@@ -171,38 +176,36 @@ def set_tags(
 
         for key, value in tags.items():
             client.set_experiment_tag(experiment.experiment_id, key, value)
-            logger.info("{} {}.{}={}".format(icon, experiment_name, key, value))
+            logger.info("{} {}.{}={}".format(icon, object_name, key, value))
 
     except:
-        crash_report("mlflow.set_tags()")
+        crash_report(f"mlflow.set_tags({object_name})")
         return False
 
     return True
 
 
 def start_end_run(
-    experiment_name: str,
+    object_name: str,
     end: bool = False,
     start: bool = False,
 ) -> bool:
     try:
         if end:
             mlflow.end_run()
-            logger.info("⏹️  {}".format(experiment_name))
+            logger.info("⏹️  {}".format(object_name))
         elif start:
             mlflow.start_run(
-                experiment_id=get_id(experiment_name, create=True)[1],
-                tags=get_tags(experiment_name)[1],
+                experiment_id=get_id(object_name, create=True)[1],
+                tags=get_tags(object_name)[1],
             )
-            logger.info("⏺️  {}".format(experiment_name))
+            logger.info("⏺️  {}".format(object_name))
         else:
             logger.error("mlflow.start_end_run(): bad start/stop.")
 
         return True
     except:
-        crash_report(
-            "mlflow.start_end_run({},{},{})".format(experiment_name, start, end)
-        )
+        crash_report("mlflow.start_end_run({},{},{})".format(object_name, start, end))
         return False
 
 

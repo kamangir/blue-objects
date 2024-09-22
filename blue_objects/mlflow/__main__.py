@@ -51,12 +51,12 @@ parser.add_argument(
     default="",
 )
 parser.add_argument(
-    "--destination_experiment",
+    "--destination_object",
     type=str,
     default="",
 )
 parser.add_argument(
-    "--experiment_name",
+    "--object_name",
     type=str,
     default=os.getenv("abcli_object_name"),
 )
@@ -74,7 +74,7 @@ parser.add_argument(
 parser.add_argument(
     "--item_name_plural",
     type=str,
-    default="experiment(s)",
+    default="object(s)",
 )
 parser.add_argument(
     "--model_name",
@@ -121,7 +121,7 @@ parser.add_argument(
     default="",
 )
 parser.add_argument(
-    "--source_experiment",
+    "--source_objects",
     type=str,
     default="",
 )
@@ -148,24 +148,27 @@ delim = ", " if args.show_count else " " if args.delim == "space" else args.deli
 
 success = False
 if args.task == "clone_tags":
-    success, tags = get_tags(args.source_experiment)
+    success, tags = get_tags(args.source_objects)
     if success:
-        success = set_tags(args.destination_experiment, tags)
+        success = set_tags(args.destination_object, tags)
 elif args.task == "delete":
     success = reduce(
         lambda x, y: x and y,
         [
-            delete(experiment_name, is_id=args.input == "id")
-            for experiment_name in args.experiment_name.split(",")
-            if experiment_name
+            delete(
+                object_name,
+                is_id=args.input == "id",
+            )
+            for object_name in args.object_name.split(",")
+            if object_name
         ],
         True,
     )
 elif args.task == "get_tags":
-    success, tags = get_tags(args.experiment_name)
+    success, tags = get_tags(args.object_name)
     print(tags if not args.tag else tags.get(args.tag, args.default))
 elif args.task == "get_id":
-    success, id = get_id(args.experiment_name)
+    success, id = get_id(args.object_name)
     print(id)
 elif args.task == "list_registered_models":
     success, list_of_models = list_registered_models()
@@ -176,28 +179,41 @@ elif args.task == "list_registered_models":
     else:
         print(delim.join(list_of_models))
 elif args.task == "log_artifacts":
-    success = log_artifacts(args.experiment_name, args.path, args.model_name)
+    success = log_artifacts(
+        args.object_name,
+        args.path,
+        args.model_name,
+    )
 elif args.task == "log_run":
-    success = log_run(args.experiment_name, args.path)
+    success = log_run(
+        args.object_name,
+        args.path,
+    )
 elif args.task == "search":
     success = True
-    experiment_name_list = search(args.filter_string)
+    list_of_objects = search(args.filter_string)
 
     if args.show_count:
         logger.info(
             "{:,} {}: {}".format(
-                len(experiment_name_list),
+                len(list_of_objects),
                 args.item_name_plural,
-                delim.join(experiment_name_list),
+                delim.join(list_of_objects),
             )
         )
     else:
-        print(delim.join(experiment_name_list))
+        print(delim.join(list_of_objects))
 elif args.task == "set_tags":
-    success = set_tags(args.experiment_name, args.tags)
+    success = set_tags(
+        args.object_name,
+        args.tags,
+    )
 elif args.task == "transition":
     success = transition(
-        args.model_name, args.version, args.stage_name, description=args.description
+        args.model_name,
+        args.version,
+        args.stage_name,
+        description=args.description,
     )
 elif args.task == "validate":
     success = validate()
