@@ -6,32 +6,19 @@ function abcli_mlflow() {
     local task=$(abcli_unpack_keyword $1 help)
 
     if [ "$task" == "help" ]; then
-        local args
-
         abcli_mlflow_browse "$@"
-
-        abcli_show_usage "@mlflow clone_tags$ABCUL[..|<object-1>]$ABCUL[.|<object-2>]" \
-            "clone mlflow tags."
-
+        abcli_mlflow_clone_tags "$@"
         abcli_mlflow get_id "$@"
         abcli_mlflow get_run_id "$@"
         abcli_mlflow get_tags "$@"
-
-        abcli_show_usage "@mlflow list_registered_models" \
-            "list mlflow registered models."
-
+        abcli_mlflow_list_registered_models "$@"
         abcli_mlflow_log_artifacts "$@"
         abcli_mlflow_log_run "$@"
         abcli_mlflow rm "$@"
         abcli_mlflow_run "$@"
         abcli_mlflow_search "$@"
-
-        abcli_show_usage "@mlflow set_tags${ABCUL}a=b,c=12$ABCUL[.|<object-name>]" \
-            "set tags in mlflow."
-
-        abcli_show_usage "@mlflow transition$ABCUL<model-name>$ABCUL<version-1>$ABCUL[Staging/Production/Archived]$ABCUL[<description>]" \
-            "transition <model-name>."
-
+        abcli_mlflow_set_tags "$@"
+        abcli_mlflow_transition "$@"
         abcli_mlflow_validate "$@"
         return
     fi
@@ -39,19 +26,6 @@ function abcli_mlflow() {
     local function_name=abcli_mlflow_$task
     if [[ $(type -t $function_name) == "function" ]]; then
         $function_name "${@:2}"
-        return
-    fi
-
-    if [ "$task" == "clone_tags" ]; then
-        local source_object=$(abcli_clarify_object $2 ..)
-        local destination_object=$(abcli_clarify_object $3 .)
-
-        python3 -m blue_objects.mlflow \
-            clone_tags \
-            --destination_object $destination_object \
-            --source_object $source_object \
-            "${@:4}"
-
         return
     fi
 
@@ -96,38 +70,7 @@ function abcli_mlflow() {
         return
     fi
 
-    if [ "$task" == "list_registered_models" ]; then
-        python3 -m blue_objects.mlflow \
-            list_registered_models \
-            "${@:2}"
-        return
-    fi
-
     if [ "$task" == "set_tags" ]; then
-        local object_name=$(abcli_clarify_object $3 .)
-
-        python3 -m blue_objects.mlflow \
-            set_tags \
-            --object_name $object_name \
-            --tags "$2" \
-            "${@:4}"
-
-        return
-    fi
-
-    if [ "$task" == "transition" ]; then
-        local model_name="$2"
-        local version="$3"
-        local stage_name=$(abcli_arg_get "$4" Staging)
-        local description="$5"
-
-        python3 -m blue_objects.mlflow \
-            transition \
-            --model_name "$model_name" \
-            --version "$version" \
-            --stage_name "$stage_name" \
-            --description "$description" \
-            "${@:6}"
 
         return
     fi
