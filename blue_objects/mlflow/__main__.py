@@ -191,7 +191,7 @@ elif args.task == "log_run":
     )
 elif args.task == "search":
     success = True
-    list_of_objects = search(args.filter_string)
+    list_of_objects = search("" if args.filter_string == "-" else args.filter_string)
 
     if args.log:
         logger.info(
