@@ -7,17 +7,15 @@ function abcli_mlflow() {
 
     if [ "$task" == "help" ]; then
         abcli_mlflow_browse "$@"
-        abcli_mlflow_clone_tags "$@"
+        abcli_mlflow_cache "$@"
         abcli_mlflow get_id "$@"
         abcli_mlflow get_run_id "$@"
-        abcli_mlflow get_tags "$@"
         abcli_mlflow_list_registered_models "$@"
         abcli_mlflow_log_artifacts "$@"
         abcli_mlflow_log_run "$@"
         abcli_mlflow rm "$@"
         abcli_mlflow_run "$@"
-        abcli_mlflow_search "$@"
-        abcli_mlflow_set_tags "$@"
+        abcli_mlflow_tags "$@"
         abcli_mlflow_transition "$@"
         abcli_mlflow_validate "$@"
         return
@@ -29,7 +27,7 @@ function abcli_mlflow() {
         return
     fi
 
-    if [[ ",get_id,get_run_id,get_tags,rm," == *",$task,"* ]]; then
+    if [[ ",get_id,get_run_id,rm," == *",$task,"* ]]; then
         local object_name=$(abcli_clarify_object $2 .)
 
         if [[ "$object_name" == "help" ]]; then
@@ -44,12 +42,6 @@ function abcli_mlflow() {
 
                 abcli_show_usage "@mlflow get_run_id$ABCUL[.|<object-name>]$ABCUL$args" \
                     "get mlflow run ids for <object-name>."
-
-            elif [[ "$task" == "get_tags" ]]; then
-                args="[--tag <tag>]"
-
-                abcli_show_usage "@mlflow get_tags$ABCUL[.|<object-name>]$ABCUL$args" \
-                    "get mlflow tags|<tag> for <object-name>."
 
             elif [[ "$task" == "rm" ]]; then
                 abcli_show_usage "@mlflow rm$ABCUL[.|<object-name>]" \
@@ -67,11 +59,6 @@ function abcli_mlflow() {
             $task \
             --object_name $object_name \
             "${@:3}"
-        return
-    fi
-
-    if [ "$task" == "set_tags" ]; then
-
         return
     fi
 

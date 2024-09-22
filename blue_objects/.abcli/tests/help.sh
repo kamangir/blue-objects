@@ -12,18 +12,20 @@ function test_blue_objects_help() {
         "abcli host" \
         "abcli metadata" \
         "abcli mlflow" \
+        "abcli mlflow cache" \
         "abcli mlflow browse" \
-        "abcli mlflow clone_tags" \
         "abcli mlflow get_id" \
         "abcli mlflow get_run_id" \
-        "abcli mlflow get_tags" \
         "abcli mlflow list_registered_models" \
         "abcli mlflow log_artifacts" \
         "abcli mlflow log_run" \
         "abcli mlflow rm" \
         "abcli mlflow run" \
-        "abcli mlflow search" \
-        "abcli mlflow set_tags" \
+        "abcli mlflow tags" \
+        "abcli mlflow tags clone" \
+        "abcli mlflow tags get" \
+        "abcli mlflow tags search" \
+        "abcli mlflow tags set" \
         "abcli mlflow transition" \
         "abcli mlflow validate" \
         "abcli mysql" \
