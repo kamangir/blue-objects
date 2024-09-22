@@ -34,7 +34,6 @@ function test_blue_objects_help() {
         "abcli mysql_tags" \
         "abcli object" \
         "abcli publish" \
-        "abcli relations" \
         "abcli select" \
         "abcli storage" \
         "abcli tags" \
