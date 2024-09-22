@@ -9,12 +9,12 @@ function abcli_mlflow_browse() {
         return
     fi
 
-    local url="https://tbd"
+    local url=$DATABRICKS_HOST
 
     if [ "$object_name" == "databricks" ]; then
         url="https://accounts.cloud.databricks.com/"
     elif [ "$object_name" == "host" ]; then
-        url=$DATABRICKS_HOST
+        : # do nothing
     elif [ "$object_name" == "models" ]; then
         url="$url/#/models"
     elif [ ! -z "$object_name" ]; then
@@ -26,7 +26,7 @@ function abcli_mlflow_browse() {
             return 1
         fi
 
-        url="$url/#/experiments/$experiment_id"
+        url="$url/ml/experiments/$experiment_id"
     fi
 
     abcli_browse $url
