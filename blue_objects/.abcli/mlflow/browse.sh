@@ -20,13 +20,13 @@ function abcli_mlflow_browse() {
     elif [ ! -z "$object_name" ]; then
         object_name=$(abcli_clarify_object $object_name .)
 
-        local object_id=$(abcli_mlflow get_id $object_name)
-        if [ -z "$object_id" ]; then
-            abcli_log_error "@mlflow: browse: $object_name: experiment not found."
+        local experiment_id=$(abcli_mlflow get_id $object_name)
+        if [ -z "$experiment_id" ]; then
+            abcli_log_error "@mlflow: browse: $object_name: object not found."
             return 1
         fi
 
-        url="$url/#/experiments/$object_id"
+        url="$url/#/experiments/$experiment_id"
     fi
 
     abcli_browse $url
