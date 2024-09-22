@@ -7,7 +7,8 @@ from blue_objects.mlflow.functions import (
     log_run,
     search,
     set_tags,
-    start_end_run,
+    start_run,
+    end_run,
     transition,
 )
 from blue_objects.mlflow.testing import (

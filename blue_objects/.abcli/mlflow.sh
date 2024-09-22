@@ -20,17 +20,13 @@ function abcli_mlflow() {
         abcli_show_usage "@mlflow list_registered_models" \
             "list mlflow registered models."
 
-        abcli_show_usage "@mlflow log_artifacts$ABCUL[.|<object-name>]$ABCUL[<model-name>]" \
-            "log artifacts for <object-name> [and register as <model-name>] in mlflow."
-
-        abcli_show_usage "@mlflow log_run$ABCUL[.|<object-name>]" \
-            "log a run for <object-name> in mlflow."
+        abcli_mlflow_log_artifacts "$@"
+        abcli_mlflow_log_run "$@"
 
         abcli_show_usage "@mlflow rm$ABCUL[.|<object-name>]" \
             "rm <object-name> from mlflow."
 
-        abcli_show_usage "@mlflow run start|end$ABCUL[.|<object-name>]" \
-            "start|end mlflow run."
+        abcli_mlflow_run "$@"
 
         abcli_mlflow_search "$@"
 
@@ -92,29 +88,6 @@ function abcli_mlflow() {
         return
     fi
 
-    if [ "$task" == "log_artifacts" ]; then
-        local object_name=$(abcli_clarify_object $2 .)
-
-        python3 -m blue_objects.mlflow \
-            log_artifacts \
-            --object_name $object_name \
-            --model_name "$3" \
-            --path $ABCLI_OBJECT_ROOT/$object_name \
-            "${@:4}"
-        return
-    fi
-
-    if [ "$task" == "log_run" ]; then
-        local object_name=$(abcli_clarify_object $2 .)
-
-        python3 -m blue_objects.mlflow \
-            log_run \
-            --object_name $object_name \
-            --path $ABCLI_OBJECT_ROOT/$object_name \
-            "${@:3}"
-        return
-    fi
-
     if [ "$task" == "rm" ]; then
         local object_name=$(abcli_clarify_object $2 .)
 
@@ -122,18 +95,6 @@ function abcli_mlflow() {
             delete \
             --object_name $object_name \
             "${@:3}"
-
-        return
-    fi
-
-    if [ "$task" == "run" ]; then
-        local object_name=$(abcli_clarify_object $3 .)
-
-        python3 -m blue_objects.mlflow \
-            start_end_run \
-            --object_name $object_name \
-            --start_end "$2" \
-            "${@:4}"
 
         return
     fi

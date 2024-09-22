@@ -4,7 +4,8 @@ function abcli_upload() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        abcli_show_usage "@upload$ABCUL[filename=<filename>,~open,solid,~warn_if_exists]$ABCUL[.|<object-name>]" \
+        options="filename=<filename>$(xtra mlflow,no_mlflow,~open,)solid$(xtra ,~warn_if_exists)"
+        abcli_show_usage "@upload$ABCUL[$options]$ABCUL[.|<object-name>]" \
             "upload <object-name>."
         return
     fi
@@ -13,6 +14,8 @@ function abcli_upload() {
     local do_open=$(abcli_option_int "$options" open 1)
     local do_solid=$(abcli_option_int "$options" solid 0)
     local warn_if_exists=$(abcli_option_int "$options" warn_if_exists 1)
+    local log_to_mlflow=$(abcli_option_int "$options" mlflow 0)
+    local no_mlflow=$(abcli_option_int "$options" no_mlflow 0)
 
     local object_name=$(abcli_clarify_object $2 .)
     local object_path=$ABCLI_OBJECT_ROOT/$object_name
@@ -68,5 +71,11 @@ function abcli_upload() {
         abcli_tags set $object_name solid
 
         popd >/dev/null
+    fi
+
+    if [[ "$log_to_mlflow" == 1 ]]; then
+        abcli_mlflow log_artifacts $object_name
+    elif [[ "$no_mlflow" == 0 ]]; then
+        abcli_mlflow log_run $object_name
     fi
 }

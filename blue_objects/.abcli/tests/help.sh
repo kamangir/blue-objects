@@ -12,6 +12,8 @@ function test_blue_objects_help() {
         "abcli_host" \
         "abcli_metadata" \
         "abcli_mlflow" \
+        "abcli_mlflow_log_run" \
+        "abcli_mlflow_log_artifacts" \
         "abcli_mlflow_search" \
         "abcli_mlflow_validate" \
         "abcli_mysql" \

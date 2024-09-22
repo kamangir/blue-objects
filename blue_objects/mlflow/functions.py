@@ -1,11 +1,15 @@
 from typing import Tuple, Dict, List
+import os
+import glob
 import copy
 import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
 
 from blue_options.options import Options
+from blue_options import string
 from blue_options.logger import crash_report
+from blue_objects import file
 
 from blue_objects.mlflow.objects import to_experiment_name, to_object_name
 from blue_objects.logger import logger
@@ -105,7 +109,7 @@ def log_artifacts(
     path: str,
     model_name: str = "",
 ) -> bool:
-    if not start_end_run(object_name, start=True):
+    if not start_run(object_name):
         return False
 
     try:
@@ -128,20 +132,30 @@ def log_artifacts(
         crash_report("mlflow.log_artifacts({},{})".format(object_name, path))
         return False
 
-    return start_end_run(object_name, end=True)
+    return end_run(object_name)
 
 
 def log_run(
     object_name: str,
     path: str,
 ) -> bool:
-    return start_end_run(
-        object_name,
-        start=True,
-    ) and start_end_run(
-        object_name,
-        end=True,
-    )
+    if not start_run(object_name):
+        return False
+
+    for extension in "dot,gif,jpeg,jpg,json,png,sh,xml,yaml".split(","):
+        for filename in glob.glob(
+            os.path.join(path, f"*.{extension}"),
+        ):
+            if any(
+                file.size(filename) > 10 * 1024 * 1024,
+                file.name(filename).startswith("thumbnail"),
+            ):
+                continue
+
+            mlflow.log_artifact(filename)
+            logger.info(filename)
+
+    return end_run(object_name)
 
 
 # https://www.mlflow.org/docs/latest/search-experiments.html
@@ -185,28 +199,40 @@ def set_tags(
     return True
 
 
-def start_end_run(
+def start_run(
     object_name: str,
-    end: bool = False,
-    start: bool = False,
+) -> bool:
+    run_name = string.pretty_date(
+        unique=True,
+        include_time=False,
+        as_filename=True,
+    )
+
+    try:
+        mlflow.start_run(
+            experiment_id=get_id(object_name, create=True)[1],
+            tags=get_tags(object_name)[1],
+            run_name=run_name,
+        )
+        logger.info(f"⏺️  {object_name} | {run_name}")
+    except:
+        crash_report(f"mlflow.start_run({object_name})")
+        return False
+
+    return True
+
+
+def end_run(
+    object_name: str,
 ) -> bool:
     try:
-        if end:
-            mlflow.end_run()
-            logger.info("⏹️  {}".format(object_name))
-        elif start:
-            mlflow.start_run(
-                experiment_id=get_id(object_name, create=True)[1],
-                tags=get_tags(object_name)[1],
-            )
-            logger.info("⏺️  {}".format(object_name))
-        else:
-            logger.error("mlflow.start_end_run(): bad start/stop.")
-
-        return True
+        mlflow.end_run()
+        logger.info("⏹️  {}".format(object_name))
     except:
-        crash_report("mlflow.start_end_run({},{},{})".format(object_name, start, end))
+        crash_report(f"mlflow.end_run({object_name})")
         return False
+
+    return True
 
 
 def transition(

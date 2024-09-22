@@ -15,6 +15,8 @@ from blue_objects.mlflow.functions import (
     log_run,
     search,
     set_tags,
+    start_run,
+    end_run,
     transition,
 )
 from blue_objects.mlflow.testing import validate
@@ -28,7 +30,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags|delete|get_tags|get_id|list_registered_models|log_artifacts|log_run|search|set_tags|transition|validate",
+    help="clone_tags|delete|get_tags|get_id|list_registered_models|log_artifacts|log_run|search|set_tags|start_end_run|transition|validate",
 )
 parser.add_argument(
     "--count",
@@ -216,6 +218,14 @@ elif args.task == "transition":
         args.stage_name,
         description=args.description,
     )
+elif args.task == "start_end_run":
+    if args.start_end == "start":
+        success = start_run(args.object_name)
+    elif args.task == "end":
+        success = end_run(args.object_name)
+    else:
+        success = False
+        logger.info(f"expected start|end,received {args.start_end}.")
 elif args.task == "validate":
     success = validate()
 else:
