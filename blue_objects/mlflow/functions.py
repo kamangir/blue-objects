@@ -22,9 +22,7 @@ def rm(
     if is_id:
         experiment_id = object_name
     else:
-        experiment_name = to_experiment_name(object_name)
-
-        success, experiment_id = get_id(experiment_name)
+        success, experiment_id = get_id(object_name)
         if not success:
             return success
 
