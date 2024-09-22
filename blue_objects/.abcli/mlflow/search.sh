@@ -4,8 +4,9 @@ function abcli_mlflow_search() {
     local filter_string=$1
 
     if [[ "$filter_string" == "help" ]]; then
-        abcli_show_usage "@mlflow search <filter-string>" \
-            "search mlflow for <filter-string> - https://www.mlflow.org/docs/latest/search-experiments.html."
+        local args="[--log <0>]"
+        abcli_show_usage "@mlflow search$ABCUL<filter-string>$ABCUL$args" \
+            "search mlflow for <filter-string>${ABCUL2}https://www.mlflow.org/docs/latest/search-experiments.html."
         return
     fi
 

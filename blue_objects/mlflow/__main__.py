@@ -98,7 +98,7 @@ parser.add_argument(
     default="",
 )
 parser.add_argument(
-    "--show_count",
+    "--log",
     type=int,
     default=1,
     help="0|1",
@@ -144,7 +144,7 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-delim = ", " if args.show_count else " " if args.delim == "space" else args.delim
+delim = " " if args.delim == "space" else args.delim
 
 success = False
 if args.task == "clone_tags":
@@ -172,7 +172,7 @@ elif args.task == "get_id":
     print(id)
 elif args.task == "list_registered_models":
     success, list_of_models = list_registered_models()
-    if args.show_count:
+    if args.log:
         logger.info(
             "{:,} model(s): {}".format(len(list_of_models), delim.join(list_of_models))
         )
@@ -193,14 +193,15 @@ elif args.task == "search":
     success = True
     list_of_objects = search(args.filter_string)
 
-    if args.show_count:
+    if args.log:
         logger.info(
-            "{:,} {}: {}".format(
+            "{:,} {}:".format(
                 len(list_of_objects),
                 args.item_name_plural,
-                delim.join(list_of_objects),
-            )
+            ),
         )
+        for index, object_name in enumerate(list_of_objects):
+            logger.info(f"#{index: 4d} - {object_name}")
     else:
         print(delim.join(list_of_objects))
 elif args.task == "set_tags":
