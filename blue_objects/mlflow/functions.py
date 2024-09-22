@@ -147,13 +147,15 @@ def log_run(
             os.path.join(path, f"*.{extension}"),
         ):
             if any(
-                file.size(filename) > 10 * 1024 * 1024,
-                file.name(filename).startswith("thumbnail"),
+                [
+                    file.size(filename) > 10 * 1024 * 1024,
+                    file.name(filename).startswith("thumbnail"),
+                ]
             ):
                 continue
 
             mlflow.log_artifact(filename)
-            logger.info(filename)
+            logger.info(f"⬆️  {filename}")
 
     return end_run(object_name)
 
