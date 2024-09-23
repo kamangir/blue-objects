@@ -16,8 +16,8 @@ function abcli_mlflow() {
         abcli_mlflow rm "$@"
         abcli_mlflow_run "$@"
         abcli_mlflow_tags "$@"
+        abcli_mlflow_test "$@"
         abcli_mlflow_transition "$@"
-        abcli_mlflow_validate "$@"
         return
     fi
 
