@@ -107,11 +107,6 @@ parser.add_argument(
     help="id|name",
 )
 parser.add_argument(
-    "--path",
-    type=str,
-    default="",
-)
-parser.add_argument(
     "--regex",
     type=str,
     default="",
@@ -217,14 +212,10 @@ elif args.task == "list_registered_models":
 elif args.task == "log_artifacts":
     success = log_artifacts(
         args.object_name,
-        args.path,
         args.model_name,
     )
 elif args.task == "log_run":
-    success = log_run(
-        args.object_name,
-        args.path,
-    )
+    success = log_run(args.object_name)
 elif args.task == "search":
     success = True
 

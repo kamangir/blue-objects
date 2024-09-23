@@ -8,6 +8,8 @@ from blue_options import string
 from blue_options.logger import crash_report
 
 from blue_objects import NAME
+from blue_objects.mlflow.objects import get_id
+from blue_objects.mlflow.tags import get_tags
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -61,15 +63,23 @@ def start_run(
         as_filename=True,
     )
 
+    success, experiment_id = get_id(object_name, create=True)
+    if not success:
+        return False
+
+    success, tags = get_tags(object_name)
+    if not success:
+        return False
+
     try:
         mlflow.start_run(
-            experiment_id=get_id(object_name, create=True)[1],
-            tags=get_tags(object_name)[1],
+            experiment_id=experiment_id,
+            tags=tags,
             run_name=run_name,
         )
         logger.info(f"⏺️  {object_name} | {run_name}")
     except:
-        crash_report(f"mlflow.start_run({object_name})")
+        crash_report(f"{NAME}.start_run({object_name})")
         return False
 
     return True
