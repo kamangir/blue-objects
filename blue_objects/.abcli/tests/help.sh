@@ -11,9 +11,10 @@ function test_blue_objects_help() {
         "abcli gif" \
         "abcli host" \
         "abcli metadata" \
+        \
         "abcli mlflow" \
-        "abcli mlflow cache" \
         "abcli mlflow browse" \
+        "abcli mlflow cache" \
         "abcli mlflow get_id" \
         "abcli mlflow get_run_id" \
         "abcli mlflow list_registered_models" \
@@ -26,12 +27,14 @@ function test_blue_objects_help() {
         "abcli mlflow tags get" \
         "abcli mlflow tags search" \
         "abcli mlflow tags set" \
+        "abcli mlflow test" \
         "abcli mlflow transition" \
-        "abcli mlflow validate" \
+        \
         "abcli mysql" \
         "abcli mysql_cache" \
         "abcli mysql_relations" \
         "abcli mysql_tags" \
+        \
         "abcli object" \
         "abcli publish" \
         "abcli select" \
