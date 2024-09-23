@@ -86,6 +86,7 @@ def get_run_id(
 
 def get_tags(
     object_name: str,
+    exclude_system_tags: bool = True,
 ) -> Tuple[bool, Dict[str, str]]:
     experiment_name = to_experiment_name(object_name)
 
@@ -96,7 +97,13 @@ def get_tags(
         if experiment is None:
             return True, {}
 
-        return True, copy.deepcopy(experiment.tags)
+        tags = {
+            keyword: value
+            for keyword, value in experiment.tags.items()
+            if not keyword.startswith("mlflow.") or not exclude_system_tags
+        }
+
+        return True, tags
     except:
         crash_report("mlflow.get_tags({})".format(object_name))
         return False, {}
