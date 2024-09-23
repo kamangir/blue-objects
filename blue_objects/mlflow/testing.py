@@ -3,7 +3,7 @@ import mlflow
 from blue_options import string
 from blue_options.logger import crash_report
 
-from blue_objects.mlflow.functions import get_id
+from blue_objects.mlflow.objects import get_id
 from blue_objects.logger import logger
 
 
