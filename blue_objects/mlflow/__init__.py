@@ -24,5 +24,5 @@ from blue_objects.mlflow.tags import (
     set_tags,
 )
 from blue_objects.mlflow.testing import (
-    validate,
+    test,
 )

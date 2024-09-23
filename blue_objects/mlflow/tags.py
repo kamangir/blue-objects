@@ -2,11 +2,15 @@ from typing import Tuple, Dict, List
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
 
+from blueness import module
 from blue_options.options import Options
 from blue_options.logger import crash_report
 
+from blue_objects import NAME
 from blue_objects.mlflow.objects import to_experiment_name, to_object_name
 from blue_objects.logger import logger
+
+NAME = module.name(__file__, NAME)
 
 
 def create_filter_string(tags: str) -> str:
@@ -39,7 +43,7 @@ def get_tags(
 
         return True, tags
     except:
-        crash_report("mlflow.get_tags({})".format(object_name))
+        crash_report(f"{NAME}.get_tags({object_name})")
         return False, {}
 
 
@@ -78,7 +82,7 @@ def set_tags(
             logger.info("{} {}.{}={}".format(icon, object_name, key, value))
 
     except:
-        crash_report(f"mlflow.set_tags({object_name})")
+        crash_report(f"{NAME}.set_tags({object_name})")
         return False
 
     return True

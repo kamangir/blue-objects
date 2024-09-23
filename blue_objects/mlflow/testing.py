@@ -1,13 +1,17 @@
 import mlflow
 
+from blueness import module
 from blue_options import string
 from blue_options.logger import crash_report
 
+from blue_objects import NAME, VERSION
 from blue_objects.mlflow.objects import get_id
 from blue_objects.logger import logger
 
+NAME = module.name(__file__, NAME)
 
-def validate() -> bool:
+
+def test() -> bool:
     object_name = string.pretty_date(
         as_filename=True,
         unique=True,
@@ -23,13 +27,13 @@ def validate() -> bool:
     try:
         mlflow.start_run(
             experiment_id=experiment_id,
-            tags={"purpose": "validation"},
+            tags={"purpose": "testing"},
         )
         mlflow.end_run()
 
-        logger.info("✅ mlflow-{}".format(mlflow.version.VERSION))
+        logger.info(f"✅ {NAME}-{VERSION}-{mlflow.version.VERSION}")
     except:
-        crash_report("mlflow.validate()")
+        crash_report(f"{NAME}.test()")
         return False
 
     return True

@@ -30,7 +30,7 @@ from blue_objects.mlflow.tags import (
     set_tags,
 )
 from blue_objects.mlflow.testing import (
-    validate,
+    test,
 )
 from blue_objects.logger import logger
 
@@ -42,7 +42,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags|create_filter_string|get_id|get_run_id|get_tags|list_registered_models|log_artifacts|log_run|rm|search|set_tags|start_end_run|transition|validate",
+    help="clone_tags|create_filter_string|get_id|get_run_id|get_tags|list_registered_models|log_artifacts|log_run|rm|search|set_tags|start_end_run|test|transition",
 )
 parser.add_argument(
     "--count",
@@ -272,8 +272,8 @@ elif args.task == "start_end_run":
     else:
         success = False
         logger.info(f"expected start|end,received {args.start_end}.")
-elif args.task == "validate":
-    success = validate()
+elif args.task == "test":
+    success = test()
 else:
     success = None
 
