@@ -7,17 +7,18 @@ from blueness import module
 
 from blue_objects import NAME
 from blue_objects.mlflow.functions import (
-    rm,
+    create_filter_string,
+    end_run,
     get_id,
     get_run_id,
     get_tags,
     list_registered_models,
     log_artifacts,
     log_run,
+    rm,
     search,
     set_tags,
     start_run,
-    end_run,
     transition,
 )
 from blue_objects.mlflow.testing import validate
@@ -31,7 +32,7 @@ parser.add_argument(
     "task",
     type=str,
     default="",
-    help="clone_tags|get_id|get_run_id|get_tags|list_registered_models|log_artifacts|log_run|rm|search|set_tags|start_end_run|transition|validate",
+    help="clone_tags|create_filter_string|get_id|get_run_id|get_tags|list_registered_models|log_artifacts|log_run|rm|search|set_tags|start_end_run|transition|validate",
 )
 parser.add_argument(
     "--count",
@@ -112,6 +113,12 @@ parser.add_argument(
     help="0|1",
 )
 parser.add_argument(
+    "--explicit_query",
+    type=int,
+    default=0,
+    help="0|1",
+)
+parser.add_argument(
     "--start_end",
     type=str,
     default="",
@@ -159,6 +166,9 @@ if args.task == "clone_tags":
     success, tags = get_tags(args.source_objects)
     if success:
         success = set_tags(args.destination_object, tags)
+elif args.task == "create_filter_string":
+    success = True
+    print(create_filter_string(args.tags))
 elif args.task == "rm":
     success = reduce(
         lambda x, y: x and y,
@@ -207,7 +217,19 @@ elif args.task == "log_run":
     )
 elif args.task == "search":
     success = True
-    list_of_objects = search("" if args.filter_string == "-" else args.filter_string)
+
+    filter_string = (
+        create_filter_string(args.tags)
+        if args.explicit_query == 0
+        else "" if args.filter_string == "-" else args.filter_string
+    )
+
+    list_of_objects = search(filter_string)
+
+    list_of_objects = list_of_objects[args.offset :]
+
+    if args.count != -1:
+        list_of_objects = list_of_objects[: args.count]
 
     if args.log:
         logger.info(

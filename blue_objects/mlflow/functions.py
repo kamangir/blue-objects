@@ -15,6 +15,15 @@ from blue_objects.mlflow.objects import to_experiment_name, to_object_name
 from blue_objects.logger import logger
 
 
+def create_filter_string(tags: str) -> str:
+    tags_options = Options(tags)
+
+    # https://www.mlflow.org/docs/latest/search-experiments.html
+    return " and ".join(
+        [f'tags."{keyword}" = "{value}"' for keyword, value in tags_options.items()]
+    )
+
+
 def rm(
     object_name: str,
     is_id: bool = False,
