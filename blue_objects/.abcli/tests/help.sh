@@ -5,24 +5,42 @@ function test_blue_objects_help() {
 
     local module
     for module in \
-        "abcli_cache" \
-        "abcli_clone" \
-        "abcli_download" \
-        "abcli_gif" \
-        "abcli_host" \
-        "abcli_metadata" \
-        "abcli_mlflow" \
-        "abcli_mysql" \
-        "abcli_mysql_cache" \
-        "abcli_mysql_relations" \
-        "abcli_mysql_tags" \
-        "abcli_object" \
-        "abcli_publish" \
-        "abcli_relations" \
-        "abcli_select" \
-        "abcli_storage" \
-        "abcli_tags" \
-        "abcli_upload" \
+        "abcli cache" \
+        "abcli clone" \
+        "abcli download" \
+        "abcli gif" \
+        "abcli host" \
+        "abcli metadata" \
+        \
+        "abcli mlflow" \
+        "abcli mlflow browse" \
+        "abcli mlflow cache" \
+        "abcli mlflow get_id" \
+        "abcli mlflow get_run_id" \
+        "abcli mlflow list_registered_models" \
+        "abcli mlflow log_artifacts" \
+        "abcli mlflow log_run" \
+        "abcli mlflow rm" \
+        "abcli mlflow run" \
+        "abcli mlflow tags" \
+        "abcli mlflow tags clone" \
+        "abcli mlflow tags get" \
+        "abcli mlflow tags search" \
+        "abcli mlflow tags set" \
+        "abcli mlflow test" \
+        "abcli mlflow transition" \
+        \
+        "abcli mysql" \
+        "abcli mysql_cache" \
+        "abcli mysql_relations" \
+        "abcli mysql_tags" \
+        \
+        "abcli object" \
+        "abcli publish" \
+        "abcli select" \
+        "abcli storage" \
+        "abcli tags" \
+        "abcli upload" \
         "blue_objects"; do
         abcli_eval ,$options \
             $module help

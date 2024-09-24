@@ -16,7 +16,7 @@ function abcli_mysql() {
         return
     fi
 
-    abcli_log_error "-@mysql: $task: command not found."
+    abcli_log_error "@mysql: $task: command not found."
     return 1
 }
 
