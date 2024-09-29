@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 import os
 
 from blueness import module
@@ -23,6 +23,7 @@ def build(
     cols: int = 3,
     ICON: str = "",
     MODULE_NAME: str = "",
+    macros: Dict[str, str] = {},
 ) -> bool:
     if path:
         if path.endswith(".md"):
@@ -111,6 +112,11 @@ def build(
             ]
 
             logger.info(f"{MY_NAME}.build: including {include_filename} ...")
+        else:
+            for macro, macro_value in macros.items():
+                if macro in template_line:
+                    content_section = macro_value
+                    break
 
         content += content_section
 
