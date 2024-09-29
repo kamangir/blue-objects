@@ -25,7 +25,7 @@ def build(
     MODULE_NAME: str = "",
 ) -> bool:
     if path:
-        if file.exists(path):
+        if path.endswith(".md"):
             filename = path
             template_filename = file.add_suffix(path, "template")
         else:
