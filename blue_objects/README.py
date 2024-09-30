@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Union, Callable
 import os
 
 from blueness import module
@@ -24,6 +24,7 @@ def build(
     ICON: str = "",
     MODULE_NAME: str = "",
     macros: Dict[str, str] = {},
+    help_function: Union[Callable[[List[str]], str], None] = None,
 ) -> bool:
     if path:
         if path.endswith(".md"):
@@ -112,6 +113,19 @@ def build(
             ]
 
             logger.info(f"{MY_NAME}.build: including {include_filename} ...")
+        elif "--help--" in template_line:
+            if help_function is not None:
+                help_command = template_line.split("--help--")[1].strip()
+
+                tokens = help_command.strip().split(" ")[1:]
+
+                help_content = help_function(tokens)
+                if not help_content:
+                    logger.warning(f"help not found: {help_command}: {tokens}")
+                    return False
+
+                logger.info(f"+= help: {help_command}")
+                content_section = [help_content]
         else:
             for macro, macro_value in macros.items():
                 if macro in template_line:
