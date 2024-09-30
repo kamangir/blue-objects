@@ -125,6 +125,7 @@ def build(
                     return False
 
                 logger.info(f"+= help: {help_command}")
+                print(help_content)
                 content_section = [help_content]
         else:
             for macro, macro_value in macros.items():
