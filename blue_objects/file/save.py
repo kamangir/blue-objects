@@ -6,6 +6,7 @@ import json
 import dill
 import pandas as pd
 import geopandas as gpd
+import rasterio
 
 from blueness import module
 from blue_options.logger import crash_report
@@ -117,6 +118,42 @@ def save_fig(
     return finish_saving(
         success,
         f"{NAME}.save_fig -> {filename}",
+        log,
+    )
+
+
+def save_geoimage(
+    filename: str,
+    image: np.ndarray,
+    template_filename: str,
+    log: bool = False,
+    dtype: str = rasterio.float32,
+):
+    if not prepare_for_saving(filename):
+        return False
+
+    success = True
+    try:
+        with rasterio.open(template_filename) as src:
+            profile = src.profile
+
+            profile.update(
+                dtype=dtype,
+                count=image.shape[2],
+                nodata=0,
+            )
+            with rasterio.open(filename, "w", **profile) as dst:
+                dst.write(image)
+    except:
+        success = False
+
+    return finish_saving(
+        success,
+        "{}.save_geoimage: {} -> {}".format(
+            NAME,
+            string.pretty_shape_of_matrix(image),
+            filename,
+        ),
         log,
     )
 

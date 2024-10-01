@@ -14,5 +14,6 @@ pyyaml
 pylint
 pytest
 python-dotenv[cli]
+rasterio
 tqdm
 urllib3
