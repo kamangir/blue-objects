@@ -13,7 +13,7 @@ NAME = module.name(__file__, NAME)
 def test_object():
     object_name = VANWATCH_TEST_OBJECT
 
-    assert objects.download(object_name)
+    assert objects.download(object_name=object_name)
 
     yield object_name
 
@@ -22,6 +22,20 @@ def test_object():
 
 def test_objects_download(test_object):
     assert test_object
+
+
+@pytest.mark.parametrize(
+    ["object_name", "filename"],
+    [[VANWATCH_TEST_OBJECT, "vancouver.geojson"]],
+)
+def test_objects_download_filename(
+    object_name: str,
+    filename: str,
+):
+    assert objects.download(
+        object_name=object_name,
+        filename=filename,
+    )
 
 
 @pytest.mark.parametrize(
