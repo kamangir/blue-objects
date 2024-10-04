@@ -12,13 +12,14 @@ function abcli_clone() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        options="cp,~download,~tags,upload"
+        options="cp,~download,~relate,~tags,upload"
         abcli_show_usage "@cp$EOP|@copy|@clone$ABCUL[$options]$ABCUL[..|<object-1>]$ABCUL[.|<object-2>]$EOPE" \
             "copy <object-1> -> <object-2>."
         return
     fi
 
     local clone_tags=$(abcli_option_int "$options" tags 1)
+    local do_relate=$(abcli_option_int "$options" relate 1)
     local do_download=$(abcli_option_int "$options" download 1)
     local do_upload=$(abcli_option_int "$options" upload 0)
     local transfer_mechanism=$(abcli_option_choice "$options" cp,mv mv)
@@ -39,15 +40,15 @@ function abcli_clone() {
         $object_1_path/ \
         $object_2_path
 
-    if [ "$clone_tags" == 1 ]; then
+    [[ "$clone_tags" == 1 ]] &&
         abcli_tags clone \
             $object_1_name \
             $object_2_name
 
+    [[ "$do_relate" == 1 ]] &&
         abcli_tags set \
             $object_2_name \
             cloned.$object_1_name
-    fi
 
     pushd $object_2_path >/dev/null
     local filename
