@@ -2,6 +2,7 @@ import math
 from typing import List
 import numpy as np
 from functools import reduce
+import textwrap
 
 from blueness import module
 
@@ -21,41 +22,23 @@ def add_signature(
     if image is None or not image.shape:
         return image
 
-    word_wrapper = lambda content: [
-        line
-        for line in reduce(
-            lambda x, y: x + y,
-            [
-                (
-                    [
-                        " ".join(part)
-                        for part in np.array_split(
-                            line.split(" "),
-                            int(math.ceil(len(line) / line_width)),
-                        )
-                    ]
-                    if len(line) > 2 * line_width
-                    else [line]
-                )
-                for line in content
-            ],
-            [],
-        )
-        if line
-    ]
-
     if word_wrap:
-        header = word_wrapper(header)
-        footer = word_wrapper(footer)
+        justify_text = lambda text: reduce(
+            lambda x, y: x + y,
+            [textwrap.wrap(line, width=line_width) for line in text],
+        )
 
-    adjust_length = lambda line: (
+        header = justify_text(header)
+        footer = justify_text(footer)
+
+    justify_line = lambda line: (
         line if len(line) >= line_width else line + (line_width - len(line)) * " "
     )
 
     return np.concatenate(
         [
             render_text(
-                text=adjust_length(line),
+                text=justify_line(line),
                 image_width=image.shape[1],
                 color_depth=image.shape[2],
             )
@@ -64,7 +47,7 @@ def add_signature(
         + [image]
         + [
             render_text(
-                text=adjust_length(line),
+                text=justify_line(line),
                 image_width=image.shape[1],
                 color_depth=image.shape[2],
             )
