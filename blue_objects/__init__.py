@@ -4,10 +4,14 @@ ICON = "🌀"
 
 DESCRIPTION = f"{ICON} data objects for Bash."
 
-VERSION = "5.123.1"
+VERSION = "5.124.1"
 
 REPO_NAME = "blue-objects"
 
 MARQUEE = (
     "https://github.com/kamangir/assets/raw/main/blue-objects/marquee.png?raw=true"
 )
+
+
+def fullname() -> str:
+    return f"{NAME}-{VERSION}"
