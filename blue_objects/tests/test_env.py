@@ -22,4 +22,4 @@ def test_blue_objects_env():
     assert env.DATABRICKS_HOST
     assert env.DATABRICKS_TOKEN
 
-    assert env.ABCLI_MLFLOW_USERNAME
+    assert env.ABCLI_MLFLOW_EXPERIMENT_PREFIX

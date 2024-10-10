@@ -6,7 +6,7 @@ from blueness import module
 from blue_options.logger import crash_report
 
 from blue_objects import NAME
-from blue_objects.env import ABCLI_MLFLOW_USERNAME
+from blue_objects.env import ABCLI_MLFLOW_EXPERIMENT_PREFIX
 from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -69,8 +69,8 @@ def rm(
 
 
 def to_experiment_name(object_name: str) -> str:
-    return f"/Users/{ABCLI_MLFLOW_USERNAME}/{object_name}"
+    return f"{ABCLI_MLFLOW_EXPERIMENT_PREFIX}{object_name}"
 
 
 def to_object_name(experiment_name: str) -> str:
-    return experiment_name.split("/")[-1]
+    return experiment_name.split(ABCLI_MLFLOW_EXPERIMENT_PREFIX)[-1]
