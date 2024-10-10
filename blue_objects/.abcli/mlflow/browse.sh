@@ -19,7 +19,7 @@ function abcli_mlflow_browse() {
     elif [ $(abcli_option_int "$options" host 0) == 1 ]; then
         : # do nothing
     elif [ $(abcli_option_int "$options" models 0) == 1 ]; then
-        url="$url/#/models"
+        url="$url/ml/models"
     else
         local object_name=$(abcli_clarify_object $2 .)
 
