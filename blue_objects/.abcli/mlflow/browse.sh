@@ -12,14 +12,14 @@ function abcli_mlflow_browse() {
 
     local browse_experiment=$(abcli_option_int "$options" experiment 0)
 
-    local url=$DATABRICKS_HOST
+    local url=$DATABRICKS_HOST/$ABCLI_MLFLOW_URL_SUBDOMAIN
 
     if [ $(abcli_option_int "$options" databricks 0) == 1 ]; then
         url="https://accounts.cloud.databricks.com/"
     elif [ $(abcli_option_int "$options" host 0) == 1 ]; then
         : # do nothing
     elif [ $(abcli_option_int "$options" models 0) == 1 ]; then
-        url="$url/ml/models"
+        url="$url/models"
     else
         local object_name=$(abcli_clarify_object $2 .)
 
@@ -30,7 +30,7 @@ function abcli_mlflow_browse() {
         fi
         abcli_log "experiment id: $experiment_id"
 
-        url="$url/ml/experiments/$experiment_id"
+        url="$url/experiments/$experiment_id"
 
         if [[ "$browse_experiment" == 0 ]]; then
             local last_run_id=$(abcli_mlflow get_run_id $object_name --count 1)
