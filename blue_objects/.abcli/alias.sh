@@ -18,6 +18,10 @@ alias @mlflow=abcli_mlflow
 
 alias @mysql=abcli_mysql
 
+alias @object=abcli_object
+
+alias @objects=blue_objects
+
 alias @publish=abcli_publish
 
 alias @select=abcli_select
