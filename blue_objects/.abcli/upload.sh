@@ -36,7 +36,8 @@ function abcli_upload() {
     rm -rf $object_path/auxiliary
 
     if [ ! -z "$filename" ]; then
-        abcli_log "$object_name/$filename upload started - $(abcli_file size $filename)"
+        local file_size=$(blue_objects_file size $filename)
+        abcli_log "$object_name/$filename upload started - $file_size ..."
 
         aws s3 cp \
             $object_path/$filename \
@@ -62,7 +63,8 @@ function abcli_upload() {
             $object_name.tar.gz \
             ./$object_name
 
-        abcli_log "$object_name solid upload started - $(abcli_file size $object_path.tar.gz)"
+        local object_size=$(blue_objects_file size $object_path.tar.gz)
+        abcli_log "$object_name solid upload started - $object_size ..."
 
         aws s3 cp \
             $object_name.tar.gz \

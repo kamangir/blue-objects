@@ -38,7 +38,8 @@ function abcli_download() {
 
             aws s3 cp "$ABCLI_S3_OBJECT_PREFIX/$object_name.tar.gz" .
 
-            abcli_log "$object_name download completed - $(abcli_file size $object_name.tar.gz)"
+            local object_size=$(blue_objects_file size $object_name.tar.gz)
+            abcli_log "$object_name download completed - $object_size ..."
 
             tar -xvf "$object_name.tar.gz"
 

@@ -12,7 +12,7 @@ alias @clone=abcli_clone
 alias @copy=abcli_copy
 alias @cp=abcli_cp
 
-alias @file=abcli_file
+alias @file=blue_objects_file
 
 alias @host=abcli_host
 
