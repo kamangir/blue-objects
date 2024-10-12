@@ -22,11 +22,9 @@ function abcli_upload() {
 
     # https://stackoverflow.com/a/45200066
     local exists=$(aws s3 ls $ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX/$object_name.tar.gz)
-    if [ -z "$exists" ]; then
-        abcli_log_local "confirmed: $object_name does not exist."
-    else
+    if [ ! -z "$exists" ]; then
         if [[ "$warn_if_exists" == 1 ]]; then
-            abcli_log_warning "-abcli: upload: $object_name.tar.gz already exists on the cloud, use \"abcli object open\" to open the object."
+            abcli_log_warning "@abcli: upload: $object_name.tar.gz already exists on the cloud, use \"abcli object open\" to open the object."
         else
             abcli_log "✅ ☁️  $object_name.tar.gz."
         fi
@@ -37,7 +35,7 @@ function abcli_upload() {
 
     if [ ! -z "$filename" ]; then
         local file_size=$(blue_objects_file size $filename)
-        abcli_log "$object_name/$filename upload started - $file_size ..."
+        abcli_log "uploading $object_name/$filename ($file_size) ..."
 
         aws s3 cp \
             $object_path/$filename \
@@ -47,7 +45,7 @@ function abcli_upload() {
     fi
 
     if [ "$do_open" == 1 ]; then
-        abcli_log "$object_name open upload started."
+        abcli_log "uploading $object_name ..."
 
         aws s3 sync \
             $object_path/ \
@@ -64,7 +62,7 @@ function abcli_upload() {
             ./$object_name
 
         local object_size=$(blue_objects_file size $object_path.tar.gz)
-        abcli_log "$object_name solid upload started - $object_size ..."
+        abcli_log "uploading $object_name.tar.gz ($object_size) ..."
 
         aws s3 cp \
             $object_name.tar.gz \

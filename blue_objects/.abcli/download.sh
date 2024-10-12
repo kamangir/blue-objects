@@ -28,18 +28,18 @@ function abcli_download() {
     else
         local exists=$(aws s3 ls $ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX/$object_name.tar.gz)
         if [ -z "$exists" ]; then
-            abcli_log "downloading $object_name: open ..."
+            abcli_log "downloading $object_name ..."
 
             aws s3 sync "$ABCLI_S3_OBJECT_PREFIX/$object_name" "$object_path"
         else
-            abcli_log "downloading $object_name: solid ..."
+            abcli_log "downloading $object_name.tar.gz ..."
 
             pushd $ABCLI_OBJECT_ROOT >/dev/null
 
             aws s3 cp "$ABCLI_S3_OBJECT_PREFIX/$object_name.tar.gz" .
 
             local object_size=$(blue_objects_file size $object_name.tar.gz)
-            abcli_log "$object_name download completed - $object_size ..."
+            abcli_log "$object_name.tar.gz ($object_size) downloaded."
 
             tar -xvf "$object_name.tar.gz"
 
@@ -47,8 +47,6 @@ function abcli_download() {
         fi
 
     fi
-
-    abcli_log "@download completed: $object_name $filename"
 
     local do_open=$(abcli_option_int "$open_options" open 0)
     [[ "$do_open" == 1 ]] &&
