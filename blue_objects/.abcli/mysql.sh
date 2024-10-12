@@ -20,4 +20,4 @@ function abcli_mysql() {
     return 1
 }
 
-abcli_source_path - caller,suffix=/mysql
+abcli_source_caller_suffix_path /mysql

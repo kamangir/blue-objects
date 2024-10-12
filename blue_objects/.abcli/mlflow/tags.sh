@@ -21,4 +21,4 @@ function abcli_mlflow_tags() {
     return 1
 }
 
-abcli_source_path - caller,suffix=/tags
+abcli_source_caller_suffix_path /tags

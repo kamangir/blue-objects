@@ -19,4 +19,4 @@ function abcli_metadata() {
     return 1
 }
 
-abcli_source_path - caller,suffix=/metadata
+abcli_source_caller_suffix_path /metadata
