@@ -18,9 +18,15 @@ ABCLI_AWS_S3_BUCKET_NAME = os.getenv(
     "kamangir",
 )
 
+
 ABCLI_AWS_S3_PREFIX = os.getenv(
     "ABCLI_AWS_S3_PREFIX",
     "bolt",
+)
+
+ABCLI_AWS_S3_PUBLIC_BUCKET_NAME = os.getenv(
+    "ABCLI_AWS_S3_PUBLIC_BUCKET_NAME",
+    "",
 )
 
 
