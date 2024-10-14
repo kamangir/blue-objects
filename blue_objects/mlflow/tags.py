@@ -1,4 +1,4 @@
-from typing import Tuple, Dict, List
+from typing import Tuple, Dict, List, Union
 from mlflow.tracking import MlflowClient
 from mlflow.entities import ViewType
 
@@ -62,7 +62,7 @@ def search(filter_string: str) -> List[str]:
 
 def set_tags(
     object_name: str,
-    tags: Dict[str, str],
+    tags: Union[str, Dict[str, str]],
     icon="#️⃣ ",
 ) -> bool:
     experiment_name = to_experiment_name(object_name)
