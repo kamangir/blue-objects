@@ -60,6 +60,7 @@ def build(
                 f"[![pytest](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/{REPO_NAME}/actions/workflows/pytest.yml)",
                 f"[![bashtest](https://github.com/kamangir/{REPO_NAME}/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/{REPO_NAME}/actions/workflows/bashtest.yml)",
                 f"[![PyPI version](https://img.shields.io/pypi/v/{MODULE_NAME}.svg)](https://pypi.org/project/{MODULE_NAME}/)",
+                f"![PyPI - Downloads](https://img.shields.io/pypi/dd/{MODULE_NAME})",
             ]
         ),
         "",
