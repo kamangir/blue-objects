@@ -11,6 +11,7 @@ setup(
         NAME,
         f"{NAME}.file",
         f"{NAME}.graphics",
+        f"{NAME}.help",
         f"{NAME}.host",
         f"{NAME}.metadata",
         f"{NAME}.mlflow",

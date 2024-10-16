@@ -41,7 +41,8 @@ function test_blue_objects_help() {
         "abcli storage" \
         "abcli tags" \
         "abcli upload" \
-        "blue_objects"; do
+        "blue_objects" \
+        "blue_objects pytest"; do
         abcli_eval ,$options \
             $module help
         [[ $? -ne 0 ]] && return 1
