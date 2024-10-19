@@ -23,5 +23,7 @@ function test_blue_objects_mlflow_tags_validation() {
 function test_blue_objects_mlflow_tags_search() {
     local options=$1
 
-    abcli_mlflow_tags search "$@"
+    abcli_mlflow_tags search \
+        cloned.firms_area-template-v1=True \
+        --log 0
 }
