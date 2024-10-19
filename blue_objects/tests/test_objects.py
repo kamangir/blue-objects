@@ -119,6 +119,8 @@ def test_objects_unique_object(prefix: str):
 def test_objects_upload(
     filename: str,
 ):
+    assert objects.download(object_name=VANWATCH_TEST_OBJECT)
+
     object_name = objects.unique_object("test_objects_upload_filename")
 
     source_filename = objects.path_of(
@@ -148,6 +150,8 @@ def test_objects_upload(
 def test_objects_upload_filename(
     filename: str,
 ):
+    assert objects.download(object_name=VANWATCH_TEST_OBJECT)
+
     object_name = objects.unique_object("test_objects_upload_filename")
 
     source_filename = objects.path_of(

@@ -106,10 +106,9 @@ def copy(
             logger.info(f"✅ {destination}")
         return True
 
-    if not os.makedirs(path(destination), exist_ok=True):
-        return False
-
     try:
+        os.makedirs(path(destination), exist_ok=True)
+
         # https://stackoverflow.com/a/8858026
         # better choice: copy2
         shutil.copyfile(source, destination)
@@ -235,10 +234,9 @@ def move(
     source: str,
     destination: str,
 ) -> bool:
-    if not os.makedirs(path(destination), exist_ok=True):
-        return False
-
     try:
+        os.makedirs(path(destination), exist_ok=True)
+
         # https://stackoverflow.com/a/8858026
         shutil.move(source, destination)
     except:
