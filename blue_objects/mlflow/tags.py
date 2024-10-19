@@ -63,6 +63,7 @@ def search(filter_string: str) -> List[str]:
 def set_tags(
     object_name: str,
     tags: Union[str, Dict[str, str]],
+    log: bool = True,
     icon="#️⃣ ",
 ) -> bool:
     experiment_name = to_experiment_name(object_name)
@@ -79,7 +80,8 @@ def set_tags(
 
         for key, value in tags.items():
             client.set_experiment_tag(experiment.experiment_id, key, value)
-            logger.info("{} {}.{}={}".format(icon, object_name, key, value))
+            if log:
+                logger.info("{} {}.{}={}".format(icon, object_name, key, value))
 
     except:
         crash_report(f"{NAME}.set_tags({object_name})")
