@@ -21,7 +21,7 @@ def test_mlflow():
 
 
 @pytest.mark.parametrize(
-    ["tags"],
+    ["tags_str"],
     [["x=y,~z,t"]],
 )
 def test_mlflow_tag_set_get(tags_str: str):
