@@ -7,6 +7,7 @@ from blueness import module
 
 from blue_objects import NAME, file
 from blue_objects.logger import logger
+from blue_objects import objects
 
 NAME = module.name(__file__, NAME)
 
@@ -60,14 +61,28 @@ def post_to_object(
     object_name: str,
     key: str,
     value: Any,
+    download: bool = False,
+    upload: bool = False,
     **kwargs,
 ) -> bool:
-    return post(
+    if download and not objects.download(
+        object_name=object_name,
+        filename="metadata.yaml",
+    ):
+        return False
+
+    if not post(
         key=key,
         value=value,
         source=object_name,
         source_type=MetadataSourceType.OBJECT,
         **kwargs,
+    ):
+        return False
+
+    return not upload or objects.upload(
+        object_name=object_name,
+        filename="metadata.yaml",
     )
 
 

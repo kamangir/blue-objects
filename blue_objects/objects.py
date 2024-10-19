@@ -117,3 +117,34 @@ def unique_object(prefix=""):
     logger.info(f"📂 {object_name}")
 
     return object_name
+
+
+def upload(
+    object_name: str,
+    filename: str = "",
+) -> bool:
+    if not ABCLI_S3_OBJECT_PREFIX:
+        logger.error("ABCLI_S3_OBJECT_PREFIX is not set.")
+        return False
+
+    if not object_name:
+        logger.error("object_name not found.")
+        return False
+
+    return (
+        shell(
+            "aws s3 cp {} {}/{}/".format(
+                path_of(filename=filename, object_name=object_name),
+                ABCLI_S3_OBJECT_PREFIX,
+                object_name,
+            )
+        )
+        if filename
+        else shell(
+            "aws s3 sync {} {}/{}/".format(
+                object_path(object_name, create=True),
+                ABCLI_S3_OBJECT_PREFIX,
+                object_name,
+            )
+        )
+    )

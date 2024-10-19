@@ -183,6 +183,7 @@ def test_metadata_upload():
         object_name,
         key,
         value,
+        download=True,
         upload=True,
     )
 
