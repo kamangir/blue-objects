@@ -2,6 +2,7 @@ from typing import Any
 
 
 from blue_objects import file
+from blue_objects import objects
 from blue_objects.metadata.enums import MetadataSourceType
 
 
@@ -55,8 +56,15 @@ def get_from_object(
     object_name: str,
     key,
     default="",
+    download: bool = False,
     **kwargs,
 ) -> Any:
+    if download and not objects.download(
+        object_name=object_name,
+        filename="metadata.yaml",
+    ):
+        return default
+
     return get(
         key=key,
         default=default,
