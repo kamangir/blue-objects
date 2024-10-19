@@ -19,6 +19,8 @@ alias @host=abcli_host
 alias @list=abcli_list
 alias @ls=abcli_list
 
+alias @metadata=abcli_metadata
+
 alias @mlflow=abcli_mlflow
 
 alias @mysql=abcli_mysql
