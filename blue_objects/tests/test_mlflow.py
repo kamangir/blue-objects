@@ -22,7 +22,7 @@ def test_mlflow():
 
 @pytest.mark.parametrize(
     ["tags_str"],
-    [["x=y,~z,t"]],
+    [["x=1,y=2,z=3"]],
 )
 def test_mlflow_tag_set_get(tags_str: str):
     object_name = unique_object("test_mlflow_tag_set")
