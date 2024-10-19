@@ -3,6 +3,7 @@ from typing import Callable
 
 from blue_options.string import random
 
+from blue_objects import file
 from blue_objects.objects import unique_object, object_path, path_of
 from blue_objects.metadata import (
     get,
@@ -171,3 +172,32 @@ def test_metadata_path():
     assert post_to_path(path, key, value)
 
     assert get_from_path(path, key) == value
+
+
+def test_metadata_upload():
+    object_name = unique_object()
+    key = random()
+    value = random()
+
+    assert post_to_object(
+        object_name,
+        key,
+        value,
+        upload=True,
+    )
+
+    assert file.delete(
+        path_of(
+            filename="metadata.yaml",
+            object_name=object_name,
+        )
+    )
+
+    assert (
+        get_from_object(
+            object_name,
+            key,
+            download=True,
+        )
+        == value
+    )
