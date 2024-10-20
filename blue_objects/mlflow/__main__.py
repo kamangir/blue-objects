@@ -240,7 +240,7 @@ elif args.task == "search":
             ),
         )
         for index, object_name in enumerate(list_of_objects):
-            logger.info(f"#{index: 4d} - {object_name}")
+            logger.info(f"#{index+1: 4d} - {object_name}")
     else:
         print(delim.join(list_of_objects))
 elif args.task == "set_tags":
