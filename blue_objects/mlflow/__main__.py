@@ -234,7 +234,7 @@ elif args.task == "search":
 
     if args.log:
         logger.info(
-            "{:,} {}:".format(
+            "{:,} {}.".format(
                 len(list_of_objects),
                 args.item_name_plural,
             ),
