@@ -1,11 +1,12 @@
 #! /usr/bin/env bash
 
+export ABCLI_MLFLOW_TAGS_SEARCH_ARGS="[--count <-1>]$ABCUL[--delim <space>]$ABCUL[--log <0>]$ABCUL[--offset <0>]"
+
 function abcli_mlflow_tags_search() {
     local options=$1
 
     if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local args="[--count <-1>]$ABCUL[--delim <space>]$ABCUL[--log <0>]$ABCUL[--offset <0>]"
-
+        local args=$ABCLI_MLFLOW_TAGS_SEARCH_ARGS
         options="explicit"
         abcli_show_usage "@mlflow tags search$ABCUL[$options]$ABCUL$args$ABCUL[--filter_string <filter-string>]" \
             "search mlflow for <filter-string>${ABCUL2}https://www.mlflow.org/docs/latest/search-experiments.html."
