@@ -1,5 +1,4 @@
-import math
-from typing import List
+from typing import List, Union
 import numpy as np
 from functools import reduce
 import textwrap
@@ -10,6 +9,22 @@ from blue_objects import NAME
 from blue_objects.graphics.text import render_text
 
 NAME = module.name(__file__, NAME)
+
+
+def justify_text(
+    text: Union[List[str], str],
+    line_width: int = 80,
+    return_str: bool = False,
+) -> Union[List[str], str]:
+    output = reduce(
+        lambda x, y: x + y,
+        [
+            textwrap.wrap(line, width=line_width)
+            for line in (text if isinstance(text, list) else [text])
+        ],
+    )
+
+    return "\n".join(output) if return_str else output
 
 
 def add_signature(
@@ -23,13 +38,8 @@ def add_signature(
         return image
 
     if word_wrap:
-        justify_text = lambda text: reduce(
-            lambda x, y: x + y,
-            [textwrap.wrap(line, width=line_width) for line in text],
-        )
-
-        header = justify_text(header)
-        footer = justify_text(footer)
+        header = justify_text(header, line_width=line_width)
+        footer = justify_text(footer, line_width=line_width)
 
     justify_line = lambda line: (
         line if len(line) >= line_width else line + (line_width - len(line)) * " "
