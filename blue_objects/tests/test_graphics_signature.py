@@ -72,9 +72,9 @@ def test_justify_text(
     )
 
     if return_str:
-        assert isinstance(justify_text, str)
+        assert isinstance(justified_text, str)
     else:
-        assert isinstance(justify_text, list)
+        assert isinstance(justified_text, list)
 
         for line in justified_text:
             assert len(line) <= line_width, f'len("{line}") > {line_width}'
