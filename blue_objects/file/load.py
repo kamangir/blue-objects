@@ -113,6 +113,8 @@ def load_geoimage(
 ) -> Tuple[bool, np.ndarray, Dict[str, Any]]:
     success = False
     image = np.empty((0,))
+    pixel_size = -1.0
+    crs = "unknown"
 
     try:
         with rasterio.open(filename) as src:
