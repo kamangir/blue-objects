@@ -26,4 +26,3 @@ def test_blue_objects_env():
 
     assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_OBJECT
     assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_FILENAME
-)
