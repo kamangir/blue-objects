@@ -1,23 +1,11 @@
 #! /usr/bin/env bash
 
-function abcli_copy() {
-    abcli_clone "$@"
-}
-
 function abcli_cp() {
     abcli_clone "$@"
 }
 
 function abcli_clone() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        options="cp,~download,~relate,~tags,upload"
-        abcli_show_usage "@cp$EOP|@copy|@clone$ABCUL[$options]$ABCUL[..|<object-1>]$ABCUL[.|<object-2>]$EOPE" \
-            "copy <object-1> -> <object-2>."
-        return
-    fi
-
     local clone_tags=$(abcli_option_int "$options" tags 1)
     local do_relate=$(abcli_option_int "$options" relate 1)
     local do_download=$(abcli_option_int "$options" download 1)

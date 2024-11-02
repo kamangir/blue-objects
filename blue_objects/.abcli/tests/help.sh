@@ -6,10 +6,15 @@ function test_blue_objects_help() {
     local module
     for module in \
         "abcli cache" \
-        "abcli clone" \
-        "abcli download" \
+        \
+        "@cp" \
+        \
+        "@download" \
+        \
         "abcli gif" \
+        \
         "abcli host" \
+        \
         "abcli metadata" \
         \
         "abcli mlflow" \
@@ -44,8 +49,10 @@ function test_blue_objects_help() {
         "blue_objects" \
         "blue_objects pytest"; do
         abcli_eval ,$options \
-            $module help
+            abcli_help $module
         [[ $? -ne 0 ]] && return 1
+
+        abcli_hr
     done
 
     return 0

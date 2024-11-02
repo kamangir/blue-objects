@@ -9,7 +9,6 @@ alias @ref="abcli_cache read"
 alias @tags=abcli_tags
 
 alias @clone=abcli_clone
-alias @copy=abcli_copy
 alias @cp=abcli_cp
 
 alias @file=blue_objects_file

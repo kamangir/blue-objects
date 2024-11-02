@@ -2,20 +2,12 @@
 
 function abcli_download() {
     local options=$1
-    local open_options=$3
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        options="filename=<filename>"
-        open_options="open,QGIS"
-        abcli_show_usage "@download$ABCUL[$options]$ABCUL[.|<object-name>]$ABCUL[$open_options]" \
-            "download object."
-        return
-    fi
-
     local filename=$(abcli_option "$options" filename)
 
     local object_name=$(abcli_clarify_object $2 .)
     local object_path=$ABCLI_OBJECT_ROOT/$object_name
+
+    local open_options=$3
 
     if [ -f "../$object_name.tar.gz" ]; then
         abcli_log "✅ $object_name.tar.gz already exists - skipping download."
@@ -54,5 +46,4 @@ function abcli_download() {
             $object_name
 
     return 0
-
 }
