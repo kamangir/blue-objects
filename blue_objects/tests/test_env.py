@@ -23,3 +23,7 @@ def test_blue_objects_env():
     assert env.DATABRICKS_TOKEN
 
     assert env.ABCLI_MLFLOW_EXPERIMENT_PREFIX
+
+    assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_OBJECT
+    assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_FILENAME
+)
