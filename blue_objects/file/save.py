@@ -260,7 +260,7 @@ def save_matrix(
     success = True
     try:
         np.save(filename, matrix)
-    except Exception as e:
+    except:
         success = False
 
     return finish_saving(
