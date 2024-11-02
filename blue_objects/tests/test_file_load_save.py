@@ -1,5 +1,6 @@
 import pytest
-from typing import Callable, Union
+from typing import Callable, Union, Tuple
+import numpy as np
 
 from blue_options import string
 
@@ -9,12 +10,14 @@ from blue_objects.file.load import (
     load_geojson,
     load_image,
     load_json,
+    load_matrix,
     load_text,
 )
 from blue_objects.file.save import (
     save_geojson,
     save_image,
     save_json,
+    save_matrix,
     save_text,
 )
 from blue_objects.tests.test_objects import test_object
@@ -79,3 +82,37 @@ def test_file_load_save(
             ),
             thing,
         )
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    ["size", "dtype"],
+    [
+        [(10, 3), np.uint8],
+        [(10, 3), np.float16],
+        [(10, 20, 30), np.uint8],
+        [(10, 30, 20), np.uint8],
+        [(10, 30, 20), np.float32],
+        [(10, 10, 10, 5), np.uint8],
+    ],
+)
+def test_file_load_save_matrix(
+    size: Tuple[int, ...],
+    dtype: Union[np.dtype, type],
+) -> None:
+    object_name = objects.unique_object(test_file_load_save_matrix)
+
+    test_matrix = (
+        np.random.randint(0, 256, size=size, dtype=dtype)
+        if dtype == np.uint8
+        else np.array(np.random.random(size), dtype=dtype)
+    )
+
+    filename = objects.path_of("test.npy", object_name)
+
+    assert save_matrix(filename, test_matrix)
+
+    success, matrix_read = load_matrix(filename)
+    assert success
+    assert (matrix_read == test_matrix).all()
+    assert matrix_read.dtype == dtype

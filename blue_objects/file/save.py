@@ -249,6 +249,31 @@ def save_json(
     )
 
 
+def save_matrix(
+    filename: str,
+    matrix: np.ndarray,
+    log: bool = True,
+) -> bool:
+    if not prepare_for_saving(filename):
+        return False
+
+    success = True
+    try:
+        np.save(filename, matrix)
+    except Exception as e:
+        success = False
+
+    return finish_saving(
+        success,
+        "{}.save_matrix({}) -> {}".format(
+            NAME,
+            string.pretty_shape_of_matrix(matrix),
+            filename,
+        ),
+        log,
+    )
+
+
 def save_text(
     filename: str,
     text: List[str],

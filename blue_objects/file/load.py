@@ -200,6 +200,32 @@ def load_json(
     return success, data
 
 
+def load_matrix(
+    filename: str,
+    ignore_error=False,
+    log: bool = False,
+) -> Tuple[bool, np.ndarray]:
+    success = True
+    matrix: np.ndarray = np.empty((0,))
+
+    try:
+        matrix = np.load(filename)
+    except:
+        if not ignore_error:
+            crash_report(f"{NAME}: load_matrix({filename}) failed.")
+        success = False
+
+    if success and log:
+        logger.info(
+            "loaded {} from {}".format(
+                string.pretty_shape_of_matrix(matrix),
+                filename,
+            )
+        )
+
+    return success, matrix
+
+
 def load_text(
     filename,
     ignore_error=False,
