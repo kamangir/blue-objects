@@ -14,7 +14,7 @@ function test_blue_objects_help() {
         \
         "@download" \
         \
-        "abcli gif" \
+        "@gif" \
         \
         "abcli host" \
         \
