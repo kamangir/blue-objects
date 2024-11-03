@@ -1,15 +1,7 @@
 #! /usr/bin/env bash
 
 function abcli_mlflow_run() {
-    local object_name=$1
-
-    if [[ "$object_name" == "help" ]]; then
-        abcli_show_usage "@mlflow run start|end$ABCUL[.|<object-name>]" \
-            "start|end mlflow run."
-        return
-    fi
-
-    object_name=$(abcli_clarify_object $object_name .)
+    local object_name=$(abcli_clarify_object $1 .)
 
     python3 -m blue_objects.mlflow \
         start_end_run \

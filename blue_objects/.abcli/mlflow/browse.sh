@@ -2,14 +2,6 @@
 
 function abcli_mlflow_browse() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        options="databricks,experiment,host,models"
-        abcli_show_usage "@mlflow browse$ABCUL[$options]$ABCUL[.|<object-name>]" \
-            "browse mlflow."
-        return
-    fi
-
     local browse_experiment=$(abcli_option_int "$options" experiment 0)
 
     local url=$DATABRICKS_HOST/$ABCLI_MLFLOW_URL_SUBDOMAIN

@@ -20,23 +20,23 @@ function test_blue_objects_help() {
         \
         "abcli metadata" \
         \
-        "abcli mlflow" \
-        "abcli mlflow browse" \
-        "abcli mlflow cache" \
-        "abcli mlflow get_id" \
-        "abcli mlflow get_run_id" \
-        "abcli mlflow list_registered_models" \
-        "abcli mlflow log_artifacts" \
-        "abcli mlflow log_run" \
-        "abcli mlflow rm" \
-        "abcli mlflow run" \
-        "abcli mlflow tags" \
-        "abcli mlflow tags clone" \
-        "abcli mlflow tags get" \
-        "abcli mlflow tags search" \
-        "abcli mlflow tags set" \
-        "abcli mlflow test" \
-        "abcli mlflow transition" \
+        "@mlflow" \
+        "@mlflow browse" \
+        "@mlflow cache" \
+        "@mlflow get_id" \
+        "@mlflow get_run_id" \
+        "@mlflow list_registered_models" \
+        "@mlflow log_artifacts" \
+        "@mlflow log_run" \
+        "@mlflow rm" \
+        "@mlflow run" \
+        "@mlflow tags" \
+        "@mlflow tags clone" \
+        "@mlflow tags get" \
+        "@mlflow tags search" \
+        "@mlflow tags set" \
+        "@mlflow test" \
+        "@mlflow transition" \
         \
         "abcli mysql" \
         "abcli mysql_cache" \
