@@ -2,20 +2,6 @@
 
 function abcli_metadata_get() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local options="${EOP}delim=+,dict.keys,dict.values,${EOPE}key=<key>"
-        abcli_show_usage "@metadata get$ABCUL$options,filename$ABCUL<filename.yaml>" \
-            "get <filename.yaml>[<key>]"
-
-        abcli_show_usage "@metadata get$ABCUL$options$EOP,filename=<metadata.yaml>,object$ABCUL.|<object-name>$EOPE" \
-            "get <object-name>/metadata[<key>]"
-
-        abcli_show_usage "@metadata get$ABCUL$options$EOP,filename=<metadata.yaml>,${EOPE}path$ABCUL<path>" \
-            "get <path>/metadata[<key>]"
-        return
-    fi
-
     local source_type=$(abcli_option_choice "$options" object,path,filename object)
 
     local source=$2
