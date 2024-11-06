@@ -2,14 +2,6 @@
 
 function abcli_upload() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        options="filename=<filename>$(xtra mlflow,no_mlflow,~open,)solid$(xtra ,~warn_if_exists)"
-        abcli_show_usage "@upload$ABCUL[$options]$ABCUL[.|<object-name>]" \
-            "upload <object-name>."
-        return
-    fi
-
     local filename=$(abcli_option "$options" filename)
     local do_open=$(abcli_option_int "$options" open 1)
     local do_solid=$(abcli_option_int "$options" solid 0)
