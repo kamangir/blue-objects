@@ -4,13 +4,15 @@ ICON = "🌀"
 
 DESCRIPTION = f"{ICON} data objects for Bash."
 
-VERSION = "5.175.1"
+VERSION = "5.176.1"
 
 REPO_NAME = "blue-objects"
 
 MARQUEE = (
     "https://github.com/kamangir/assets/raw/main/blue-objects/marquee.png?raw=true"
 )
+
+ALIAS = "@objects"
 
 
 def fullname() -> str:
