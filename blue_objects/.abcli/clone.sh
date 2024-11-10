@@ -24,7 +24,8 @@ function abcli_clone() {
     local object_2_path=$ABCLI_OBJECT_ROOT/$object_2_name
 
     abcli_eval - \
-        rsync -arv \
+        rsync \
+        -avv --progress \
         $object_1_path/ \
         $object_2_path
 
