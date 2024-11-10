@@ -9,6 +9,12 @@ function test_blue_objects_help() {
     local module
     for module in \
         "@objects" \
+        \
+        "@objects pypi" \
+        "@objects pypi browse" \
+        "@objects pypi build" \
+        "@objects pypi install" \
+        \
         "@objects pytest" \
         \
         "abcli cache" \
