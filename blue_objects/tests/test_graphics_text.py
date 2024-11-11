@@ -1,9 +1,7 @@
-import pytest
 import numpy as np
 
-from blue_objects import file, objects
 from blue_objects.graphics.text import render_text
-from blue_objects.env import VANWATCH_TEST_OBJECT, DUMMY_TEXT
+from blue_objects.env import DUMMY_TEXT
 
 
 def test_graphics_text_render_text():

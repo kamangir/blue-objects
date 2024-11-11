@@ -13,6 +13,7 @@ setup(
         f"{NAME}.graphics",
         f"{NAME}.help",
         f"{NAME}.host",
+        f"{NAME}.logger",
         f"{NAME}.metadata",
         f"{NAME}.mlflow",
         f"{NAME}.mysql",
