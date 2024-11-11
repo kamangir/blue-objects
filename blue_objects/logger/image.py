@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -8,7 +8,7 @@ from blue_objects.graphics.signature import justify_text
 
 def log_image_hist(
     image: np.ndarray,
-    range: float,
+    range: Tuple[float],
     header: List[str],
     footer: List[str],
     filename: str,
@@ -19,7 +19,7 @@ def log_image_hist(
     plt.hist(
         image.ravel(),
         bins=bins,
-        range=(-range, range),
+        range=range,
     )
     plt.title(
         justify_text(
