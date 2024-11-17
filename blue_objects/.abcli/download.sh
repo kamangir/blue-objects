@@ -3,6 +3,7 @@
 function abcli_download() {
     local options=$1
     local filename=$(abcli_option "$options" filename)
+    local do_overwrite=$(abcli_option_int "$options" overwrite 0)
 
     local object_name=$(abcli_clarify_object $2 .)
     local object_path=$ABCLI_OBJECT_ROOT/$object_name
@@ -21,6 +22,9 @@ function abcli_download() {
         local exists=$(aws s3 ls $ABCLI_AWS_S3_BUCKET_NAME/$ABCLI_AWS_S3_PREFIX/$object_name.tar.gz)
         if [ -z "$exists" ]; then
             abcli_log "downloading $object_name ..."
+
+            [[ "$do_overwrite" == 1 ]] &&
+                rm -rfv $object_path/*
 
             aws s3 sync "$ABCLI_S3_OBJECT_PREFIX/$object_name" "$object_path"
         else
