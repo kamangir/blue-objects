@@ -109,9 +109,9 @@ def log_matrix(
 def log_matrix_hist(
     matrix: np.ndarray,
     dynamic_range: Tuple[float],
-    header: List[str],
-    footer: List[str],
     filename: str,
+    header: List[str] = [],
+    footer: List[str] = [],
     line_width: int = 80,
     bins: int = 64,
     ylabel: str = "frequency",
