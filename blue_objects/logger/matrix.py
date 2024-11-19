@@ -6,10 +6,10 @@ import cv2
 
 from blueness import module
 from blue_options import string
+from abcli.host import signature
 
 from blue_objects import NAME
 from blue_objects import file, objects
-from blue_objects.host import signature
 from blue_objects.graphics.signature import add_signature, justify_text
 from blue_objects.logger import logger
 
@@ -82,13 +82,23 @@ def log_matrix(
 
     matrix = add_signature(
         matrix,
-        header=header
-        + [
-            shape_of_matrix,
-            f"scale: {scale}X",
-            f"dynamic-range: {dynamic_range}",
+        header=[
+            " | ".join(
+                header
+                + [
+                    shape_of_matrix,
+                    f"scale: {scale}X",
+                ]
+                + (
+                    []
+                    if colormap == -1
+                    else [
+                        f"dynamic-range: {dynamic_range}",
+                    ]
+                )
+            )
         ],
-        footer=footer + signature(),
+        footer=[" | ".join(footer + signature())],
         word_wrap=True,
         line_width=line_width,
     )
