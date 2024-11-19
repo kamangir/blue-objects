@@ -4,7 +4,7 @@ ICON = "🌀"
 
 DESCRIPTION = f"{ICON} data objects for Bash."
 
-VERSION = "5.185.1"
+VERSION = "5.189.1"
 
 REPO_NAME = "blue-objects"
 
