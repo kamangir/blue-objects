@@ -65,7 +65,7 @@ def log_matrix(
             * np.linspace(0, 1, colored_matrix.shape[0]).reshape(-1, 1)
             * np.ones((1, colorbar_width))
         ).astype(np.uint8)
-        colorbar = cv2.applyColorMap(gradient, cv2.COLORMAP_JET)
+        colorbar = cv2.applyColorMap(gradient, colormap)
         colored_matrix = np.hstack(
             (
                 colored_matrix,
