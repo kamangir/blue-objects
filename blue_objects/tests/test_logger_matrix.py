@@ -1,3 +1,5 @@
+import cv2
+
 from blue_objects import objects
 from blue_objects.logger.matrix import log_matrix, log_matrix_hist
 from blue_objects.tests.test_graphics import test_image
@@ -26,6 +28,7 @@ def test_log_matrix(test_image):
             filename="log.png",
             object_name=object_name,
         ),
+        colormap=cv2.COLORMAP_JET,
     )
 
 
