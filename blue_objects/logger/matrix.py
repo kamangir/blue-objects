@@ -6,8 +6,8 @@ from blue_objects import file
 from blue_objects.graphics.signature import justify_text
 
 
-def log_image_hist(
-    image: np.ndarray,
+def log_matrix_hist(
+    matrix: np.ndarray,
     dynamic_range: Tuple[float],
     header: List[str],
     footer: List[str],
@@ -17,7 +17,7 @@ def log_image_hist(
 ) -> bool:
     plt.figure(figsize=(10, 6))
     plt.hist(
-        image.ravel(),
+        matrix.ravel(),
         bins=bins,
         range=dynamic_range,
     )
