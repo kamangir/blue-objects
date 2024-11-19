@@ -52,12 +52,11 @@ def log_matrix(
         )
 
     if colormap != -1:
+        normalized_matrix = (matrix - dynamic_range[0]) / (
+            dynamic_range[1] - dynamic_range[0]
+        )
         colored_matrix = cv2.applyColorMap(
-            (
-                (matrix - dynamic_range[0])
-                / (dynamic_range[1] - dynamic_range[0])
-                * 255
-            ).astype(np.uint8),
+            ((1 - normalized_matrix) * 255).astype(np.uint8),
             colormap,
         )
 
