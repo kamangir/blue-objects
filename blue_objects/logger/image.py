@@ -8,7 +8,7 @@ from blue_objects.graphics.signature import justify_text
 
 def log_image_hist(
     image: np.ndarray,
-    range: Tuple[float],
+    dynamic_range: Tuple[float],
     header: List[str],
     footer: List[str],
     filename: str,
@@ -19,7 +19,7 @@ def log_image_hist(
     plt.hist(
         image.ravel(),
         bins=bins,
-        range=range,
+        range=dynamic_range,
     )
     plt.title(
         justify_text(

@@ -9,7 +9,7 @@ def test_log_image_hist(test_image):
 
     assert log_image_hist(
         test_image,
-        range=(0, 255.0),
+        dynamic_range=(0, 255.0),
         header=[DUMMY_TEXT for _ in range(4)],
         footer=[DUMMY_TEXT for _ in range(2)],
         filename=objects.path_of(
