@@ -17,6 +17,7 @@ def test_log_matrix(test_image):
             filename="log.png",
             object_name=object_name,
         ),
+        log_range=True,
     )
 
     assert log_matrix(
@@ -29,6 +30,7 @@ def test_log_matrix(test_image):
             object_name=object_name,
         ),
         colormap=cv2.COLORMAP_JET,
+        log_range=True,
     )
 
 

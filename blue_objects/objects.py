@@ -104,9 +104,13 @@ def signature(info=None, object_name="."):
     ]
 
 
-def unique_object(prefix=""):
+def unique_object(
+    prefix: str = "",
+    include_time: bool = True,
+):
     object_name = string.pretty_date(
         as_filename=True,
+        include_time=include_time,
         unique=True,
     )
     if prefix:
