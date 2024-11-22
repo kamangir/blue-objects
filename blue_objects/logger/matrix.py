@@ -55,6 +55,9 @@ def log_matrix(
         normalized_matrix = (matrix - dynamic_range[0]) / (
             dynamic_range[1] - dynamic_range[0]
         )
+        normalized_matrix[normalized_matrix < 0] = 0
+        normalized_matrix[normalized_matrix > 1] = 1
+
         colored_matrix = cv2.applyColorMap(
             ((1 - normalized_matrix) * 255).astype(np.uint8),
             colormap,
