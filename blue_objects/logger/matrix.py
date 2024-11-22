@@ -26,6 +26,8 @@ def log_matrix(
     min_width: int = 1200,
     colorbar_width: int = 20,
     colormap: int = -1,  # example: cv2.COLORMAP_JET
+    verbose: bool = False,
+    log_range: bool = False,
 ) -> bool:
     logger.info(
         "{}.log_matrix({})".format(
@@ -36,11 +38,18 @@ def log_matrix(
 
     shape_of_matrix = string.pretty_shape_of_matrix(matrix)
 
+    range_signature: List[str] = []
+    if log_range:
+        range_signature = [
+            f"range: {string.pretty_range_of_matrix(matrix)}",
+        ]
+
     scale = 1
     if min_width != -1 and matrix.shape[1] < min_width and matrix.shape[1] > 0:
         scale = int(math.ceil(min_width / matrix.shape[1]))
 
-        logger.info(f"scale: {scale}")
+        if verbose:
+            logger.info(f"scale: {scale}")
 
         matrix = cv2.resize(
             matrix,
@@ -98,6 +107,7 @@ def log_matrix(
                         f"dynamic-range: {dynamic_range}",
                     ]
                 )
+                + range_signature
             )
         ],
         footer=[" | ".join(footer + signature())],
