@@ -17,6 +17,9 @@ function test_blue_objects_help() {
         \
         "@objects pytest" \
         \
+        "@objects test" \
+        "@objects test list" \
+        \
         "abcli cache" \
         \
         "@cp" \
@@ -58,8 +61,8 @@ function test_blue_objects_help() {
         "abcli storage" \
         "abcli tags" \
         "abcli upload" \
-        "blue_objects" \
-        "blue_objects pytest"; do
+        \
+        "blue_objects"; do
         abcli_eval ,$options \
             abcli_help $module
         [[ $? -ne 0 ]] && return 1
