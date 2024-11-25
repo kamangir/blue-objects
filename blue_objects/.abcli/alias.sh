@@ -15,8 +15,7 @@ alias @file=blue_objects_file
 
 alias @host=abcli_host
 
-alias @list=abcli_list
-alias @ls=abcli_list
+alias @ls=abcli_ls
 
 alias @metadata=abcli_metadata
 
