@@ -25,7 +25,7 @@ function abcli_clone() {
 
     abcli_eval - \
         rsync \
-        -avv --progress \
+        -avv \
         $object_1_path/ \
         $object_2_path
 
