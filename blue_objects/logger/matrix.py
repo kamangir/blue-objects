@@ -38,11 +38,9 @@ def log_matrix(
 
     shape_of_matrix = string.pretty_shape_of_matrix(matrix)
 
-    range_signature: List[str] = []
-    if log_range:
-        range_signature = [
-            f"range: {string.pretty_range_of_matrix(matrix)}",
-        ]
+    range_signature: List[str] = (
+        [f"range: {string.pretty_range_of_matrix(matrix)}"] if log_range else []
+    )
 
     scale = 1
     if min_width != -1 and matrix.shape[1] < min_width and matrix.shape[1] > 0:
@@ -115,7 +113,7 @@ def log_matrix(
         line_width=line_width,
     )
 
-    return file.save_image(filename, matrix, log=True)
+    return file.save_image(filename, matrix, log=verbose)
 
 
 def log_matrix_hist(
@@ -127,6 +125,7 @@ def log_matrix_hist(
     line_width: int = 80,
     bins: int = 64,
     ylabel: str = "frequency",
+    verbose: bool = True,
 ) -> bool:
     logger.info(
         "{}.log_matrix_hist({})".format(
@@ -165,4 +164,4 @@ def log_matrix_hist(
     plt.ylabel(ylabel)
     plt.grid(True)
 
-    return file.save_fig(filename, log=True)
+    return file.save_fig(filename, log=verbose)
