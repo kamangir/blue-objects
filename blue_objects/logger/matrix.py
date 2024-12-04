@@ -9,7 +9,7 @@ from blue_options import string
 from abcli.host import signature
 
 from blue_objects import NAME
-from blue_objects import file, objects
+from blue_objects import file
 from blue_objects.graphics.signature import add_signature, justify_text
 from blue_objects.logger import logger
 
@@ -27,14 +27,16 @@ def log_matrix(
     colorbar_width: int = 20,
     colormap: int = -1,  # example: cv2.COLORMAP_JET
     verbose: bool = False,
+    log: bool = True,
     log_range: bool = False,
 ) -> bool:
-    logger.info(
-        "{}.log_matrix({})".format(
-            NAME,
-            string.pretty_shape_of_matrix(matrix),
+    if log:
+        logger.info(
+            "{}.log_matrix({})".format(
+                NAME,
+                string.pretty_shape_of_matrix(matrix),
+            )
         )
-    )
 
     shape_of_matrix = string.pretty_shape_of_matrix(matrix)
 
@@ -125,14 +127,16 @@ def log_matrix_hist(
     line_width: int = 80,
     bins: int = 64,
     ylabel: str = "frequency",
-    verbose: bool = True,
+    log: bool = True,
+    verbose: bool = False,
 ) -> bool:
-    logger.info(
-        "{}.log_matrix_hist({})".format(
-            NAME,
-            string.pretty_shape_of_matrix(matrix),
+    if log:
+        logger.info(
+            "{}.log_matrix_hist({})".format(
+                NAME,
+                string.pretty_shape_of_matrix(matrix),
+            )
         )
-    )
 
     plt.figure(figsize=(10, 6))
     plt.hist(
