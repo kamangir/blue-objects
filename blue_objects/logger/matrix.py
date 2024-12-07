@@ -104,7 +104,10 @@ def log_matrix(
                     []
                     if colormap == -1
                     else [
-                        f"dynamic-range: {dynamic_range}",
+                        "dynamic-range: ( {:.03f} , {:.03f} )".format(
+                            dynamic_range[0],
+                            dynamic_range[1],
+                        ),
                     ]
                 )
                 + range_signature
