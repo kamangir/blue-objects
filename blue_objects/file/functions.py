@@ -144,6 +144,9 @@ def download(
     overwrite: bool = True,
 ) -> bool:
     if not overwrite and exists(filename):
+        if log:
+            logger.info(f"✅ {filename}")
+
         return True
 
     try:

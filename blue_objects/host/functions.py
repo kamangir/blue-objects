@@ -50,3 +50,17 @@ def shell(
             file.delete(output_filename)
 
     return (success, output) if return_output else success
+
+
+def unzip(
+    zip_filename: str,
+    output_folder: str = "",
+    log: bool = False,
+) -> bool:
+    if not output_folder:
+        output_folder = file.path(zip_filename)
+
+    return shell(
+        command=f'unzip -q -o "{zip_filename}" -d "{output_folder}"',
+        log=log,
+    )
