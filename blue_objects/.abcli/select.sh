@@ -1,15 +1,6 @@
 #! /usr/bin/env bash
 
 function abcli_select() {
-    local task=$(abcli_unpack_keyword $1)
-
-    if [ "$task" == "help" ]; then
-        local options="open,type=<type>,~trail"
-        abcli_show_usage "@select [<object-name>]$ABCUL[$options]" \
-            "select <object-name>."
-        return
-    fi
-
     local object_name=$(abcli_clarify_object "$1" $(abcli_string_timestamp))
 
     local options=$2
