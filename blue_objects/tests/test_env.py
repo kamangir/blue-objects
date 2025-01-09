@@ -7,16 +7,19 @@ def test_required_env():
     test_abcli_env()
 
 
-def test_blue_objects_env():
+def test_blue_objects_env(
+    including_RDS: bool = True,
+):
     assert env.ABCLI_PUBLIC_PREFIX
     assert env.VANWATCH_TEST_OBJECT
 
-    assert env.ABCLI_AWS_RDS_DB
-    assert env.ABCLI_AWS_RDS_PORT
-    assert env.ABCLI_AWS_RDS_USER
+    if including_RDS:
+        assert env.ABCLI_AWS_RDS_DB
+        assert env.ABCLI_AWS_RDS_PORT
+        assert env.ABCLI_AWS_RDS_USER
 
-    assert env.ABCLI_AWS_RDS_HOST
-    assert env.ABCLI_AWS_RDS_PASSWORD
+        assert env.ABCLI_AWS_RDS_HOST
+        assert env.ABCLI_AWS_RDS_PASSWORD
 
     assert env.DATABRICKS_WORKSPACE
     assert env.DATABRICKS_HOST
