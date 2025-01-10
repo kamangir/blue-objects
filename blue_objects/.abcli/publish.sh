@@ -2,22 +2,6 @@
 
 function abcli_publish() {
     local options=$1
-
-    if [ $(abcli_option_int "$options" help 0) == 1 ]; then
-        local common_options="as=<public-object-name>,~download"
-
-        options="$EOP$common_options,${EOPE}tar"
-        abcli_show_usage "@publish$ABCUL$options$ABCUL$EOP.|<object-name>$EOPE" \
-            "publish <object-name>.tar.gz."
-
-        options="$EOP$common_options,prefix=<prefix>,suffix=<.png>"
-        abcli_show_usage "@publish$ABCUL$options$ABCUL.|<object-name>$EOPE" \
-            "publish <object-name>."
-
-        abcli_log "🔗 $ABCLI_PUBLIC_PREFIX"
-        return
-    fi
-
     local do_download=$(abcli_option_int "$options" download 1)
     local do_tar=$(abcli_option_int "$options" tar 0)
     local prefix=$(abcli_option "$options" prefix)
