@@ -1,8 +1,10 @@
 import pytest
 
 from blue_options.options import Options
+from blue_options import string
 
 from blue_objects.objects import unique_object
+from blue_objects.mlflow import cache
 from blue_objects.mlflow import objects
 from blue_objects.mlflow import tags
 from blue_objects.mlflow import testing
@@ -16,7 +18,7 @@ def test_from_and_to_experiment_name():
     )
 
 
-def test_mlflow():
+def test_mlflow_testing():
     assert testing.test()
 
 
@@ -39,3 +41,20 @@ def test_mlflow_tag_set_get(tags_str: str):
     tags_option = Options(tags_str)
     for keyword, value in tags_option.items():
         assert tags_read[keyword] == value
+
+
+@pytest.mark.parametrize(
+    ["keyword", "value"],
+    [
+        [
+            f"test_mlflow_cache_read_write-keyword-{string.random()}",
+            string.random(),
+        ]
+    ],
+)
+def test_mlflow_cache_read_write(keyword: str, value: str):
+    assert cache.write(keyword, value)
+
+    success, value_read = cache.read(keyword)
+    assert success
+    assert value_read == value
