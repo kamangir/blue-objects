@@ -24,6 +24,7 @@ def log_matrix(
     dynamic_range: Tuple[float] = (-100, 100),
     line_width: int = 80,
     min_width: int = 1200,
+    max_width: int = 2400,
     colorbar_width: int = 20,
     colormap: int = -1,  # example: cv2.COLORMAP_JET
     verbose: bool = False,
@@ -47,15 +48,20 @@ def log_matrix(
     scale = 1
     if min_width != -1 and matrix.shape[1] < min_width and matrix.shape[1] > 0:
         scale = int(math.ceil(min_width / matrix.shape[1]))
+    elif max_width != -1 and (
+        matrix.shape[0] > max_width or matrix.shape[1] > max_width
+    ):
+        scale = min([max_width / matrix.shape[index] for index in [0, 1]])
 
+    if scale != 1:
         if verbose:
             logger.info(f"scale: {scale}")
 
         matrix = cv2.resize(
             matrix,
             (
-                scale * matrix.shape[1],
-                scale * matrix.shape[0],
+                int(scale * matrix.shape[1]),
+                int(scale * matrix.shape[0]),
             ),
             interpolation=cv2.INTER_NEAREST_EXACT,
         )
@@ -98,7 +104,7 @@ def log_matrix(
                 header
                 + [
                     shape_of_matrix,
-                    f"scale: {scale}X",
+                    f"scale: {scale:.2f}X",
                 ]
                 + (
                     []
