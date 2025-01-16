@@ -30,7 +30,7 @@ def log_matrix(
     verbose: bool = False,
     log: bool = True,
     log_range: bool = False,
-    log_shape_of_matrix: bool = False,
+    log_shape_of_matrix: bool = True,
 ) -> bool:
     if log:
         logger.info(
