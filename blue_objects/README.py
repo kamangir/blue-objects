@@ -80,10 +80,33 @@ def build(
         return success
 
     content: List[str] = []
+    mermaid_started: bool = False
     for template_line in template:
         content_section: List[str] = [template_line]
 
-        if "--table--" in template_line:
+        if template_line.startswith("```mermaid"):
+            mermaid_started = True
+            logger.info("🧜🏽‍♀️  detected ...")
+        elif mermaid_started and template_line.startswith("```"):
+            mermaid_started = False
+        elif mermaid_started:
+            if '"' in template_line and ":::folder" not in template_line:
+                template_line_pieces = template_line.split('"')
+                if len(template_line_pieces) != 3:
+                    logger.error(
+                        f"🧜🏽‍♀️  mermaid line not in expected format: {template_line}."
+                    )
+                    return False
+
+                template_line_pieces[1] = (
+                    template_line_pieces[1]
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                    .replace(" ", "<br>")
+                )
+
+                content_section = ['"'.join(template_line_pieces)]
+        elif "--table--" in template_line:
             content_section = table
         elif "--signature" in template_line:
             content_section = signature
