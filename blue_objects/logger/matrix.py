@@ -30,6 +30,7 @@ def log_matrix(
     verbose: bool = False,
     log: bool = True,
     log_range: bool = False,
+    log_shape_of_matrix: bool = False,
 ) -> bool:
     if log:
         logger.info(
@@ -102,8 +103,8 @@ def log_matrix(
         header=[
             " | ".join(
                 header
+                + ([shape_of_matrix] if log_shape_of_matrix else [])
                 + [
-                    shape_of_matrix,
                     f"scale: {scale:.2f}X",
                 ]
                 + (
