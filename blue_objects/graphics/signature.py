@@ -45,12 +45,14 @@ def add_signature(
         line if len(line) >= line_width else line + (line_width - len(line)) * " "
     )
 
+    color_depth = image.shape[2] if len(image.shape) >= 3 else 1
+
     return np.concatenate(
         [
             render_text(
                 text=justify_line(line),
                 image_width=image.shape[1],
-                color_depth=image.shape[2],
+                color_depth=color_depth,
             )
             for line in header
         ]
@@ -59,7 +61,7 @@ def add_signature(
             render_text(
                 text=justify_line(line),
                 image_width=image.shape[1],
-                color_depth=image.shape[2],
+                color_depth=color_depth,
             )
             for line in footer
         ],
