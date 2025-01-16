@@ -45,7 +45,7 @@ def add_signature(
         line if len(line) >= line_width else line + (line_width - len(line)) * " "
     )
 
-    color_depth = image.shape[2] if len(image.shape) >= 2 else 1
+    color_depth = image.shape[2] if len(image.shape) >= 3 else 1
 
     return np.concatenate(
         [
