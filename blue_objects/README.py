@@ -103,7 +103,7 @@ def build(
                     .replace("<", "&lt;")
                     .replace(">", "&gt;")
                     .replace(" ", "<br>")
-                    .replace("~", " ")
+                    .replace("~~", " ")
                 )
 
                 content_section = ['"'.join(template_line_pieces)]
