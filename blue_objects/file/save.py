@@ -122,6 +122,31 @@ def save_fig(
     )
 
 
+def save_geodataframe(
+    filename: str,
+    gdf: gpd.GeoDataFrame,
+    log: bool = False,
+):
+    if not prepare_for_saving(filename):
+        return False
+
+    success = True
+    try:
+        gdf.to_file(filename)
+    except:
+        success = False
+
+    return finish_saving(
+        success,
+        "{}.save_geodataframe: {} -> {}".format(
+            NAME,
+            f"{len(gdf)} row(s)",
+            filename,
+        ),
+        log,
+    )
+
+
 def save_geoimage(
     filename: str,
     image: np.ndarray,
