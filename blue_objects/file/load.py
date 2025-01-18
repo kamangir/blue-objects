@@ -1,7 +1,7 @@
 from typing import Tuple, Any, List, Any, Dict
 import cv2
 from copy import deepcopy
-import geopandas
+import geopandas as gpd
 import geojson
 import json
 import numpy as np
@@ -97,7 +97,7 @@ def load_geodataframe(
     gdf = None
 
     try:
-        gdf = geopandas.read_file(filename)
+        gdf = gpd.read_file(filename)
         success = True
     except:
         if not ignore_error:

@@ -36,6 +36,7 @@ from blue_objects.file.save import (
     save_csv,
     save_fig,
     save_geojson,
+    save_geodataframe,
     save_geoimage,
     save_image,
     save_json,
