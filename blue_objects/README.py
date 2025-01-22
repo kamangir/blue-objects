@@ -5,6 +5,7 @@ from blueness import module
 from blue_options import fullname
 
 from blue_objects import NAME as MY_NAME, ICON as MY_ICON
+from blue_objects.env import ABCLI_PUBLIC_PREFIX
 from blue_objects import file
 from blue_objects import markdown
 from blue_objects.logger import logger
@@ -84,7 +85,16 @@ def build(
     for template_line in template:
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("```mermaid"):
+        if template_line.startswith("object:::"):
+            object_name = template_line.split(":::")[1].strip()
+            content_section = [
+                "[{}]({}/{}.tar.gz)".format(
+                    object_name,
+                    ABCLI_PUBLIC_PREFIX,
+                    object_name,
+                )
+            ]
+        elif template_line.startswith("```mermaid"):
             mermaid_started = True
             logger.info("🧜🏽‍♀️  detected ...")
         elif mermaid_started and template_line.startswith("```"):
