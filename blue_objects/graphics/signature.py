@@ -6,7 +6,9 @@ import textwrap
 from blueness import module
 
 from blue_objects import NAME
+from blue_objects import file
 from blue_objects.graphics.text import render_text
+from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
 
@@ -67,3 +69,29 @@ def add_signature(
         ],
         axis=0,
     )
+
+
+def sign_filename(
+    filename: str,
+    header: List[str],
+    footer: List[str],
+    line_width: int = 80,
+) -> bool:
+    success, image = file.load_image(filename)
+    if not success:
+        return success
+
+    if not file.save_image(
+        filename,
+        add_signature(
+            image,
+            header=[" | ".join(header)],
+            footer=[" | ".join(footer)],
+            line_width=line_width,
+        ),
+    ):
+        return False
+
+    logger.info("-> {}".format(filename))
+
+    return True
