@@ -31,6 +31,7 @@ def log_matrix(
     log: bool = True,
     log_range: bool = False,
     log_shape_of_matrix: bool = True,
+    suffix: List[np.ndarray] = [],
 ) -> bool:
     if log:
         logger.info(
@@ -97,6 +98,22 @@ def log_matrix(
         )
 
         matrix = colored_matrix
+
+    if suffix:
+        if scale != 1:
+            suffix = [
+                cv2.resize(
+                    matrix,
+                    (
+                        int(scale * matrix.shape[1]),
+                        int(scale * matrix.shape[0]),
+                    ),
+                    interpolation=cv2.INTER_NEAREST_EXACT,
+                )
+                for matrix in suffix
+            ]
+
+        matrix = np.concatenate([matrix] + suffix, axis=1)
 
     matrix = add_signature(
         matrix,
