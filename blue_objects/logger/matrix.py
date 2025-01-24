@@ -27,6 +27,8 @@ def log_matrix(
     max_width: int = 2400,
     colorbar_width: int = 20,
     colormap: int = -1,  # example: cv2.COLORMAP_JET
+    invert_color_map: bool = True,
+    invert_color_map_rgb: bool = True,
     verbose: bool = False,
     log: bool = True,
     log_range: bool = False,
@@ -76,9 +78,13 @@ def log_matrix(
         normalized_matrix[normalized_matrix > 1] = 1
 
         colored_matrix = cv2.applyColorMap(
-            ((1 - normalized_matrix) * 255).astype(np.uint8),
+            (
+                (1 - normalized_matrix if invert_color_map else normalized_matrix) * 255
+            ).astype(np.uint8),
             colormap,
         )
+        if not invert_color_map_rgb:
+            colored_matrix = colored_matrix[:, :, [2, 1, 0]]
 
         gradient = (
             255
