@@ -92,6 +92,9 @@ def log_matrix(
             * np.ones((1, colorbar_width))
         ).astype(np.uint8)
         colorbar = cv2.applyColorMap(gradient, colormap)
+        if not invert_color_map_rgb:
+            colorbar = np.flipud(colorbar)
+
         colored_matrix = np.hstack(
             (
                 colored_matrix,
