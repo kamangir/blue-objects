@@ -17,6 +17,7 @@ def generate_animated_gif(
     output_filename: str,
     frame_duration: int = 150,
     scale: int = 1,
+    log: bool = True,
 ) -> bool:
     if not list_of_images:
         return True
@@ -77,7 +78,8 @@ def generate_animated_gif(
     )
 
     if success:
-        logger.info(message)
+        if log:
+            logger.info(message)
         return True
 
     crash_report(message)
