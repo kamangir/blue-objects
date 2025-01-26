@@ -92,6 +92,7 @@ def load_dataframe(
 def load_geodataframe(
     filename: str,
     ignore_error: bool = False,
+    log: bool = False,
 ) -> Tuple[bool, Any]:
     success = False
     gdf = None
@@ -102,6 +103,15 @@ def load_geodataframe(
     except:
         if not ignore_error:
             crash_report(f"{NAME}: load_geodataframe({filename}): failed.")
+
+    if success and log:
+        logger.info(
+            "loaded {:,} rows: {} from {}".format(
+                len(gdf),
+                ", ".join(gdf.columns),
+                filename,
+            )
+        )
 
     return success, gdf
 
