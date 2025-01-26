@@ -80,6 +80,8 @@ class Storage:
             )
 
         if not overwrite and file.exists(filename):
+            if log:
+                logger.info(f"✅  {filename}")
             return True
 
         if not path.create(file.path(filename)):
