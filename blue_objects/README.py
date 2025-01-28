@@ -85,7 +85,12 @@ def build(
     for template_line in template:
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("object:::"):
+        if template_line.startswith("assets:::"):
+            object_name = template_line.split(":::")[1].strip()
+            content_section = [
+                f"![image](https://github.com/kamangir/assets/blob/main/{object_name}?raw=true)"
+            ]
+        elif template_line.startswith("object:::"):
             object_name = template_line.split(":::")[1].strip()
             content_section = [
                 "[{}]({}/{}.tar.gz)".format(
