@@ -15,6 +15,7 @@ from blue_objects.logger import logger
 def download(
     object_name: str,
     filename: str = "",
+    overwrite: bool = False,
 ) -> bool:
     if not ABCLI_S3_OBJECT_PREFIX:
         logger.error("ABCLI_S3_OBJECT_PREFIX is not set.")
@@ -23,6 +24,18 @@ def download(
     if not object_name:
         logger.error("object_name not found.")
         return False
+
+    if (
+        filename
+        and not overwrite
+        and file.exists(
+            path_of(
+                object_name=object_name,
+                filename=filename,
+            )
+        )
+    ):
+        return True
 
     return (
         shell(
