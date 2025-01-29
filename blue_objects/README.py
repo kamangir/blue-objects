@@ -83,23 +83,39 @@ def build(
     content: List[str] = []
     mermaid_started: bool = False
     for template_line in template:
+        if "assets:::" in template_line:
+            template_line = " ".join(
+                [
+                    (
+                        "![image](https://github.com/kamangir/assets/blob/main/{}?raw=true)".format(
+                            token.split(":::")[1].strip()
+                        )
+                        if token.startswith("assets:::")
+                        else token
+                    )
+                    for token in template_line.split(" ")
+                ]
+            )
+
+        if "object:::" in template_line:
+            template_line = " ".join(
+                [
+                    (
+                        "[{}]({}/{}.tar.gz)".format(
+                            token.split(":::")[1].strip(),
+                            ABCLI_PUBLIC_PREFIX,
+                            token.split(":::")[1].strip(),
+                        )
+                        if token.startswith("object:::")
+                        else token
+                    )
+                    for token in template_line.split(" ")
+                ]
+            )
+
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("assets:::"):
-            object_name = template_line.split(":::")[1].strip()
-            content_section = [
-                f"![image](https://github.com/kamangir/assets/blob/main/{object_name}?raw=true)"
-            ]
-        elif template_line.startswith("object:::"):
-            object_name = template_line.split(":::")[1].strip()
-            content_section = [
-                "[{}]({}/{}.tar.gz)".format(
-                    object_name,
-                    ABCLI_PUBLIC_PREFIX,
-                    object_name,
-                )
-            ]
-        elif template_line.startswith("```mermaid"):
+        if template_line.startswith("```mermaid"):
             mermaid_started = True
             logger.info("🧜🏽‍♀️  detected ...")
         elif mermaid_started and template_line.startswith("```"):
