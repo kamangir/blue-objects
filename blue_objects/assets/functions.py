@@ -34,17 +34,30 @@ def publish(
                 object_name=object_name,
             )
         ):
-            if not file.copy(
-                filename,
-                os.path.join(
-                    abcli_path_git,
-                    "assets",
-                    object_name,
-                    file.name_and_extension(filename),
-                ),
-                log=log,
-            ):
-                return False
+            published_filename = os.path.join(
+                abcli_path_git,
+                "assets",
+                object_name,
+                file.name_and_extension(filename),
+            )
+
+            if extension in ["png", "jpg", "jpeg", "gif"]:
+                if not file.copy(
+                    filename,
+                    published_filename,
+                    log=log,
+                ):
+                    return False
+
+            if extension == "geojson":
+                success, gdf = file.load_geodataframe(filename)
+                if not success:
+                    return False
+
+                gdf = gdf.to_crs("EPSG:4326")
+
+                if not file.save_geojson(published_filename, gdf):
+                    return False
 
     logger.info(f"🔗  https://github.com/kamangir/assets/tree/main/{object_name}")
 
