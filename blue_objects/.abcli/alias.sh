@@ -4,6 +4,8 @@ alias @download=abcli_download
 
 alias @gif=abcli_gif
 
+alias @assets=abcli_assets
+
 alias @cache=abcli_cache
 alias @ref="abcli_cache read"
 alias @tags=abcli_tags

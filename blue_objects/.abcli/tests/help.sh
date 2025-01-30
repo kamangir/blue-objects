@@ -8,6 +8,9 @@ function test_blue_objects_help() {
 
     local module
     for module in \
+        "@assets" \
+        "@assets publish" \
+        \
         "@objects" \
         \
         "@objects pypi" \
