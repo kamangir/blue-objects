@@ -9,6 +9,7 @@ setup(
     description=DESCRIPTION,
     packages=[
         NAME,
+        f"{NAME}.assets",
         f"{NAME}.file",
         f"{NAME}.graphics",
         f"{NAME}.help",
