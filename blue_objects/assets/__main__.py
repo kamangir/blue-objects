@@ -2,7 +2,6 @@ import argparse
 
 from blueness import module
 from blueness.argparse.generic import sys_exit
-from abcli.help.assets import default_list_of_extensions
 
 from blue_objects import NAME
 from blue_objects.assets.functions import publish
@@ -29,8 +28,8 @@ parser.add_argument(
 parser.add_argument(
     "--extensions",
     type=str,
-    default="+".join(default_list_of_extensions),
-    help="+".join(default_list_of_extensions),
+    default="png+geojson",
+    help="png+geojson",
 )
 args = parser.parse_args()
 
