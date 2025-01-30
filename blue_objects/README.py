@@ -82,7 +82,20 @@ def build(
 
     content: List[str] = []
     mermaid_started: bool = False
+    macros: Dict[str, str]
     for template_line in template:
+        if template_line.startswith("set:::"):
+            key, value = template_line.split("set:::", 1)[1].split(" ", 1)
+            macros[key] = value
+            logger.info(f":::{key} = {value}")
+            continue
+
+        for key, value in macros.items():
+            template_line = template_line.replace(
+                f"get:::{key}",
+                value,
+            )
+
         if "assets:::" in template_line:
             template_line = " ".join(
                 [
