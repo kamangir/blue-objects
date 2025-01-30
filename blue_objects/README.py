@@ -100,8 +100,18 @@ def build(
             template_line = " ".join(
                 [
                     (
-                        "![image](https://github.com/kamangir/assets/blob/main/{}?raw=true)".format(
-                            token.split(":::")[1].strip()
+                        (
+                            "![image](https://github.com/kamangir/assets/blob/main/{}?raw=true)".format(
+                                token.split(":::")[1].strip()
+                            )
+                            if any(
+                                token.endswith(extension)
+                                for extension in ["png", "jpg", "jpeg", "gif"]
+                            )
+                            else "[{}](https://github.com/kamangir/assets/blob/main/{})".format(
+                                file.name_and_extension(token.split(":::")[1].strip()),
+                                token.split(":::")[1].strip(),
+                            )
                         )
                         if token.startswith("assets:::")
                         else token
