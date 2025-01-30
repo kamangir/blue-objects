@@ -1,11 +1,13 @@
 from typing import List, Dict, Union, Callable
 import os
+import yaml
 
 from blueness import module
 from blue_options import fullname
 
 from blue_objects import NAME as MY_NAME, ICON as MY_ICON
 from blue_objects.env import ABCLI_PUBLIC_PREFIX
+from blue_objects.metadata import get_from_object
 from blue_objects import file
 from blue_objects import markdown
 from blue_objects.logger import logger
@@ -138,7 +140,25 @@ def build(
 
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("```mermaid"):
+        if template_line.startswith("yaml:::"):
+            object_name, key = template_line.split(":::", 1)[1].split(":::", 1)
+
+            value = get_from_object(
+                object_name,
+                key,
+                {},
+                download=True,
+            )
+
+            content_section = (
+                ["```yaml"]
+                + yaml.dump(
+                    value,
+                    default_flow_style=False,
+                ).split("\n")
+                + ["```"]
+            )
+        elif template_line.startswith("```mermaid"):
             mermaid_started = True
             logger.info("🧜🏽‍♀️  detected ...")
         elif mermaid_started and template_line.startswith("```"):
