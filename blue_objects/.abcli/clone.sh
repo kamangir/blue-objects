@@ -20,12 +20,20 @@ function abcli_clone() {
     local object_1_path=$ABCLI_OBJECT_ROOT/$object_1_name
     local object_2_path=$ABCLI_OBJECT_ROOT/$object_2_name
 
-    [[ "$copy_content" == 1 ]] &&
+    if [[ "$copy_content" == 1 ]]; then
         abcli_eval - \
             rsync \
             -avv \
             $object_1_path/ \
             $object_2_path
+    else
+        local extension
+        for extension in qgz; do
+            cp -v \
+                $object_1_path/*.$extension \
+                $object_2_path
+        done
+    fi
 
     [[ "$clone_tags" == 1 ]] &&
         abcli_tags clone \
