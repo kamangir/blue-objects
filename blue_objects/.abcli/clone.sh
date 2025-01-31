@@ -1,12 +1,9 @@
 #! /usr/bin/env bash
 
-function abcli_cp() {
-    abcli_clone "$@"
-}
-
 function abcli_clone() {
     local options=$1
     local clone_tags=$(abcli_option_int "$options" tags 1)
+    local copy_content=$(abcli_option_int "$options" content 1)
     local do_relate=$(abcli_option_int "$options" relate 1)
     local do_download=$(abcli_option_int "$options" download 1)
     local do_upload=$(abcli_option_int "$options" upload 0)
@@ -23,11 +20,12 @@ function abcli_clone() {
     local object_1_path=$ABCLI_OBJECT_ROOT/$object_1_name
     local object_2_path=$ABCLI_OBJECT_ROOT/$object_2_name
 
-    abcli_eval - \
-        rsync \
-        -avv \
-        $object_1_path/ \
-        $object_2_path
+    [[ "$copy_content" == 1 ]] &&
+        abcli_eval - \
+            rsync \
+            -avv \
+            $object_1_path/ \
+            $object_2_path
 
     [[ "$clone_tags" == 1 ]] &&
         abcli_tags clone \
