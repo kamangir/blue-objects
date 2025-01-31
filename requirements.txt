@@ -3,6 +3,7 @@ abcli
 boto3
 dill
 geojson
+shapely==2.0.6
 geopandas
 matplotlib
 mlflow
