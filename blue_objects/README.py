@@ -140,7 +140,22 @@ def build(
 
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("yaml:::"):
+        if template_line.startswith("details:::"):
+            suffix = template_line.split(":::", 1)[1]
+            if suffix:
+                content_section = [
+                    "",
+                    "<details>",
+                    f"<summary>{suffix}</summary>",
+                    "",
+                ]
+            else:
+                content_section = [
+                    "",
+                    "</details>",
+                    "",
+                ]
+        elif template_line.startswith("yaml:::"):
             object_name, key = template_line.split(":::", 1)[1].split(":::", 1)
 
             value = get_from_object(
