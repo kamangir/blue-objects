@@ -1,8 +1,6 @@
 from typing import Tuple, Any, List, Any
 import cv2
 from copy import deepcopy
-import geopandas as gpd
-import geojson
 import json
 import numpy as np
 
@@ -38,26 +36,6 @@ def load(
         return False, data
 
 
-# https://stackoverflow.com/a/47792385/17619982
-def load_geojson(
-    filename,
-    ignore_error=False,
-) -> Tuple[bool, Any]:
-    success = False
-    data = {}
-
-    try:
-        with open(filename, "r") as fh:
-            data = geojson.load(fh)
-
-        success = True
-    except:
-        if not ignore_error:
-            crash_report(f"{NAME}: load_geojson({filename}): failed.")
-
-    return success, data
-
-
 def load_dataframe(
     filename,
     ignore_error=False,
@@ -86,33 +64,6 @@ def load_dataframe(
         )
 
     return success, df
-
-
-def load_geodataframe(
-    filename: str,
-    ignore_error: bool = False,
-    log: bool = False,
-) -> Tuple[bool, Any]:
-    success = False
-    gdf = None
-
-    try:
-        gdf = gpd.read_file(filename)
-        success = True
-    except:
-        if not ignore_error:
-            crash_report(f"{NAME}: load_geodataframe({filename}): failed.")
-
-    if success and log:
-        logger.info(
-            "loaded {:,} rows: {} from {}".format(
-                len(gdf),
-                ", ".join(gdf.columns),
-                filename,
-            )
-        )
-
-    return success, gdf
 
 
 def load_image(

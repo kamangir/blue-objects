@@ -20,8 +20,6 @@ from blue_objects.file.functions import (
 )
 from blue_objects.file.load import (
     load_dataframe,
-    load_geodataframe,
-    load_geojson,
     load_image,
     load_json,
     load_matrix,
@@ -34,8 +32,6 @@ from blue_objects.file.save import (
     prepare_for_saving,
     save_csv,
     save_fig,
-    save_geojson,
-    save_geodataframe,
     save_image,
     save_json,
     save_matrix,

@@ -5,7 +5,6 @@ import numpy as np
 import json
 import dill
 import pandas as pd
-import geopandas as gpd
 
 from blueness import module
 from blue_options.logger import crash_report
@@ -117,57 +116,6 @@ def save_fig(
     return finish_saving(
         success,
         f"{NAME}.save_fig -> {filename}",
-        log,
-    )
-
-
-def save_geodataframe(
-    filename: str,
-    gdf: gpd.GeoDataFrame,
-    log: bool = False,
-):
-    if not prepare_for_saving(filename):
-        return False
-
-    success = True
-    try:
-        gdf.to_file(filename)
-    except:
-        success = False
-
-    return finish_saving(
-        success,
-        "{}.save_geodataframe: {} -> {}".format(
-            NAME,
-            f"{len(gdf)} row(s)",
-            filename,
-        ),
-        log,
-    )
-
-
-def save_geojson(
-    filename: str,
-    gdf: gpd.GeoDataFrame,
-    log: bool = False,
-):
-    if not prepare_for_saving(filename):
-        return False
-
-    success = True
-    try:
-        gdf.to_file(filename, driver="GeoJSON")
-    except:
-        success = False
-
-    return finish_saving(
-        success,
-        "{}.save_geojson: {:,}X[{}] row(s) -> {}".format(
-            NAME,
-            len(gdf),
-            ",".join(list(gdf.columns)),
-            filename,
-        ),
         log,
     )
 
