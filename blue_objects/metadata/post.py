@@ -1,13 +1,13 @@
 from typing import Any
-from .enums import MetadataSourceType
 import base64
 import copy
 
 from blueness import module
 
+from blue_objects.metadata.enums import MetadataSourceType
 from blue_objects import NAME, file
-from blue_objects.logger import logger
 from blue_objects import objects
+from blue_objects.logger import logger
 
 NAME = module.name(__file__, NAME)
 
