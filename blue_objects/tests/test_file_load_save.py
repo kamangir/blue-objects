@@ -8,7 +8,6 @@ from blue_objects import file, objects, env
 from blue_objects.file.load import (
     load_geodataframe,
     load_geojson,
-    load_geoimage,
     load_image,
     load_json,
     load_matrix,
@@ -117,49 +116,3 @@ def test_file_load_save_matrix(
     assert success
     assert (matrix_read == test_matrix).all()
     assert matrix_read.dtype == dtype
-
-
-@pytest.mark.parametrize(
-    [
-        "object_name",
-        "filename",
-        "expected_success",
-        "expected_shape",
-    ],
-    [
-        [
-            env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_OBJECT,
-            env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_FILENAME,
-            True,
-            (4, 1150, 1274),
-        ],
-        [
-            env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_OBJECT,
-            "void",
-            False,
-            (),
-        ],
-    ],
-)
-def test_file_load_geoimage(
-    object_name: str,
-    filename: str,
-    expected_success: bool,
-    expected_shape: Tuple[int],
-) -> None:
-    if expected_success:
-        assert objects.download(object_name, filename)
-
-    success, image, metadata = load_geoimage(
-        objects.path_of(
-            filename,
-            object_name,
-        )
-    )
-    assert success == expected_success
-
-    if success:
-        assert isinstance(image, np.ndarray)
-        assert image.shape == expected_shape, image.shape
-        assert "crs" in metadata
-        assert "pixel_size" in metadata

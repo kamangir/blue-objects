@@ -17,9 +17,6 @@ def test_blue_objects_env():
 
     assert env.ABCLI_MLFLOW_EXPERIMENT_PREFIX
 
-    assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_OBJECT
-    assert env.BLUE_OBJECTS_FILE_LOAD_GEOIMAGE_TEST_FILENAME
-
 
 def test_blue_objects_env_RDS():
     assert env.ABCLI_AWS_RDS_DB
