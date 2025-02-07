@@ -31,4 +31,7 @@ setup(
             ".abcli/**/*.sh",
         ],
     },
+    extras_require={
+        "opencv": ["opencv-python"],
+    },
 )
