@@ -1,17 +1,13 @@
-blueness
 abcli
-boto3
+
 dill
-shapely==2.0.6
-matplotlib
-mlflow
-numpy
+
 opencv-python
+
+# https://github.com/shapely/shapely/issues/2208
+shapely!=2.0.7
+
+mlflow
+
 pandas
-pymysql
-pyyaml
-pylint
-pytest
-python-dotenv[cli]
-tqdm
 urllib3
