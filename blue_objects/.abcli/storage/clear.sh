@@ -4,6 +4,12 @@ function abcli_storage_clear() {
     local options=$1
     local do_dryrun=$(abcli_option_int "$options" dryrun 1)
 
+    if [[ "$abcli_is_rpi" == true ]]; then
+        abcli_eval dryrun=$do_dryrun \
+            rm -rfv $ABCLI_OBJECT_ROOT
+        return
+    fi
+
     local recent_filename=$ABCLI_OBJECT_ROOT/QGIS-recent.yaml
     if [[ ! -f "$recent_filename" ]]; then
         abcli_log_warning "run \"QGIS.list_recent_projects\" first."
