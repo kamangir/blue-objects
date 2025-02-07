@@ -6,15 +6,12 @@ from blue_options import string
 
 from blue_objects import file, objects, env
 from blue_objects.file.load import (
-    load_geodataframe,
-    load_geojson,
     load_image,
     load_json,
     load_matrix,
     load_text,
 )
 from blue_objects.file.save import (
-    save_geojson,
     save_image,
     save_json,
     save_matrix,
@@ -30,16 +27,6 @@ from blue_objects.tests.test_objects import test_object
         "save_func",
     ],
     [
-        [
-            load_geodataframe,
-            "vancouver.geojson",
-            save_geojson,
-        ],
-        [
-            load_geojson,
-            "vancouver.geojson",
-            None,
-        ],
         [
             load_image,
             "Victoria41East.jpg",
