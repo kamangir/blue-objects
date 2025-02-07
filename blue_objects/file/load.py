@@ -1,5 +1,4 @@
 from typing import Tuple, Any, List, Any
-import cv2
 from copy import deepcopy
 import json
 import numpy as np
@@ -71,6 +70,8 @@ def load_image(
     ignore_error=False,
     log=False,
 ) -> Tuple[bool, np.ndarray]:
+    import cv2
+
     success = True
     image = np.empty((0,))
 

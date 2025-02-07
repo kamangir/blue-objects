@@ -1,5 +1,4 @@
 from typing import Any, Dict, List
-import cv2
 import yaml
 import numpy as np
 import json
@@ -125,6 +124,8 @@ def save_image(
     image: np.ndarray,
     log: bool = False,
 ):
+    import cv2
+
     if not prepare_for_saving(filename):
         return False
 
