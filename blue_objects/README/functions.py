@@ -254,15 +254,3 @@ def build(
         content += content_section
 
     return file.save_text(filename, content)
-
-
-def build_me() -> bool:
-    from blue_objects import NAME, VERSION, REPO_NAME, ICON
-
-    return build(
-        path=os.path.join(file.path(__file__), ".."),
-        ICON=ICON,
-        NAME=NAME,
-        VERSION=VERSION,
-        REPO_NAME=REPO_NAME,
-    )
