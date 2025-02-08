@@ -1,9 +1,6 @@
 #! /usr/bin/env bash
 
 function test_blue_objects_help() {
-    # TODO: enable
-    return 0
-
     local options=$1
 
     local module
@@ -22,8 +19,6 @@ function test_blue_objects_help() {
         \
         "@objects test" \
         "@objects test list" \
-        \
-        "abcli cache" \
         \
         "@cp" \
         \
