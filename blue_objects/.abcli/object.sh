@@ -32,13 +32,7 @@ function abcli_clarify_object() {
 }
 
 function abcli_object() {
-    local task=$(abcli_unpack_keyword $1 help)
-
-    if [ "$task" == "help" ]; then
-        abcli_show_usage "abcli object open$ABCUL[.|<object-name>]" \
-            "open object."
-        return
-    fi
+    local task=$(abcli_unpack_keyword $1 void)
 
     if [ "$task" == "open" ]; then
         local object_name=$(abcli_clarify_object $2 .)
