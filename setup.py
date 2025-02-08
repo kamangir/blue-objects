@@ -20,6 +20,7 @@ setup(
         f"{NAME}.mysql.cache",
         f"{NAME}.mysql.relations",
         f"{NAME}.mysql.tags",
+        f"{NAME}.README",
         f"{NAME}.storage",
         f"{NAME}.tests",
     ],
