@@ -1,22 +1,8 @@
 #! /usr/bin/env bash
 
 function abcli_host() {
-    local task=$(abcli_unpack_keyword $1 help)
+    local task=$(abcli_unpack_keyword $1 void)
     local options=$2
-
-    if [ "$task" == "help" ]; then
-        abcli_show_usage "@host get name" \
-            "get $abcli_host_name."
-
-        options="dryrun"
-        abcli_show_usage "@host reboot [$options]" \
-            "reboot"
-
-        abcli_show_usage "@host shutdown [$options]" \
-            "shutdown."
-
-        return
-    fi
 
     if [ $task == "get" ]; then
         python3 -m blue_options.host \
