@@ -3,6 +3,9 @@
 function test_blue_objects_help() {
     local options=$1
 
+    # legacy, not tested:
+    #  - @mysql
+
     local module
     for module in \
         "@assets" \
@@ -26,9 +29,14 @@ function test_blue_objects_help() {
         \
         "@gif" \
         \
-        "abcli host" \
+        "@host" \
+        "@host get" \
+        "@host reboot" \
+        "@host shutdown" \
         \
-        "abcli metadata" \
+        "@metadata" \
+        "@metadata get" \
+        "@metadata post" \
         \
         "@mlflow" \
         "@mlflow browse" \
@@ -47,11 +55,6 @@ function test_blue_objects_help() {
         "@mlflow tags set" \
         "@mlflow test" \
         "@mlflow transition" \
-        \
-        "abcli mysql" \
-        "abcli mysql_cache" \
-        "abcli mysql_relations" \
-        "abcli mysql_tags" \
         \
         "abcli object" \
         "abcli publish" \
