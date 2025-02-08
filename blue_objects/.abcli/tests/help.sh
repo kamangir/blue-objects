@@ -59,13 +59,19 @@ function test_blue_objects_help() {
         "@object" \
         "@object open" \
         \
-        "abcli publish" \
+        "@publish" \
         \
-        "abcli select" \
+        "@select" \
         \
-        "abcli storage" \
+        "@storage" \
+        "@storage clear" \
+        "@storage download_file" \
+        "@storage exists" \
+        "@storage list" \
+        "@storage rm" \
+        "@storage status" \
         \
-        "abcli upload" \
+        "@upload" \
         \
         "blue_objects"; do
         abcli_eval ,$options \
