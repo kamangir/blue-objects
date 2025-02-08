@@ -56,11 +56,15 @@ function test_blue_objects_help() {
         "@mlflow test" \
         "@mlflow transition" \
         \
-        "abcli object" \
+        "@object" \
+        "@object open" \
+        \
         "abcli publish" \
+        \
         "abcli select" \
+        \
         "abcli storage" \
-        "abcli tags" \
+        \
         "abcli upload" \
         \
         "blue_objects"; do
