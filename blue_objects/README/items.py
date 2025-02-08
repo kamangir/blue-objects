@@ -19,7 +19,7 @@ def Items(
                 "url",
                 "#",
             ),
-            description=item.get("description", ""),
+            item.get("description", ""),
         )
         for item in items
     ]
