@@ -1,10 +1,10 @@
 #! /usr/bin/env bash
 
 function test_blue_objects_help() {
-    # TODO: enable
-    return 0
-
     local options=$1
+
+    # legacy, not tested:
+    #  - @mysql
 
     local module
     for module in \
@@ -23,17 +23,20 @@ function test_blue_objects_help() {
         "@objects test" \
         "@objects test list" \
         \
-        "abcli cache" \
-        \
         "@cp" \
         \
         "@download" \
         \
         "@gif" \
         \
-        "abcli host" \
+        "@host" \
+        "@host get" \
+        "@host reboot" \
+        "@host shutdown" \
         \
-        "abcli metadata" \
+        "@metadata" \
+        "@metadata get" \
+        "@metadata post" \
         \
         "@mlflow" \
         "@mlflow browse" \
@@ -53,17 +56,22 @@ function test_blue_objects_help() {
         "@mlflow test" \
         "@mlflow transition" \
         \
-        "abcli mysql" \
-        "abcli mysql_cache" \
-        "abcli mysql_relations" \
-        "abcli mysql_tags" \
+        "@object" \
+        "@object open" \
         \
-        "abcli object" \
-        "abcli publish" \
-        "abcli select" \
-        "abcli storage" \
-        "abcli tags" \
-        "abcli upload" \
+        "@publish" \
+        \
+        "@select" \
+        \
+        "@storage" \
+        "@storage clear" \
+        "@storage download_file" \
+        "@storage exists" \
+        "@storage list" \
+        "@storage rm" \
+        "@storage status" \
+        \
+        "@upload" \
         \
         "blue_objects"; do
         abcli_eval ,$options \
