@@ -62,12 +62,15 @@ if args.task == "generate_animated_gif":
             )
         ),
         output_filename=objects.path_of(
-            args.output_filename
-            if args.output_filename
-            else "{}{}.gif".format(
-                args.object_name,
-                f"-{args.scale}X" if args.scale != 1 else "",
-            )
+            filename=(
+                args.output_filename
+                if args.output_filename
+                else "{}{}.gif".format(
+                    args.object_name,
+                    f"-{args.scale}X" if args.scale != 1 else "",
+                )
+            ),
+            object_name=args.object_name,
         ),
         frame_duration=args.frame_duration,
         scale=args.scale,
