@@ -156,7 +156,10 @@ def build(
                     "",
                 ]
         elif template_line.startswith("yaml:::"):
-            object_name, key = template_line.split(":::", 1)[1].split(":::", 1)
+            object_name_and_key = template_line.split(":::", 1)[1]
+            if ":::" not in object_name_and_key:
+                object_name_and_key += ":::"
+            object_name, key = object_name_and_key.split(":::", 1)
 
             value = get_from_object(
                 object_name,
