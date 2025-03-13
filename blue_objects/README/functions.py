@@ -222,12 +222,13 @@ def build(
             if include_title:
                 content_section = [f"## {include_title}"] + content_section[1:]
 
-            content_section += [
-                "using [{}]({}).".format(
-                    file.name(include_filename),
-                    include_filename_relative,
-                )
-            ]
+            if "--include--noref" not in template_line:
+                content_section += [
+                    "using [{}]({}).".format(
+                        file.name(include_filename),
+                        include_filename_relative,
+                    )
+                ]
 
             logger.info(f"{MY_NAME}.build: including {include_filename} ...")
         elif "--help--" in template_line:
