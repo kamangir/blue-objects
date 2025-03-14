@@ -1,6 +1,7 @@
 from typing import List, Dict, Union, Callable
 import os
 import yaml
+from functools import reduce
 
 from blueness import module
 from blue_options import fullname
@@ -28,6 +29,7 @@ def build(
     MODULE_NAME: str = "",
     macros: Dict[str, str] = {},
     help_function: Union[Callable[[List[str]], str], None] = None,
+    legacy_mode: bool = True,
 ) -> bool:
     if path:
         if path.endswith(".md"):
@@ -41,13 +43,14 @@ def build(
         MODULE_NAME = REPO_NAME
 
     logger.info(
-        "{}.build: {}-{}: {}[{}]: {} -> {}".format(
+        "{}.build: {}-{}: {}[{}]: {} -{}> {}".format(
             MY_NAME,
             NAME,
             VERSION,
             REPO_NAME,
             MODULE_NAME,
             template_filename,
+            "+legacy-" if legacy_mode else "",
             filename,
         )
     )
@@ -81,6 +84,17 @@ def build(
     success, template = file.load_text(template_filename)
     if not success:
         return success
+
+    def apply_legacy(line: str) -> str:
+        for before, after in {
+            "yaml:::": "metadata:::",
+        }.items():
+            line = line.replace(before, after)
+        return line
+
+    if legacy_mode:
+        logger.info("applying legacy conversions...")
+        template = [apply_legacy(line) for line in template]
 
     content: List[str] = []
     mermaid_started: bool = False
