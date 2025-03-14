@@ -1,10 +1,24 @@
 # blue README
 
-```bash
-set:::object_name <object-name>
+```python
+assets:::<object-name>/<filename>
 
-get:::object_name
+details:::<summary>
+details:::
+
+help::: <command>
+
+include::: <filename>
+include:::noref <filename>
+
+items:::
 
 metadata:::<object-name>
-metadata:::get:::object_name
+
+object:::<object-name>
+
+set:::<object_name> <object-name>
+get:::<object_name>
+
+signature:::
 ```

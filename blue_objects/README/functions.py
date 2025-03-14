@@ -1,7 +1,6 @@
 from typing import List, Dict, Union, Callable
 import os
 import yaml
-from functools import reduce
 
 from blueness import module
 from blue_options import fullname
@@ -30,6 +29,7 @@ def build(
     macros: Dict[str, str] = {},
     help_function: Union[Callable[[List[str]], str], None] = None,
     legacy_mode: bool = True,
+    assets_repo: str = "kamangir/assets",
 ) -> bool:
     if path:
         if path.endswith(".md"):
@@ -55,7 +55,7 @@ def build(
         )
     )
 
-    table = markdown.generate_table(items, cols=cols) if cols > 0 else items
+    table_of_items = markdown.generate_table(items, cols=cols) if cols > 0 else items
 
     signature = [
         # f'to use on [AWS SageMaker](https://aws.amazon.com/sagemaker/) replace `<plugin-name>` with "{NAME}" and follow [these instructions](https://github.com/kamangir/notebooks-and-scripts/blob/main/SageMaker.md).',
@@ -88,6 +88,10 @@ def build(
     def apply_legacy(line: str) -> str:
         for before, after in {
             "yaml:::": "metadata:::",
+            "--help--": "help:::",
+            "--include": "include:::",
+            "--table--": "items:::",
+            "--signature--": "signature:::",
         }.items():
             line = line.replace(before, after)
         return line
@@ -100,176 +104,181 @@ def build(
     mermaid_started: bool = False
     variables: Dict[str, str] = {}
     for template_line in template:
-        if template_line.startswith("set:::"):
-            key, value = template_line.split("set:::", 1)[1].split(" ", 1)
-            variables[key] = value
-            logger.info(f":::{key} = {value}")
-            continue
-
-        for key, value in variables.items():
-            template_line = template_line.replace(
-                f"get:::{key}",
-                value,
-            )
-
-        if "assets:::" in template_line:
-            template_line = " ".join(
-                [
-                    (
-                        (
-                            "![image](https://github.com/kamangir/assets/blob/main/{}?raw=true)".format(
-                                token.split(":::")[1].strip()
-                            )
-                            if any(
-                                token.endswith(extension)
-                                for extension in ["png", "jpg", "jpeg", "gif"]
-                            )
-                            else "[{}](https://github.com/kamangir/assets/blob/main/{})".format(
-                                file.name_and_extension(token.split(":::")[1].strip()),
-                                token.split(":::")[1].strip(),
-                            )
-                        )
-                        if token.startswith("assets:::")
-                        else token
-                    )
-                    for token in template_line.split(" ")
-                ]
-            )
-
-        if "object:::" in template_line:
-            template_line = " ".join(
-                [
-                    (
-                        "[{}]({}/{}.tar.gz)".format(
-                            token.split(":::")[1].strip(),
-                            ABCLI_PUBLIC_PREFIX,
-                            token.split(":::")[1].strip(),
-                        )
-                        if token.startswith("object:::")
-                        else token
-                    )
-                    for token in template_line.split(" ")
-                ]
-            )
-
-        content_section: List[str] = [template_line]
-
         if template_line.startswith("ignore:::"):
             content_section = [template_line.split(":::", 1)[1].strip()]
-        elif template_line.startswith("details:::"):
-            suffix = template_line.split(":::", 1)[1]
-            if suffix:
-                content_section = [
-                    "",
-                    "<details>",
-                    f"<summary>{suffix}</summary>",
-                    "",
-                ]
-            else:
-                content_section = [
-                    "",
-                    "</details>",
-                    "",
-                ]
-        elif template_line.startswith("metadata:::"):
-            object_name_and_key = template_line.split(":::", 1)[1]
-            if ":::" not in object_name_and_key:
-                object_name_and_key += ":::"
-            object_name, key = object_name_and_key.split(":::", 1)
+        else:
+            if template_line.startswith("set:::"):
+                key, value = template_line.split("set:::", 1)[1].split(" ", 1)
+                variables[key] = value
+                logger.info(f":::{key} = {value}")
+                continue
 
-            value = get_from_object(
-                object_name,
-                key,
-                {},
-                download=True,
-            )
-
-            content_section = (
-                ["```yaml"]
-                + yaml.dump(
+            for key, value in variables.items():
+                template_line = template_line.replace(
+                    f"get:::{key}",
                     value,
-                    default_flow_style=False,
-                ).split("\n")
-                + ["```"]
-            )
-        elif template_line.startswith("```mermaid"):
-            mermaid_started = True
-            logger.info("🧜🏽‍♀️  detected ...")
-        elif mermaid_started and template_line.startswith("```"):
-            mermaid_started = False
-        elif mermaid_started:
-            if '"' in template_line and ":::folder" not in template_line:
-                template_line_pieces = template_line.split('"')
-                if len(template_line_pieces) != 3:
-                    logger.error(
-                        f"🧜🏽‍♀️  mermaid line not in expected format: {template_line}."
-                    )
-                    return False
-
-                template_line_pieces[1] = (
-                    template_line_pieces[1]
-                    .replace("<", "&lt;")
-                    .replace(">", "&gt;")
-                    .replace(" ", "<br>")
-                    .replace("~~", " ")
                 )
 
-                content_section = ['"'.join(template_line_pieces)]
-        elif "--table--" in template_line:
-            content_section = table
-        elif "--signature" in template_line:
-            content_section = signature
-        elif "--include--" in template_line:
-            include_filename_relative = template_line.split(" ")[1].strip()
-            include_filename = file.absolute(
-                include_filename_relative,
-                file.path(template_filename),
-            )
+            if "assets:::" in template_line:
+                template_line = " ".join(
+                    [
+                        (
+                            (
+                                "![image](https://github.com/{}/blob/main/{}?raw=true)".format(
+                                    assets_repo,
+                                    token.split(":::")[1].strip(),
+                                )
+                                if any(
+                                    token.endswith(extension)
+                                    for extension in ["png", "jpg", "jpeg", "gif"]
+                                )
+                                else "[{}](https://github.com/{}/blob/main/{})".format(
+                                    file.name_and_extension(
+                                        token.split(":::")[1].strip()
+                                    ),
+                                    assets_repo,
+                                    token.split(":::")[1].strip(),
+                                )
+                            )
+                            if token.startswith("assets:::")
+                            else token
+                        )
+                        for token in template_line.split(" ")
+                    ]
+                )
 
-            success, content_section = file.load_text(include_filename)
-            if not success:
-                return success
+            if "object:::" in template_line:
+                template_line = " ".join(
+                    [
+                        (
+                            "[{}]({}/{}.tar.gz)".format(
+                                token.split(":::")[1].strip(),
+                                ABCLI_PUBLIC_PREFIX,
+                                token.split(":::")[1].strip(),
+                            )
+                            if token.startswith("object:::")
+                            else token
+                        )
+                        for token in template_line.split(" ")
+                    ]
+                )
 
-            content_section = [
-                line for line in content_section if not line.startswith("used by:")
-            ]
+            content_section: List[str] = [template_line]
 
-            include_title = (template_line.split(" ", 2) + ["", "", ""])[2]
-            if include_title:
-                content_section = [f"## {include_title}"] + content_section[1:]
+            if template_line.startswith("details:::"):
+                suffix = template_line.split(":::", 1)[1]
+                if suffix:
+                    content_section = [
+                        "",
+                        "<details>",
+                        f"<summary>{suffix}</summary>",
+                        "",
+                    ]
+                else:
+                    content_section = [
+                        "",
+                        "</details>",
+                        "",
+                    ]
+            elif template_line.startswith("metadata:::"):
+                object_name_and_key = template_line.split(":::", 1)[1]
+                if ":::" not in object_name_and_key:
+                    object_name_and_key += ":::"
+                object_name, key = object_name_and_key.split(":::", 1)
 
-            if "--include--noref" not in template_line:
-                content_section += [
-                    "using [{}]({}).".format(
-                        file.name(include_filename),
-                        include_filename_relative,
+                value = get_from_object(
+                    object_name,
+                    key,
+                    {},
+                    download=True,
+                )
+
+                content_section = (
+                    ["```yaml"]
+                    + yaml.dump(
+                        value,
+                        default_flow_style=False,
+                    ).split("\n")
+                    + ["```"]
+                )
+            elif template_line.startswith("```mermaid"):
+                mermaid_started = True
+                logger.info("🧜🏽‍♀️  detected ...")
+            elif mermaid_started and template_line.startswith("```"):
+                mermaid_started = False
+            elif mermaid_started:
+                if '"' in template_line and ":::folder" not in template_line:
+                    template_line_pieces = template_line.split('"')
+                    if len(template_line_pieces) != 3:
+                        logger.error(
+                            f"🧜🏽‍♀️  mermaid line not in expected format: {template_line}."
+                        )
+                        return False
+
+                    template_line_pieces[1] = (
+                        template_line_pieces[1]
+                        .replace("<", "&lt;")
+                        .replace(">", "&gt;")
+                        .replace(" ", "<br>")
+                        .replace("~~", " ")
                     )
-                ]
 
-            logger.info(f"{MY_NAME}.build: including {include_filename} ...")
-        elif "--help--" in template_line:
-            if help_function is not None:
-                help_command = template_line.split("--help--")[1].strip()
+                    content_section = ['"'.join(template_line_pieces)]
+            elif "items:::" in template_line:
+                content_section = table_of_items
+            elif "signature:::" in template_line:
+                content_section = signature
+            elif "include:::" in template_line:
+                include_filename_relative = template_line.split(" ")[1].strip()
+                include_filename = file.absolute(
+                    include_filename_relative,
+                    file.path(template_filename),
+                )
 
-                tokens = help_command.strip().split(" ")[1:]
+                success, content_section = file.load_text(include_filename)
+                if not success:
+                    return success
 
-                help_content = help_function(tokens)
-                if not help_content:
-                    logger.warning(f"help not found: {help_command}: {tokens}")
-                    return False
-
-                logger.info(f"+= help: {help_command}")
-                print(help_content)
                 content_section = [
-                    "```bash",
-                    help_content,
-                    "```",
+                    line for line in content_section if not line.startswith("used by:")
                 ]
-        else:
-            for macro, macro_value in macros.items():
-                if macro in template_line:
-                    content_section = macro_value
-                    break
+
+                include_title = (template_line.split(" ", 2) + ["", "", ""])[2]
+                if include_title:
+                    content_section = [f"## {include_title}"] + content_section[1:]
+
+                if "include:::noref" not in template_line:
+                    content_section += [
+                        "using [{}]({}).".format(
+                            file.name(include_filename),
+                            include_filename_relative,
+                        )
+                    ]
+
+                logger.info(f"{MY_NAME}.build: including {include_filename} ...")
+            elif "help:::" in template_line:
+                if help_function is not None:
+                    help_command = template_line.split("help:::")[1].strip()
+
+                    tokens = help_command.strip().split(" ")[1:]
+
+                    help_content = help_function(tokens)
+                    if not help_content:
+                        logger.warning(f"help not found: {help_command}: {tokens}")
+                        return False
+
+                    logger.info(f"+= help: {help_command}")
+                    print(help_content)
+                    content_section = [
+                        "```bash",
+                        help_content,
+                        "```",
+                    ]
+            else:
+                for macro, macro_value in macros.items():
+                    if macro in template_line:
+                        content_section = macro_value
+                        break
 
         content += content_section
 
