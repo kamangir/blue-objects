@@ -1,7 +1,10 @@
 # blue README
 
-set:::object_name hue-2025-03-13-urcan3
+```bash
+set:::object_name <object-name>
 
 get:::object_name
 
+metadata:::<object-name>
 metadata:::get:::object_name
+```
