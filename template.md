@@ -8,6 +8,8 @@ For example, the Sentinel-2 [datacube](https://github.com/kamangir/blue-geo/tree
 pip install blue-objects
 ```
 
+also home to [blue README](./blue_objects/README/).
+
 ---
 
 --signature--
