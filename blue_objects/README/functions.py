@@ -154,7 +154,9 @@ def build(
 
         content_section: List[str] = [template_line]
 
-        if template_line.startswith("details:::"):
+        if template_line.startswith("ignore:::"):
+            content_section = [template_line.split(":::", 1)[1].strip()]
+        elif template_line.startswith("details:::"):
             suffix = template_line.split(":::", 1)[1]
             if suffix:
                 content_section = [
@@ -169,7 +171,7 @@ def build(
                     "</details>",
                     "",
                 ]
-        elif template_line.startswith("yaml:::"):
+        elif template_line.startswith("metadata:::"):
             object_name_and_key = template_line.split(":::", 1)[1]
             if ":::" not in object_name_and_key:
                 object_name_and_key += ":::"
